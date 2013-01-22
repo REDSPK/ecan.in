@@ -1,0 +1,20 @@
+@import url('bootstrap.min.css');
+.header{margin-top: 50px;}
+.header li{border-bottom: 2px solid #364B41;margin-left: 4px;text-align: right;}
+.hup{margin-bottom: 1px;border-bottom-color: #EEE;}
+.hdown{margin-top: 2px; border-top-color: #EEE;}
+.b-right {border-right: 2px solid #EEE;padding-right: 20px;}
+#content{min-height: 450px;}
+
+.signup_form h2{margin-left: 400px; width: 300px;font-family: sans-serif;text-transform: capitalize;text-align: center;}
+#feedback{background-color: #e9e9e9;-moz-border-radius:4px; -webkit-border-radius:4px;width: 270px; text-align: center;text-transform: capitalize;}
+#signup_form, fieldset{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none;}
+.signup_form input[type=submit]{background: #348075;-moz-border-radius:4px;-webkit-border-radius:4px;}
+
+#myform,#login_form,#contact_form{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
+#login_form input[type=submit]{background: #348075; -moz-border-radius:4px;-webkit-border-radius:4px;}
+#login_form a{margin-left:20px;text-decoration: none;padding: 4px;color: white; background: #348075; border: none; -moz-border-radius:4px;-webkit-border-radius:4px;}
+.error{background: #eee;padding-left: 20px;font-style: italic; width: 300px;margin-bottom: 0px;display: block; -moz-border-radius:4px;-webkit-border-radius:4px;}
+#errorstring{margin-left: 400px; text-align: center;}
+#left_part{float: left;margin-right: 100px;overflow: hidden;}
+#right_part{margin-left: 100px; }
