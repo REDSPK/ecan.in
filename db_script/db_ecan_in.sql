@@ -109,10 +109,6 @@ CREATE TABLE IF NOT EXISTS `member` (
 -- Dumping data for table `member`
 --
 
-INSERT INTO `member` (`id`, `first_name`, `last_name`, `username`, `company_telephone`, `direct_telephone`, `company_fax`, `company_name`, `company_street_address`, `company_address_line2`, `company_city`, `company_state`, `company_zip_code`, `company_website`, `password`, `email_address`, `activationcode`, `activated`) VALUES
-(1, 'imran', 'tufail', 'imrantufail', '', '', '', '', '', '', '', '', '', '', '202cb962ac59075b964b07152d234b70', 'imrantufail@live.com', '', 1),
-(2, 'faizan', 'faizan', 'faizanali', '', '', '', '', '', '', '', '', '', '', '744cf14ef3a45a73677f68867e5ac40c', 'sh.faizan.ali@gmail.com', '', 0);
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

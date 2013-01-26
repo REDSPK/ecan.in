@@ -24,6 +24,7 @@ echo form_input('name', 'value');
 echo form_label('Sale Date : ');
 echo form_input('name', 'value');
 
+
 ?>
 </div>
 <div id="right_part">
