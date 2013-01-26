@@ -32,8 +32,37 @@ class Member_model extends CI_Model
 			'username' => $this->input->post('username'),
 			'password' => md5($this->input->post('password'))
 		 );
-		$insert=$this->db->insert('member',$new_member);
-		return $insert;
+		$this->db->insert('member',$new_member);
+		return mysql_insert_id();
+	}
+	function confirm_registration ($register_code)    {
+			$this->db->where('activationcode',$register_code);
+			$query =$this->db->get('member');
+
+			if($query->num_rows==1)
+			{
+				$data = array(
+               			'activated' => 1
+            	);
+
+				$this->db->where('activationcode',$register_code);
+				$this->db->update('member', $data);
+            	return TRUE;
+            }
+            else {
+                return FALSE;
+            }
+            
+        } 
+    function generate_activation($id){
+		$password=$this->get_random_password(10,12, true,true,false);
+		$data = array(
+               'activationcode' => $password
+            );
+
+		$this->db->where('id', $id);
+		$this->db->update('member', $data);
+		return $password;
 	}
 	function recover_email_password(){
 		$password=$this->get_random_password(6,8, false,true,false);

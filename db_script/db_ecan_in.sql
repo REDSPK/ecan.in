@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 26, 2013 at 02:18 AM
+-- Generation Time: Jan 26, 2013 at 08:31 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -100,16 +100,18 @@ CREATE TABLE IF NOT EXISTS `member` (
   `company_website` varchar(50) NOT NULL,
   `password` varchar(32) NOT NULL,
   `email_address` varchar(50) NOT NULL,
+  `activationcode` varchar(255) NOT NULL,
+  `activated` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `member`
 --
 
-INSERT INTO `member` (`id`, `first_name`, `last_name`, `username`, `company_telephone`, `direct_telephone`, `company_fax`, `company_name`, `company_street_address`, `company_address_line2`, `company_city`, `company_state`, `company_zip_code`, `company_website`, `password`, `email_address`) VALUES
-(1, 'imran', 'tufail', 'imrantufail', '', '', '', '', '', '', '', '', '', '', '202cb962ac59075b964b07152d234b70', 'imrantufail@live.com'),
-(2, 'faizan', 'faizan', 'faizanali', '', '', '', '', '', '', '', '', '', '', '744cf14ef3a45a73677f68867e5ac40c', 'sh.faizan.ali@gmail.com');
+INSERT INTO `member` (`id`, `first_name`, `last_name`, `username`, `company_telephone`, `direct_telephone`, `company_fax`, `company_name`, `company_street_address`, `company_address_line2`, `company_city`, `company_state`, `company_zip_code`, `company_website`, `password`, `email_address`, `activationcode`, `activated`) VALUES
+(1, 'imran', 'tufail', 'imrantufail', '', '', '', '', '', '', '', '', '', '', '202cb962ac59075b964b07152d234b70', 'imrantufail@live.com', '', 1),
+(2, 'faizan', 'faizan', 'faizanali', '', '', '', '', '', '', '', '', '', '', '744cf14ef3a45a73677f68867e5ac40c', 'sh.faizan.ali@gmail.com', '', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

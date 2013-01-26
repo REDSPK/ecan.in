@@ -54,9 +54,14 @@ class Login extends CI_Controller {
 		}
 		else{
 			$this->load->model('member_model');
-			if($this->member_model->create_member()){
-				$data['main_content']='signup_succesful';
-				$this->load->view('includes/template',$data);
+			if($id=$this->member_model->create_member())
+			{
+				$activation_code=$this->member_model->generate_activation($id);
+				$subject='Ecan.in account activation link';
+				$success_message="check your inbox for activate your account";
+				$message='Click the link below to activate your account' . anchor('http://localhost/ecan.in/login/account_activation/' . $activation_code,'Confirmation Register');
+                $email=$this->input->post('email_address');
+                $this->sendemail($subject,$message,$success_message,$email);
 			}
 			else{
 				$this->load->view('signup_form');
@@ -67,7 +72,32 @@ class Login extends CI_Controller {
 		$data['main_content']='recover_password';
 		$this->load->view('includes/template',$data);
 	}
-
+	function account_activation() 
+	{
+			$this->load->model('member_model');
+            $register_code = $this->uri->segment(3);
+            if ($register_code == '')
+            {
+                $data['message'] ='error no registration code in URL';
+                $data['main_content']='mail_error';
+            	$this->load->view('includes/template',$data);
+            }
+            $reg_confirm = $this->member_model->confirm_registration($register_code);
+            
+            if($reg_confirm)
+            {
+                $data['message'] ='Your account is activated';
+                $data['main_content']='mail_error';
+            	$this->load->view('includes/template',$data);
+            }
+            else 
+            {
+                $data['message'] ='error to activate account';
+                $data['main_content']='mail_error';
+            	$this->load->view('includes/template',$data);
+            }
+            
+    } 
 	function send() {
         $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
 
@@ -92,13 +122,22 @@ class Login extends CI_Controller {
 					$username=$result['username'];
 					$email=$result['email_address'];
 					$password=$result['password'];
-		        	$config = array(
+		        	$subject='Your Recovered Password for Ecan.in';
+		            $message="your username is <strong><i>" . $username . "</i></strong><br> and password <strong><i>" .$password."</i></strong>";
+					$success_message="check your inbox for password";
+					$this->sendemail($subject,$message,$success_message,$email);
+		        }
+        }
+    }
+    function sendemail($subject,$message,$success_message,$email){
+    	//print_r($subject."MS: ".$message."SMS ".$success_message);
+    	$config = array(
 		        		'protocol' => 'smtp',
 						'smtp_host' => 'localhost',
 						'smtp_port' => '465',
 						'smtp_host' => 'ssl://smtp.googlemail.com',
-						'smtp_user' => 'sender Email',/*place sender Email here*/
-						'smtp_pass' => 'sender pass',/*place sender Email password here*/
+						'smtp_user' => '',/*place sender Email here*/
+						'smtp_pass' => '',/*place sender Email password here*/
 						'charset' => 'iso-8859-1',
 						'wordwrap' => TRUE,
 						'mailtype' => 'html');
@@ -106,14 +145,14 @@ class Login extends CI_Controller {
 		            $this->load->library('email');
 		            $this->email->initialize($config);
 		            $this->email->set_newline("\r\n"); //set the new line rule 
-		            $this->email->from('senser email', 'sender name');
+		            $this->email->from('', 'sender name'); /*place sender Email here*/
 		            $this->email->to($email);
 
-		            $this->email->subject('Your Recovered Password');
-		            $this->email->message("your username is <strong><i>" . $username . "</i></strong><br> and password <strong><i>" .$password."</i></strong>");
+		            $this->email->subject($subject);
+		            $this->email->message($message);
 
 		            if ($this->email->send()) {
-		                $data['message'] = "check your inbox for password";
+		                $data['message'] = $success_message;
 		                $data['main_content']='mail_error';
             			$this->load->view('includes/template',$data);
 		            } else {
@@ -122,8 +161,6 @@ class Login extends CI_Controller {
             			$this->load->view('includes/template',$data);
 		               // show_errors($this->email->print_debugger());
 		            }
-		        }
-        }
     }
 
 	function check_username(){
