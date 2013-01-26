@@ -85,14 +85,6 @@ $ca = array(
 		'placeholder'=>"Type Company Address Line 2 here..."
 		);
 echo form_input($ca);
-$cname = array(
-		'name' => 'company_name',
-		'id'=> 'company_name',
-		'class' => 'span3',
-		'value' => set_value('company_name'),
-		'placeholder'=>"Type company name here..."
-		);
-echo form_input($cname);
 $ccity = array(
 		'name' => 'company_city',
 		'id'=> 'company_city',

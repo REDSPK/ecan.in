@@ -1,0 +1,4 @@
+Note :
+for recovery password 
+you have to place the Email id and password in login controller send function 
+i check the mail sending by inserting my own email and pass

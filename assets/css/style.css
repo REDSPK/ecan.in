@@ -11,9 +11,12 @@
 #signup_form, fieldset{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none;}
 .signup_form input[type=submit]{background: #348075;-moz-border-radius:4px;-webkit-border-radius:4px;}
 
-#myform,#login_form,#contact_form{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
-#login_form input[type=submit]{background: #348075; -moz-border-radius:4px;-webkit-border-radius:4px;}
-#login_form a{margin-left:20px;text-decoration: none;padding: 4px;color: white; background: #348075; border: none; -moz-border-radius:4px;-webkit-border-radius:4px;}
+#login_form,#contact_form{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
+#myform{width: 400px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
+#myform input[type=submit],#login_form input[type=submit]{background: #348075; -moz-border-radius:4px;-webkit-border-radius:4px;}
+
+#login_form #signup_anchor{margin-left:20px;text-decoration: none;padding: 4px;color: white; background: #348075; border: none; -moz-border-radius:4px;-webkit-border-radius:4px;}
+#login_form #pass_recover_anchor{margin: 5px;}
 .error{background: #eee;padding-left: 20px;font-style: italic; width: 300px;margin-bottom: 0px;display: block; -moz-border-radius:4px;-webkit-border-radius:4px;}
 #errorstring{margin-left: 400px; text-align: center;}
 #left_part{float: left;margin-right: 100px;overflow: hidden;}

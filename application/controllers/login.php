@@ -1,6 +1,10 @@
 <?php 
 class Login extends CI_Controller {
 
+	function __construct() {
+        parent::__construct();
+    }
+
 	function index(){
 		$data['main_content']='login_form';
 		$this->load->view('includes/template',$data);
@@ -59,6 +63,69 @@ class Login extends CI_Controller {
 			}
   		}
 	}
+	function recover_password(){
+		$data['main_content']='recover_password';
+		$this->load->view('includes/template',$data);
+	}
+
+	function send() {
+        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
+
+        if ($this->form_validation->run() == FALSE) 
+        {
+            $data['main_content']='recover_password';
+            $this->load->view('includes/template',$data);
+        } 
+        else 
+        {
+			$this->load->model('member_model');
+			$num=$this->member_model->check_email_data();
+				if($num==0)
+				{
+					$data['message'] = "your email is not in our Database";
+					$data['main_content']='mail_error';
+            		$this->load->view('includes/template',$data);
+				}
+				else if($num==1)
+				{
+					$result= $this->member_model->recover_email_password();
+					$username=$result['username'];
+					$email=$result['email_address'];
+					$password=$result['password'];
+		        	$config = array(
+		        		'protocol' => 'smtp',
+						'smtp_host' => 'localhost',
+						'smtp_port' => '465',
+						'smtp_host' => 'ssl://smtp.googlemail.com',
+						'smtp_user' => 'sender Email',/*place sender Email here*/
+						'smtp_pass' => 'sender pass',/*place sender Email password here*/
+						'charset' => 'iso-8859-1',
+						'wordwrap' => TRUE,
+						'mailtype' => 'html');
+
+		            $this->load->library('email');
+		            $this->email->initialize($config);
+		            $this->email->set_newline("\r\n"); //set the new line rule 
+		            $this->email->from('senser email', 'sender name');
+		            $this->email->to($email);
+
+		            $this->email->subject('Your Recovered Password');
+		            $this->email->message("your username is <strong><i>" . $username . "</i></strong><br> and password <strong><i>" .$password."</i></strong>");
+
+		            if ($this->email->send()) {
+		                $data['message'] = "check your inbox for password";
+		                $data['main_content']='mail_error';
+            			$this->load->view('includes/template',$data);
+		            } else {
+		                $data['message'] = "Mail Not sent please check your internet"."<br>".$this->email->print_debugger();
+		                $data['main_content']='mail_error';
+            			$this->load->view('includes/template',$data);
+		               // show_errors($this->email->print_debugger());
+		            }
+		        }
+        }
+    }
+
 	function check_username(){
 		if ($this->input->post('username')==NULL)
 			echo "choose Username";

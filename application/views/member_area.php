@@ -1,7 +1,8 @@
 <div id="left_part">
 <?php
 $continent=array(
-	'value1'=>'value1'
+	'value1'=>'value1',
+  'value2'=>'value2'
 	);
 $form_attributes = array('class' => 'form-horizontal', 'id'=>'application_form');
 echo form_open('url', $form_attributes);
@@ -23,20 +24,15 @@ echo form_input('name', 'value');
 echo form_label('Sale Date : ');
 echo form_input('name', 'value');
 
-echo form_label('Loan Type : ');
-echo form_input('name', 'value');
-
-echo form_label('Loan Type : ');
-echo form_input('name', 'value');
 ?>
 </div>
 <div id="right_part">
 <?php
 echo form_label('Escalation : ');
-echo form_dropdown('continent', $continent,set_value('continent'), 'id="continent"');
+echo form_dropdown('level', $level,set_value('level'), 'id="level"');
 
 echo form_label('Loan Type : ');
-echo form_dropdown('continent', $continent,set_value('continent'), 'id="continent"');
+echo form_dropdown('loan_type', $loan_type,set_value('loan_type'), 'id="loan_type"');
 
 $data = array(
     'name'        => 'newsletter',

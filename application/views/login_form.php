@@ -29,6 +29,11 @@
 
 	$anchor_attributes = array('id' => 'signup_anchor');
 	echo anchor('login/signup','Create Account',$anchor_attributes);
+
+  $anchor_attr = array(
+    'id' => 'pass_recover_anchor',
+    'class'=>'span3');
+  echo anchor('login/recover_password','Forget PassWord',$anchor_attr);
 	echo form_close();
 ?>
 <script type="text/javascript">

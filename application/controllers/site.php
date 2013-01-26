@@ -10,6 +10,9 @@ class Site extends CI_Controller
     }
 	function member_area()
 	{
+		$this->load->model('form_model');
+		$data['loan_type']=$this->form_model->get_loan_types();
+		$data['level']=$this->form_model->get_level();
 		$data['main_content']='member_area';
 		$this->load->view('includes/template',$data);
 	}

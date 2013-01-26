@@ -35,11 +35,54 @@ class Member_model extends CI_Model
 		$insert=$this->db->insert('member',$new_member);
 		return $insert;
 	}
+	function recover_email_password(){
+		$password=$this->get_random_password(6,8, false,true,false);
+		$data = array(
+               'password' => md5($password)
+            );
+
+		$this->db->where('email_address', $this->input->post('email'));
+		$this->db->update('member', $data);
+
+		$q=$this->db->select('username,email_address')
+				->from('member')
+				->where('email_address',$this->input->post('email'));
+		$temp=$q->get()->result();
+		$ret['username']=$temp[0]->username;
+		$ret['password']=$password;
+		$ret['email_address']=$temp[0]->email_address;
+
+		return $ret;
+	}
 
 	function check_username_data(){
 		$this->db->where('username',$this->input->post('username'));
 		$query =$this->db->get('member');
 			return $query->num_rows;
 	}
+	function check_email_data(){
+		$this->db->where('email_address',$this->input->post('email'));
+		$query =$this->db->get('member');
+			return $query->num_rows;
+	}
+	function get_random_password($chars_min=6, $chars_max=8, $use_upper_case=false, $include_numbers=false, $include_special_chars=false)
+    {
+        $length = rand($chars_min, $chars_max);
+        $selection = 'aeuoyibcdfghjklmnpqrstvwxz';
+        if($include_numbers) {
+            $selection .= "1234567890";
+        }
+        if($include_special_chars) {
+            $selection .= "!@04f7c318ad0360bd7b04c980f950833f11c0b1d1quot;#$%&[]{}?|";
+        }
+                                
+        $password = "";
+        for($i=0; $i<$length; $i++) {
+            $current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];            
+            $password .=  $current_letter;
+        }                
+        
+        return $password;
+    }
 }
 ?>
