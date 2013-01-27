@@ -11,6 +11,7 @@
                             'name'=>'email',
                             'value'=>set_value('email'),
                             'placeholder'=>"Type your Email Adress here...",
+                            'type' =>'email',
                             'required'=>'required'
                         );
                         echo form_input($data_entry_1);
