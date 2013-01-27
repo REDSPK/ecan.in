@@ -59,7 +59,7 @@ class Login extends CI_Controller {
 				$activation_code=$this->member_model->generate_activation($id);
 				$subject='Ecan.in account activation link';
 				$success_message="check your inbox for activate your account";
-				$message='Click the link below to activate your account' . anchor('http://localhost/ecan.in/login/account_activation/' . $activation_code,'Confirmation Register');
+				$message='Click the link below to activate your account' . anchor('http://ecan.in/login/account_activation/' . $activation_code,'Confirmation Register');
                 $email=$this->input->post('email_address');
                 $this->sendemail($subject,$message,$success_message,$email);
 			}
@@ -92,7 +92,7 @@ class Login extends CI_Controller {
             }
             else 
             {
-                $data['message'] ='error to activate account';
+                $data['message'] ='Error to activate account';
                 $data['main_content']='mail_error';
             	$this->load->view('includes/template',$data);
             }
@@ -146,7 +146,7 @@ class Login extends CI_Controller {
 		            $this->load->library('email');
 		            $this->email->initialize($config);
 		            $this->email->set_newline("\r\n"); //set the new line rule 
-		            $this->email->from('imrantufail4u@gmail.com', 'Ecan.in'); /*place sender Email here*/
+		            $this->email->from('info@Ecan.in', 'Ecan.in'); /*place sender Email here*/
 		            $this->email->to($email);
 
 		            $this->email->subject($subject);
@@ -157,7 +157,7 @@ class Login extends CI_Controller {
 		                $data['main_content']='mail_error';
             			$this->load->view('includes/template',$data);
 		            } else {
-		                $data['message'] = "Mail Not sent please check your internet";
+		                $data['message'] = "Mail Not sent please contact admin";
 		                $data['main_content']='mail_error';
             			$this->load->view('includes/template',$data);
 		               // show_errors($this->email->print_debugger());

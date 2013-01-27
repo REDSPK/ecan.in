@@ -87,25 +87,25 @@ echo form_open('template/post_email', $form_attributes);
           $message_not_return = array(
               'name'        => 'message_not_return',
               'id'          => 'message_not_return',
-              'value'       => 'accept',
+              'value'       => '1',
               'checked'     => FALSE
               );
           $manager_not_contact = array(
               'name'        => 'manager_not_contact',
               'id'          => 'manager_not_contact',
-              'value'       => 'accept',
+              'value'       => '1',
               'checked'     => FALSE
               );
           $disagree = array(
               'name'        => 'disagree',
               'id'          => 'disagree',
-              'value'       => 'accept',
+              'value'       => '1',
               'checked'     => FALSE
               );
           $inaccurate = array(
               'name'        => 'inaccurate',
               'id'          => 'inaccurate',
-              'value'       => 'accept',
+              'value'       => '1',
               'checked'     => FALSE
               );
           echo form_label('Complaints : ');
@@ -143,7 +143,7 @@ echo form_open('template/post_email', $form_attributes);
 <div class="span8">
 <?php
     $btn = array(
-            'class' => 'btn-inverse pull-right',
+            'class' => 'btn-large btn-inverse pull-right',
                         'id' => 'submit',
                         'name'=>'submit',
                         'value'=>'Submit'
@@ -153,3 +153,4 @@ echo form_open('template/post_email', $form_attributes);
 </div>
 <?php
 echo form_close();
+?>
