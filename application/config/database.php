@@ -49,9 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'db_ecan_in';
+$db['default']['username'] = 'mlrepor1_ecanad';
+$db['default']['password'] = 'tHAvUh3p';
+$db['default']['database'] = 'mlrepor1_ecan';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

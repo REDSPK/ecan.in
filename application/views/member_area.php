@@ -8,7 +8,7 @@ $assistance_type=array(
       'Loan Modification'=>'Loan Modification',
       'Other'=>'Other');
 $form_attributes = array('class' => 'form-horizontal', 'id'=>'application_form');
-echo form_open('site/form_values', $form_attributes);
+echo form_open('template/post_email', $form_attributes);
 ?>
 <div class="row">
     <div class="span6">
