@@ -6,13 +6,27 @@ class Member_model extends CI_Model
 	{
 		$this->db->where('username',$this->input->post('username'));
 		$this->db->where('password',md5($this->input->post('password')));
+		$this->db->where('activated',1);
 		$query =$this->db->get('member');
-
 		if($query->num_rows==1)
 		{
-			return true;
+			return "ac";
 		}
-
+		$array = array('username' => $this->input->post('username'), 'password' => md5($this->input->post('password')), 'activated !=' => 1);
+		$this->db->where($array);
+		$query =$this->db->get('member');
+		if($query->num_rows==1)
+		{
+			return 'na';
+		}
+		$array = array('username' => $this->input->post('username'), 'password !=' => md5($this->input->post('password')));
+		$this->db->where($array);
+		$query =$this->db->get('member');
+		if($query->num_rows==1)
+		{
+			return 'pe';
+		}
+		return 'ne';
 	}
 	function create_member(){
 		$new_member = array(
@@ -35,6 +49,7 @@ class Member_model extends CI_Model
 		$this->db->insert('member',$new_member);
 		return mysql_insert_id();
 	}
+
 	function confirm_registration ($register_code)    {
 			$this->db->where('activationcode',$register_code);
 			$query =$this->db->get('member');
@@ -83,6 +98,23 @@ class Member_model extends CI_Model
 
 		return $ret;
 	}
+	function change_password($username){
+		$password=$this->input->post('new_password');
+		$old_password=$this->input->post('old_password');
+
+		$this->db->where('password',md5($old_password));
+		$query =$this->db->get('member');
+		if($query->num_rows==1)
+		{
+			
+			$data = array(
+	               'password' => md5($password)
+	            );
+			$this->db->where('username', $username);
+			return $this->db->update('member', $data);
+		}
+		return false;
+	}
 
 	function check_username_data(){
 		$this->db->where('username',$this->input->post('username'));
@@ -112,6 +144,59 @@ class Member_model extends CI_Model
         }                
         
         return $password;
+    }
+    function get_member($username){
+    	$this->db->where('username',$username);
+		$query =$this->db->get('member')->result();
+		
+		$member=array(
+		'first_name'						=>$query[0]->first_name,
+		'last_name'						=>$query[0]->last_name,
+		'username'								=>$query[0]->username,
+		'company_telephone'			=>$query[0]->company_telephone,
+		'direct_telephone'				=>$query[0]->direct_telephone,
+		'company_fax'						=>$query[0]->company_fax,
+		'company_name'						=>$query[0]->company_name,
+		'company_street_address'	=>$query[0]->company_street_address,
+		'company_address_line2'	=>$query[0]->company_address_line2,
+		'company_city'						=>$query[0]->company_city,
+		'company_state'					=>$query[0]->company_state,
+		'company_zip_code'				=>$query[0]->company_zip_code,
+		'company_website'				=>$query[0]->company_website,
+		'email_address'					=>$query[0]->email_address
+		);
+		return $member;
+    }
+    function get_member_name($username){
+    	$this->db->where('username',$username);
+		$query =$this->db->get('member')->result();
+		
+		return $query[0]->first_name.' '.$query[0]->last_name;
+    }
+    function save_profile_data($username){
+    	$update_member = array(
+			'first_name' => $this->input->post('first_name'),
+			'last_name' => $this->input->post('last_name'),
+			'company_telephone' => $this->input->post('company_telephone'),
+			'direct_telephone' => $this->input->post('direct_telephone'),
+			'company_fax' => $this->input->post('company_fax'),
+			'company_name' => $this->input->post('company_name'),
+			'company_street_address' => $this->input->post('company_street_address'),
+			'company_address_line2' => $this->input->post('company_address_line2'),
+			'company_city' => $this->input->post('company_city'),
+			'company_state' => $this->input->post('company_state'),
+			'company_zip_code' => $this->input->post('company_zip_code'),
+			'company_website' => $this->input->post('company_website')
+		 );
+		$this->db->where('username', $username);
+		return $this->db->update('member', $update_member);
+    }
+    function get_signature($username){
+        $value=$this->db->select('email_address, first_name,last_name,company_telephone,company_street_address,company_name ,company_city')
+        ->from('member')
+        ->where('username',$username)->get()->result();
+
+       return $signature='<strong>Phone:</strong> '.$value[0]->company_telephone."<br>".'<strong>Company:</strong> '.$value[0]->company_name." ".$value[0]->company_street_address." ".$value[0]->company_city."<br>".'<strong>Email:</strong> '.$value[0]->email_address;
     }
 }
 ?>

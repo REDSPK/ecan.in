@@ -65,7 +65,7 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['local']['hostname'] = 'local';
+$db['local']['hostname'] = 'localhost';
 $db['local']['username'] = 'root';
 $db['local']['password'] = '';
 $db['local']['database'] = 'db_ecan_in';

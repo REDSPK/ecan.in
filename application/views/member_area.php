@@ -1,7 +1,11 @@
 <?php
-$continent=array(
-	'value1'=>'value1',
-  'value2'=>'value2'
+$limit=array(
+	'1'=>1,
+  '2'=>2,
+  '3'=>3,
+  '4'=>4,
+  '5'=>5,
+  'all'=>'all'
 	);
 $assistance_type=array(
       'Short Sale'=>'Short Sale',
@@ -16,8 +20,8 @@ echo form_open('template/post_email', $form_attributes);
           echo form_label('Type of Assistance : ');
           echo form_dropdown('assistance_type', $assistance_type,set_value('assistance_type'), 'id="assistance_type" class="span3"');
 
-          echo form_label('Template : ');
-          echo form_dropdown('continent', $continent,set_value('continent'), 'id="continent"class="span3"');
+          echo form_label('N0 of contacts to send Mail: ');
+          echo form_dropdown('limit', $limit,set_value('limit'), 'id="limit"class="span3"');
 
           $subject = array(
               'name' => 'subject',
@@ -54,8 +58,7 @@ echo form_open('template/post_email', $form_attributes);
               'name' => 'date',
               'id'=> 'date',
               'class' => 'span3',
-              'type' =>'date',
-              'format'=>'yy-mm-dd',
+              'placeholder'=>"year-month-day",
               'required'=>'required');
           echo form_label('Sale Date : ');
           echo form_input($date);
@@ -127,25 +130,30 @@ echo form_open('template/post_email', $form_attributes);
           </label>
     </div>
 </div><!--row-->
-<div class="span12">
+<div class="row">
     <?php
     $comment = array(
               'name' => 'comment',
               'id'=> 'comment',
-              'class' => 'span6',
+              'rows'        => '5',
+              'cols'        => '10',
+              'class'       => 'span10',
+              'style'=>'margin-left:25px;',
               'value' => set_value('comment'),
               'placeholder'=>"Type your comments here..."
-              );
-    echo form_label('Additional Comments: ');
-    echo form_textarea($comment);
+              );?>
+
+    <div style='margin:25px;'><?php echo form_label('Additional Comments: '); ?></div>
+   <?php echo form_textarea($comment);
 ?>
 </div>
-<div class="span8">
+<div class="span9">
 <?php
     $btn = array(
             'class' => 'btn-large btn-inverse pull-right',
                         'id' => 'submit',
                         'name'=>'submit',
+                        'style'=>'margin-top:30px;',
                         'value'=>'Submit'
                         );
     echo form_submit($btn);
@@ -154,3 +162,13 @@ echo form_open('template/post_email', $form_attributes);
 <?php
 echo form_close();
 ?>
+<br/><br/><br/>
+<link href="<?php echo base_url().'assets/css/jquery-ui.css' ?>" rel="stylesheet" type="text/css">
+<script language="JavaScript" src="<?php echo base_url().'assets/js/jquery.ui.core.js' ?>" type="text/javascript"></script>
+<script language="JavaScript" src="<?php echo base_url().'assets/js/jquery.ui.datepicker.js' ?>" type="text/javascript"></script>
+<script language="JavaScript" src="<?php echo base_url().'assets/js/jquery.ui.widget.js' ?>" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+        $( "#date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+      });
+</script>

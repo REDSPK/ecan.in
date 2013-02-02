@@ -10,6 +10,7 @@ $fname = array(
 		'id'=> 'first_name',
 		'class' => 'span3',
 		'value' => set_value('first_name'),
+		'required'=>'required',
 		'placeholder'=>"Type First Name here..."
 		);
 echo form_input($fname);
@@ -18,6 +19,7 @@ $lname = array(
 		'id'=> 'last_name',
 		'class' => 'span3',
 		'value' => set_value('last_name'),
+		'required'=>'required',
 		'placeholder'=>"Type Last Name here..."
 		);
 echo form_input($lname);
@@ -26,6 +28,7 @@ $email = array(
 		'id'=> 'email_address',
 		'class' => 'span3',
 		'value' => set_value('email_address'),
+		'required'=>'required',
 		'placeholder'=>"Type Email Address here..."
 		);
 echo form_input($email);
@@ -39,6 +42,7 @@ $ctelephone = array(
 		'id'=> 'company_telephone',
 		'class' => 'span3',
 		'value' => set_value('company_telephone'),
+		'required'=>'required',
 		'placeholder'=>"Type Company Telephone here..."
 		);
 echo form_input($ctelephone);
@@ -48,6 +52,7 @@ $dtelephone = array(
 		'id'=> 'direct_telephone',
 		'class' => 'span3',
 		'value' => set_value('direct_telephone'),
+		'required'=>'required',
 		'placeholder'=>"Type Direct Telephone here..."
 		);
 echo form_input($dtelephone);
@@ -57,6 +62,7 @@ $cfax = array(
 		'id'=> 'company_fax',
 		'class' => 'span3',
 		'value' => set_value('company_fax'),
+		'required'=>'required',
 		'placeholder'=>"Type Company Fax here..."
 		);
 echo form_input($cfax);
@@ -66,6 +72,7 @@ $cname = array(
 		'id'=> 'company_name',
 		'class' => 'span3',
 		'value' => set_value('company_name'),
+		'required'=>'required',
 		'placeholder'=>"Type company name here..."
 		);
 echo form_input($cname);
@@ -74,6 +81,7 @@ $csa = array(
 		'id'=> 'company_street_address',
 		'class' => 'span3',
 		'value' => set_value('company_street_address'),
+		'required'=>'required',
 		'placeholder'=>"Type Company Street Address here..."
 		);
 echo form_input($csa);
@@ -82,6 +90,7 @@ $ca = array(
 		'id'=> 'company_address_line2',
 		'class' => 'span3',
 		'value' => set_value('company_address_line2'),
+		'required'=>'required',
 		'placeholder'=>"Type Company Address Line 2 here..."
 		);
 echo form_input($ca);
@@ -90,6 +99,7 @@ $ccity = array(
 		'id'=> 'company_city',
 		'class' => 'span3',
 		'value' => set_value('company_city'),
+		'required'=>'required',
 		'placeholder'=>"Type company city here..."
 		);
 echo form_input($ccity);
@@ -99,6 +109,7 @@ $cstate = array(
 		'id'=> 'company_state',
 		'class' => 'span3',
 		'value' => set_value('company_state'),
+		'required'=>'required',
 		'placeholder'=>"Type company state here..."
 		);
 echo form_input($cstate);
@@ -108,6 +119,7 @@ $czip = array(
 		'id'=> 'company_zip_code',
 		'class' => 'span3',
 		'value' => set_value('company_zip_code'),
+		'required'=>'required',
 		'placeholder'=>"Type company zip code here..."
 		);
 echo form_input($czip);
@@ -117,6 +129,7 @@ $cweb = array(
 		'id'=> 'company_website',
 		'class' => 'span3',
 		'value' => set_value('company_website'),
+		'required'=>'required',
 		'placeholder'=>"Type company website here..."
 		);
 echo form_input($cweb);
@@ -131,6 +144,7 @@ $username = array(
 		'id'=> 'username',
 		'class' => 'span3',
 		'value' => set_value('username'),
+		'required'=>'required',
 		'placeholder'=>"Type UserName here..."
 		);
 echo form_input($username);
@@ -138,6 +152,7 @@ $password = array(
 		'name' => 'password',
 		'id'=> 'password',
 		'class' => 'span3',
+		'required'=>'required',
 		'placeholder'=>"Type password here..."
 		);
 echo form_password($password);
@@ -145,6 +160,7 @@ $password2 = array(
 		'name' => 'password2',
 		'id'=> 'password2',
 		'class' => 'span3',
+		'required'=>'required',
 		'placeholder'=>"Retype password here..."
 		);
 echo form_password($password2);
@@ -162,6 +178,7 @@ echo form_close();
 </div>
 <script type="text/javascript">
 $(function(){
+	/*check for username*/
 	
 	$('#username').keyup(function(){
 		$.post("<?php echo site_url('login/check_username'); ?>",{username:$('#username').val()},

@@ -1,4 +1,5 @@
 @import url('bootstrap.min.css');
+@import url('bootstrap-responsive.min.css');
 .header{margin-top: 50px;}
 .header li{border-bottom: 2px solid #364B41;margin-left: 4px;text-align: right;}
 .hup{margin-bottom: 1px;border-bottom-color: #EEE;}
@@ -17,7 +18,7 @@
 
 #login_form #signup_anchor{margin-left:20px;text-decoration: none;padding: 4px;color: white; background: #348075; border: none; -moz-border-radius:4px;-webkit-border-radius:4px;}
 #login_form #pass_recover_anchor{margin: 5px;}
-.error{background: #eee;padding-left: 20px;font-style: italic; width: 300px;margin-bottom: 0px;display: block; -moz-border-radius:4px;-webkit-border-radius:4px;}
+.error{background: #eee;margin: 5px;font-style: italic;font-weight: bold; width:300px;color: red; display: inline; -moz-border-radius:4px;-webkit-border-radius:4px;}
 #errorstring{margin-left: 400px; text-align: center;}
 #left_part{float: left;margin-right: 100px;overflow: hidden;}
 #right_part{margin-left: 100px; }
@@ -33,3 +34,11 @@
 }
 #popup{margin: 200px;padding: 30px;background-color:#eee;-moz-border-radius:12px;-webkit-border-radius:12px;}
 #message h1{margin: 200px;}
+
+label.valid {
+		  width: 24px;
+		  height: 24px;
+		  background: url(../img/valid.png) center center no-repeat;
+		  display: inline-block;
+		  text-indent: -9999px;
+		}

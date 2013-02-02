@@ -13,14 +13,33 @@ class Login extends CI_Controller {
 	function validate_cradentials(){
 		$this->load->model('member_model');
 		$query= $this->member_model->validate();
-		if($query){
+		if($query=='ac'){
 				$data = array(
 					'username' => $this->input->post('username'),
 					'is_logged_in' => true );
 				$this->session->set_userdata($data);
 				redirect('site/member_area');
 		}
-		else{
+		else if($query=='na')
+		{
+			$data['message']='Your Account is not activated.Please activate through the link we had sent you.';
+			$data['main_content']='mail_error';
+			$this->load->view('includes/template',$data);
+		}
+		else if($query=='pe')
+		{
+			$data['message']='Your username or password may wrong.';
+			$data['main_content']='mail_error';
+			$this->load->view('includes/template',$data);
+		}
+		else if($query=='ne')
+		{
+			$data['message']='Account with such username and password does not exist.';
+			$data['main_content']='signup_unsuccessful';
+			$this->load->view('includes/template',$data);
+		}
+		else
+		{
 			$this->index();
 		}
 	}
@@ -31,22 +50,22 @@ class Login extends CI_Controller {
 	}
 
 	function create_member(){
-		$this->form_validation->set_rules('first_name','First Name','trim|required');
-		$this->form_validation->set_rules('last_name','Last Name','trim|required');
+		$this->load->helper('security');
+		$this->form_validation->set_rules('first_name','First Name','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('last_name','Last Name','trim|required|man_length[25]|xss_clean');
 		$this->form_validation->set_rules('email_address','Email Address','trim|required|valid_email|is_unique[member.email_address]');
 		/*Company validation*/
-		$this->form_validation->set_rules('company_telephone','Company Telephone','trim|required');
-		$this->form_validation->set_rules('direct_telephone','Direct Telephone','trim|required');
-		$this->form_validation->set_rules('company_fax','Company Fax','trim|required');
-		$this->form_validation->set_rules('company_name','Company Name','trim|required');
-		$this->form_validation->set_rules('company_street_address','Company Street Address','trim|required');
-		$this->form_validation->set_rules('company_address_line2','Company Address Line 2','trim|required');
-		$this->form_validation->set_rules('company_city','Company City','trim|required');
-		$this->form_validation->set_rules('company_state','Company State','trim|required');
-		$this->form_validation->set_rules('company_zip_code','Company Zip Code','trim|required');
-		$this->form_validation->set_rules('company_website','Company Website','trim|required');
-
-		$this->form_validation->set_rules('username','Username','trim|required|min_length[4]|is_unique[member.username]');
+		$this->form_validation->set_rules('company_telephone','Company Telephone','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('direct_telephone','Direct Telephone','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_fax','Company Fax','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_name','Company Name','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_street_address','Company Street Address','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_address_line2','Company Address Line 2','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_city','Company City','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_state','Company State','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_zip_code','Company Zip Code','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('company_website','Company Website','trim|required|man_length[25]|xss_clean');
+		$this->form_validation->set_rules('username','Username','trim|required|min_length[4]|man_length[15]|is_unique[member.username]|xss_clean|alpha_numeric');
 		$this->form_validation->set_rules('password','Password','|trim|required|min_length[4]|max_length[32]');
 		$this->form_validation->set_rules('password2','Password Confirm','trim|required|matches[password]');
 		if($this->form_validation->run()==FALSE){

@@ -10,8 +10,10 @@
     <!-- styles -->
     <link href="<?php echo base_url().'assets/css/style.css' ?>" rel="stylesheet">
     <script src="<?php echo base_url().'assets/js/jquery.js' ?>"></script>
+    <script src="<?php echo base_url().'assets/js/jquery.validate.min.js' ?>"></script>
     <style type="text/css">
     </style>
+    <!--
     <script type="text/javascript">
         $(function(){
             $('#signup_form').on('submit',function(e){
@@ -31,7 +33,7 @@
               }
             });
         });
-    </script>
+    </script>-->
   </head>
 
   <body>
@@ -49,6 +51,14 @@
             <li><a href="#">About</a></li>
             <li><a href="#">Contacts</a></li>
             <li><a href="#">Templates</a></li>
+            <?php 
+                  $is_logged_in=$this->session->userdata('is_logged_in');
+                if ($is_logged_in==true):
+                    $username=$this->session->userdata('username');
+                  ?>
+                    <li><?php echo anchor('edit_profile','Edit Profile'); ?></li>
+                     <li><?php echo anchor('signout','signout ('.$username.')'); ?></li>
+                  <?php endif ?>
           </ul>
         </div> 
           <!-- End navigation row-->

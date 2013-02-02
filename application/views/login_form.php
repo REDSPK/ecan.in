@@ -8,7 +8,8 @@
 		'name' => 'username',
 		'id'=> 'username',
 		'class' => 'span3',
-		'placeholder'=>"Type UserName here..."
+		'placeholder'=>"Type UserName here...",
+    'required'=>'required'
 		);
 		echo form_input($username);
 
@@ -16,7 +17,8 @@
 		'name' => 'password',
 		'id'=>'password',
 		'class' =>'span3',
-		'placeholder' => 'Type password here...' );
+		'placeholder' => 'Type password here...',
+    'required'=>'required' );
 	echo form_password($password);
 
 	$btn = array(
@@ -36,24 +38,4 @@
   echo anchor('login/recover_password','Forget PassWord',$anchor_attr);
 	echo form_close();
 ?>
-<script type="text/javascript">
-        $(function(){
-            $('#login_form').on('submit',function(e){
-              var flag = true;
-              $(':input').each(function(){
-                  if($(this).val() == '') {
-                    $(this).after('<span class="help-block" style="color:#B94A48">This field cannot be left empty</span>');
-                    $(this).css('border-color','#B94A48');
-                    flag = false;
-                  }
-              });    
-              if(flag) {
-                return true;
-              }else {
-                e.preventDefault();
-                return false;
-              }
-            });
-        });
-    </script>
 </div>

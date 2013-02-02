@@ -6,7 +6,7 @@
  * @author FAIZAN ALI
  */
 class Template extends CI_Controller {
-    public function __construct() {
+   function __construct() {
         parent::__construct();
     }
     
@@ -30,8 +30,30 @@ class Template extends CI_Controller {
 		'inaccurate'         =>	$this->input->post('inaccurate'),
 		'comment'            =>	$this->input->post('comment')
         );
-        var_dump($var);
-//        echo $this->template_model->selectTemplate($var);
+        //var_dump($var);
+        	$is_logged_in=$this->session->userdata('is_logged_in');
+        	$username=$this->session->userdata('username');
+			if(!isset($is_logged_in) || $is_logged_in!=true)
+			{
+				$data['message'] = 'you dont have permission to this Area.';
+			    $data['main_content']='mail_error';
+	            $this->load->view('includes/template',$data);
+			}
+			else
+			{
+			    $contacts =$this->template_model->get_contacts($this->input->post('limit'));
+			    echo "logged in user is ".$username;
+			    $this->load->model('member_model');
+				$name=$this->member_model->get_member_name($username);
+				$signature=$this->member_model->get_signature($username);
+			    foreach ($contacts as $key => $contact) {
+			    $temp=$this->template_model->selectTemplate($contact,$name,$signature);
+			    echo "<h3>mail to " .$contact['name']." his email: ". $contact['email']."</h3><br>";
+			    echo "SALE DATE: ".$this->input->post('date')." - ".$this->input->post('subject')." - LN#:".$this->input->post('loan_no')."-".$this->input->post('client_name');
+			    echo "<br>";
+			    print_r($temp);
+	       }
+       }
     }
 }
 
