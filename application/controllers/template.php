@@ -43,17 +43,30 @@ class Template extends CI_Controller {
 			{
 			    $contacts =$this->template_model->get_contacts($this->input->post('limit'));
 			    echo "logged in user is ".$username;
+
 			    $this->load->model('member_model');
+			    $this->load->model('template_model');
 				$name=$this->member_model->get_member_name($username);
 				$signature=$this->member_model->get_signature($username);
-			    foreach ($contacts as $key => $contact) {
-			    $temp=$this->template_model->selectTemplate($contact,$name,$signature);
-			    echo "<h3>mail to " .$contact['name']." his email: ". $contact['email']."</h3><br>";
-			    echo "SALE DATE: ".$this->input->post('date')." - ".$this->input->post('subject')." - LN#:".$this->input->post('loan_no')."-".$this->input->post('client_name');
-			    echo "<br>";
-			    print_r($temp);
-	       }
-       }
+			    foreach ($contacts as $key => $contact) 
+			    {
+				    /*template*/
+				    $template=$this->template_model->selectTemplate($contact,$name,$signature);
+
+				    echo "<h3>mail to " .$contact['name']." his email: ". $contact['email']."</h3><br>";
+
+				    $subject ="SALE DATE: ".$this->input->post('date')." - ".$this->input->post('subject')." - LN#:".$this->input->post('loan_no')."-".$this->input->post('client_name');
+				    echo $subject."<br>";
+
+				    /*--save_history for admin*/
+					$element = array(
+			            'template' =>$template,
+			            'subject' =>$subject,
+			            'username' =>$username);
+				    $this->template_model->save_history($history);
+				    print_r($template);
+	       		}
+       		}
     }
 }
 

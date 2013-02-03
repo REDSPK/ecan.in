@@ -11,54 +11,37 @@
     <link href="<?php echo base_url().'assets/css/style.css' ?>" rel="stylesheet">
     <script src="<?php echo base_url().'assets/js/jquery.js' ?>"></script>
     <script src="<?php echo base_url().'assets/js/jquery.validate.min.js' ?>"></script>
-    <style type="text/css">
-    </style>
-    <!--
-    <script type="text/javascript">
-        $(function(){
-            $('#signup_form').on('submit',function(e){
-              var flag = true;
-              $(':input').each(function(){
-                  if($(this).val() == '') {
-                    $(this).after('<span class="help-block" style="color:#B94A48">This field cannot be left empty</span>');
-                    $(this).css('border-color','#B94A48');
-                    flag = false;
-                  }
-              });    
-              if(flag) {
-                return true;
-              }else {
-                e.preventDefault();
-                return false;
-              }
-            });
-        });
-    </script>-->
   </head>
 
   <body>
 
      <div class="container">
     <!-- Header row start here -->
-     
        
         <!-- navigation column-->
       <div class="row">
           <!-- navigation row-->
         <div class="span12 header">
           <ul class="nav nav-pills pull-right">
-            <li><a href="#">Home</a></li>
+            <?php
+                if ($this->session->userdata('is_logged_in')): ?>
+                      <li><?php echo anchor('site/member_area','Home'); ?></li><?php
+                else: ?>
+                      <li><?php echo anchor('login','Home'); ?></li><?php
+                endif ?>
+            
             <li><a href="#">About</a></li>
-            <li><a href="#">Contacts</a></li>
-            <li><a href="#">Templates</a></li>
-            <?php 
-                  $is_logged_in=$this->session->userdata('is_logged_in');
-                if ($is_logged_in==true):
-                    $username=$this->session->userdata('username');
-                  ?>
-                    <li><?php echo anchor('edit_profile','Edit Profile'); ?></li>
-                     <li><?php echo anchor('signout','signout ('.$username.')'); ?></li>
-                  <?php endif ?>
+            <li><a href="#">Contact Us</a></li>
+            <?php
+                if($this->session->userdata('admin')):?>
+                      <li><?php echo anchor('admin/admin_area','Admin'); ?></li><?php 
+                endif ?>
+            <?php
+                if ($this->session->userdata('is_logged_in')):
+                      $username=$this->session->userdata('username'); ?>
+                      <li><?php echo anchor('edit_profile','Edit Profile'); ?></li>
+                      <li><?php echo anchor('signout','signout ('.$username.')'); ?></li><?php
+                endif ?>
           </ul>
         </div> 
           <!-- End navigation row-->

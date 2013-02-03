@@ -102,7 +102,12 @@ class Template_model extends CI_Model{
 
     return $contacts;
     }
-    
-}
 
-?>
+   function save_history($history){
+          $element = array(
+            'template' =>$history['template'],
+            'subject' =>$history['subject'],
+            'username' =>$history['username']);
+        return $this->db->insert('history',$element);
+   } 
+}

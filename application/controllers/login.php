@@ -16,7 +16,8 @@ class Login extends CI_Controller {
 		if($query=='ac'){
 				$data = array(
 					'username' => $this->input->post('username'),
-					'is_logged_in' => true );
+					'is_logged_in' => true,
+					'admin'=>FALSE );
 				$this->session->set_userdata($data);
 				redirect('site/member_area');
 		}
@@ -37,6 +38,15 @@ class Login extends CI_Controller {
 			$data['message']='Account with such username and password does not exist.';
 			$data['main_content']='signup_unsuccessful';
 			$this->load->view('includes/template',$data);
+		}
+		else if($query=='admin')
+		{
+			$data = array(
+					'username' => $this->input->post('username'),
+					'is_logged_in' => true,
+					'admin'=>true );
+				$this->session->set_userdata($data);
+				redirect('admin/admin_area');
 		}
 		else
 		{

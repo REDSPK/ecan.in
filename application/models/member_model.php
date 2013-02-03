@@ -12,6 +12,13 @@ class Member_model extends CI_Model
 		{
 			return "ac";
 		}
+		$array = array('username' => $this->input->post('username'), 'password' => md5($this->input->post('password')), 'admin' => 1);
+		$this->db->where($array);
+		$query =$this->db->get('member');
+		if($query->num_rows==1)
+		{
+			return 'admin';
+		}
 		$array = array('username' => $this->input->post('username'), 'password' => md5($this->input->post('password')), 'activated !=' => 1);
 		$this->db->where($array);
 		$query =$this->db->get('member');
