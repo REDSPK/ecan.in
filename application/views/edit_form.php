@@ -198,10 +198,11 @@ $cweb = array(
 
 <?php
 $btn = array(
-        'class' => 'btn-inverse pull-right',
+        'class' => 'btn-inverse',
                     'id' => 'save_account',
                     'name'=>'save_account',
-                    'value'=>'Save Account'
+                    'value'=>'Save Account',
+                    'style' =>'margin-left:250px;'
                     );
 echo form_submit($btn);
 echo form_close();
@@ -217,9 +218,7 @@ echo form_close();
 	<?php echo anchor('','Change Email'); ?><br><br>
 </div><!-- 3rd span4 close here-->
 </div>
-<hr class="hup"><hr class="hdown">
-<div class="row">
-</div>
+
 <script type="text/javascript">
 $(function(){
 	/*validaion check*/
