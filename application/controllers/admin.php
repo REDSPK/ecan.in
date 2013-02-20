@@ -21,7 +21,9 @@ class Admin extends CI_Controller
 	}
 	function admin_area()
 	{
-			$data['main_content']='admin_panal';
+            $data['main_content']='admin_panal';
             $this->load->view('includes/template',$data);
 	}
 }
+
+?>

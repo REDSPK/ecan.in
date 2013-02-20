@@ -8,9 +8,9 @@
     <meta name="author" content="">
 
     <!-- styles -->
-    <link href="<?php echo base_url().'assets/css/style.css' ?>" rel="stylesheet">
-    <script src="<?php echo base_url().'assets/js/jquery.js' ?>"></script>
-    <script src="<?php echo base_url().'assets/js/jquery.validate.min.js' ?>"></script>
+    <link href="<?php echo base_url().'../assets/css/style.css' ?>" rel="stylesheet">
+    <script src="<?php echo base_url().'../assets/js/jquery.js' ?>"></script>
+    <script src="<?php echo base_url().'../assets/js/jquery.validate.min.js' ?>"></script>
   </head>
 
   <body>
