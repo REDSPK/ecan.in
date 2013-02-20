@@ -60,12 +60,12 @@ define('ECAN100000_PRICE',156.00);
 /**
  * ECAN Button ID's
  */
-define('ECAN500_BUTTON_ID',1);
-define('ECAN1500_BUTTON_ID',2.85);
-define('ECAN2500_BUTTON_ID',4.50);
-define('ECAN5000_BUTTON_ID',8.80);
-define('ECAN10000_BUTTON_ID',17.20);
-define('ECAN25000_BUTTON_ID',42.50);
+define('ECAN500_BUTTON_ID','2USSNVTD9T9LN');
+define('ECAN1500_BUTTON_ID','6KE9BPZCLR238');
+define('ECAN2500_BUTTON_ID','CX478W69W6MK4');
+define('ECAN5000_BUTTON_ID','CHBZZSSCZ8KMS');
+define('ECAN10000_BUTTON_ID','DJFWTSJFRCJ4G');
+define('ECAN25000_BUTTON_ID','TSEX5WL6WVXBE');
 define('ECAN50000_BUTTON_ID',80);
 define('ECAN100000_BUTTON_ID',156.00);
 
@@ -73,23 +73,27 @@ define('ECAN100000_BUTTON_ID',156.00);
  * ECAN item names
  */
 
-define('ECAN500_PRODUCT_NAME',1);
-define('ECAN1500_PRODUCT_NAME',2.85);
-define('ECAN2500_PRODUCT_NAME',4.50);
-define('ECAN5000_PRODUCT_NAME',8.80);
-define('ECAN10000_PRODUCT_NAME',17.20);
-define('ECAN25000_PRODUCT_NAME',42.50);
-define('ECAN50000_PRODUCT_NAME',80);
-define('ECAN100000_PRODUCT_NAME',156.00);
+
+define('ECAN500_PRODUCT_NAME','ECAN500');
+define('ECAN1500_PRODUCT_NAME','ECAN1500');
+define('ECAN2500_PRODUCT_NAME','ECAN2500');
+define('ECAN5000_PRODUCT_NAME','ECAN5000');
+define('ECAN10000_PRODUCT_NAME','ECAN10000');
+define('ECAN25000_PRODUCT_NAME','ECAN25000');
+define('ECAN50000_PRODUCT_NAME','ECAN50000');
+define('ECAN100000_PRODUCT_NAME','ECAN100000');
 
 /**
  * Paypal URL's
  */
-define('PAYPAL_PRODUCTION_URL','https://www.paypal.com/cgi-bin/webscr');
-define('PAYPAL_SANDBOX_URL','https://www.sandbox.paypal.com/cgi-bin/webscr');
-define('PAYPAL_NOTIFY_URL',  base_url()."/paypal/notify_paypal");
-define('PAYPAL_CALLBACK_URL',base_url()."/paypal/thankyou");
+//define('PAYPAL_URL','https://www.paypal.com/cgi-bin/webscr');
+define('PAYPAL_URL','https://www.sandbox.paypal.com/cgi-bin/webscr');
 
+define('PAYPAL_RETURN_URL', "http://ecan.in/index.php"."/paypal/thankyou");
+define('PAYPAL_CALLBACK_URL',"http://ecan.in/index.php"."/paypal/notify_paypal");
+
+//define('PAYPAL_RETURN_URL', "http://localhost/ecan.in/index.php"."/paypal/thankyou");
+//define('PAYPAL_CALLBACK_URL',"http://localhost/ecan.in/index.php"."/paypal/notify_paypal");
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

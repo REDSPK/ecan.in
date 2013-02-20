@@ -129,6 +129,7 @@ class paypal extends CI_Controller {
                 $this->member_model->updateUserCredits($userID,$numCredits);
                 //Process the payment here 
                 error_log("Transaction succesfull");
+                error_log(var_dump($_POST));
             }
 } else {
     error_log("Invalid IPN".$verified);
@@ -366,6 +367,11 @@ class paypal extends CI_Controller {
     
     public function thankyou(){
         echo "Thanks for buying credits";
+    }
+    
+    public function buy_credits() {
+        $data['main_content'] = 'buy_credits';
+        $this->load->view('includes/template',$data);
     }
 }
 
