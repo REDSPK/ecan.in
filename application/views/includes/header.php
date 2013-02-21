@@ -11,6 +11,7 @@
     <link href="<?php echo base_url().'../assets/css/style.css' ?>" rel="stylesheet">
     <script src="<?php echo base_url().'../assets/js/jquery.js' ?>"></script>
     <script src="<?php echo base_url().'../assets/js/jquery.validate.min.js' ?>"></script>
+    <script src="<?php echo base_url().'../assets/js/bootstrap.min.js' ?>"></script>
   </head>
 
   <body>
@@ -25,21 +26,29 @@
           <ul class="nav nav-pills pull-right">
             <?php
                 if ($this->session->userdata('is_logged_in')): ?>
-                      <li><?php echo anchor('site/member_area','Home'); ?></li><?php
+                      <li><?php echo anchor('site/member_area','Home'); ?></li>
+                      <li><?php echo anchor('edit_profile','Edit Profile'); ?></li>
+                      <li><?php echo anchor('site/history_detail','History'); ?></li>
+                      <?php
                 else: ?>
                       <li><?php echo anchor('login','Home'); ?></li><?php
                 endif ?>
-            
+            <?php
+                if($this->session->userdata('admin')):?>
+                      <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                      <li><?php echo anchor('admin/admin_area','Admin'); ?></li>
+                      <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
+                      <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
+                    </ul></li>
+                      <?php 
+                endif ?>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact Us</a></li>
             <?php
-                if($this->session->userdata('admin')):?>
-                      <li><?php echo anchor('admin/admin_area','Admin'); ?></li><?php 
-                endif ?>
-            <?php
                 if ($this->session->userdata('is_logged_in')):
                       $username=$this->session->userdata('username'); ?>
-                      <li><?php echo anchor('edit_profile','Edit Profile'); ?></li>
                       <li><?php echo anchor('signout','signout ('.$username.')'); ?></li><?php
                 endif ?>
           </ul>

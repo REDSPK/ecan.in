@@ -52,4 +52,29 @@ class Form_model extends CI_model
 		}
 		return $data;
 	}
+	function my_history_details($username){
+		$q=$this->db->select('date,subject,template')
+				->where('username',$username);
+		$temp=$q->get('history')->result();
+		$data=array();
+		foreach ($temp as $key => $value) {
+			$data[]=array(
+					'date'=>$value->date,
+					'subject'=>$value->subject,
+					'template'=>$value->template);
+		}
+		return $data;
+	}
+	function admin_history_details(){
+		$q=$this->db->select('date,subject,template');
+		$temp=$q->get('history')->result();
+		$data=array();
+		foreach ($temp as $key => $value) {
+			$data[]=array(
+					'date'=>$value->date,
+					'subject'=>$value->subject,
+					'template'=>$value->template);
+		}
+		return $data;
+	}
 }

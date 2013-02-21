@@ -21,9 +21,27 @@ class Admin extends CI_Controller
 	}
 	function admin_area()
 	{
-            $data['main_content']='admin_panal';
-            $this->load->view('includes/template',$data);
+        $this->load->library('pagination');
+		$this->load->library('table');
+		$config['base_url'] = base_url().'admin/admin_area';
+		$config['total_rows'] = $this->db->get('member')->num_rows();
+		$config['per_page'] = 10;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 20;
+
+		$config['full_tag_open'] = '<div id="pagination">';
+		$config['full_tag_close'] = '</div>';
+
+		$config['first_link'] = '&larr;First';
+		$config['last_link'] = 'Last &rarr;';
+		
+		$this->pagination->initialize($config);
+		
+		$data['main_content']='admin_panal';
+		$records = $this->db->get('member',$config['per_page'],$this->uri->segment(3));
+		$tmpl = array ('table_open'  => '<table class="table table-bordered table-condensed table-hover">');
+		$this->table->set_template($tmpl);
+		$data['record']= $this->table->generate($records);
+		$this->load->view('includes/template',$data);
 	}
 }
-
-?>

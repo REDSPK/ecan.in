@@ -213,9 +213,7 @@ echo form_close();
 
 <div class="span3">
 	<h4>Actions</h4>
-	<?php echo anchor('edit_profile/change_password','Change Password'); ?><br><br>
-	<?php echo anchor('','Change Signature'); ?><br><br>
-	<?php echo anchor('','Change Email'); ?><br><br>
+	<?php echo anchor('edit_profile/change_password','Change Password'); ?><br>
 </div><!-- 3rd span4 close here-->
 </div>
 

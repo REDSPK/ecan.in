@@ -20,7 +20,7 @@
             <? 
                 foreach($companies as $key=>$value):
             ?>
-                    <option value="<?=$value?>"> <?=$key?> </option>
+                    <option value="<?= $value?>"> <?=$key?> </option>
             <?
                 endforeach;
             ?>

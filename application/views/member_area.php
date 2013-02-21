@@ -133,14 +133,14 @@ echo form_open('template/post_email', $form_attributes);
 <div class="row">
     <?php
     $comment = array(
-              'name' => 'comment',
-              'id'=> 'comment',
+              'name'	    => 'comment',
+              'id'			=> 'comment',
               'rows'        => '5',
               'cols'        => '10',
               'class'       => 'span10',
-              'style'=>'margin-left:25px;',
-              'value' => set_value('comment'),
-              'placeholder'=>"Type your comments here..."
+              'style'		=>'margin-left:25px;',
+              'value' 		=> set_value('comment'),
+              'placeholder'	=>"Type your comments here..."
               );?>
 
     <div style='margin:25px;'><?php echo form_label('Additional Comments: '); ?></div>
@@ -163,10 +163,10 @@ echo form_open('template/post_email', $form_attributes);
 echo form_close();
 ?>
 <br/><br/><br/>
-<link href="<?php echo base_url().'assets/css/jquery-ui.css' ?>" rel="stylesheet" type="text/css">
-<script language="JavaScript" src="<?php echo base_url().'assets/js/jquery.ui.core.js' ?>" type="text/javascript"></script>
-<script language="JavaScript" src="<?php echo base_url().'assets/js/jquery.ui.datepicker.js' ?>" type="text/javascript"></script>
-<script language="JavaScript" src="<?php echo base_url().'assets/js/jquery.ui.widget.js' ?>" type="text/javascript"></script>
+<link href="<?php echo base_url().'../assets/css/jquery-ui.css' ?>" rel="stylesheet" type="text/css">
+<script src="<?php echo base_url().'../assets/js/jquery.ui.core.js' ?>" type="text/javascript"></script>
+<script src="<?php echo base_url().'../assets/js/jquery.ui.datepicker.js' ?>" type="text/javascript"></script>
+<script src="<?php echo base_url().'../assets/js/jquery.ui.widget.js' ?>" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() {
         $( "#date" ).datepicker({ dateFormat: 'yy-mm-dd' });
