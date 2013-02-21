@@ -3,6 +3,7 @@
 ?>
 <html>
     <form method="POST" action="<?= base_url()?>CSV/do_enter_contact" enctype='multipart/form-data'>
+        <fieldset>
         <select name="escalation_level">
             <? 
                 foreach($escalations as $key=>$value):
@@ -69,6 +70,7 @@
         <input type="text" name="job_title" placeholder="Job Title" /> <br/>
         <input type="text" name="email" placeholder="Email" /> <br/>
         
-        <input type="submit" class="btn btn-primary">
+        <input type="submit" class="btn btn-inverse" style ='margin-left:150px;'>
+        </fieldset>
 </form>
 </html>

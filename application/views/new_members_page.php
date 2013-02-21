@@ -1,4 +1,3 @@
-<?php ?>
 <script>
     $(function(){
         $('#select_company').change(function(){
@@ -14,6 +13,7 @@
 </script>
 <div class="row">
     <form action='<?= base_url()?>template/post_email' method="POST">
+        <fieldset>
         <div class="span4">
             
             <select name="companies" id="select_company">
@@ -52,6 +52,16 @@
             
             <textarea name="comment" placeholder="Enter Your Comments Here......" style="width:254px;height: 66px;resize:none;"></textarea>
         </div>
-        <input type="submit" value="submit" />
+        <input type="submit" value="submit" class = 'btn btn-inverse pull-right'/>
+        </fieldset>
     </form>
 </div>
+<link href="<?php echo base_url().'../assets/css/jquery-ui.css' ?>" rel="stylesheet" type="text/css">
+<script src="<?php echo base_url().'../assets/js/jquery.ui.core.js' ?>" type="text/javascript"></script>
+<script src="<?php echo base_url().'../assets/js/jquery.ui.datepicker.js' ?>" type="text/javascript"></script>
+<script src="<?php echo base_url().'../assets/js/jquery.ui.widget.js' ?>" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+        $( "#date" ).datepicker({ dateFormat: 'yy-mm-dd' });
+      });
+</script>

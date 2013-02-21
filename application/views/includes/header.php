@@ -36,9 +36,9 @@
             <?php
                 if($this->session->userdata('admin')):?>
                       <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Dropdown <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                      <li><?php echo anchor('admin/admin_area','Admin'); ?></li>
+                      <li><?php echo anchor('admin/admin_area','Admin Panel'); ?></li>
                       <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
                       <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
                     </ul></li>

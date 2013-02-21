@@ -102,7 +102,33 @@ class Template_model extends CI_Model{
 
     return $contacts;
     }
+    function get_contacts_new(){
+       $companies =$this->input->post('companies');
+       $condition = array();
+        if($companies ==1)
+        {
 
+          $condition['company_id'] =$this->input->post('company_id');
+          $condition['lien_position'] =$this->input->post('lien_position');
+          $condition['departmend_id'] =$this->input->post('department');
+          $condition['section_id'] =$this->input->post('section');
+          $condition['loan_type_id'] =$this->input->post('loan_type');
+        }
+        
+        $condition['escalation_level_id'] =$this->input->post('escalation_level');
+
+        $q=$this->db->select('email, first_name, suffix, last_name')
+        ->from('contact_new')
+        ->where($condition);
+
+      $contacts=array();
+      foreach ($q->get()->result() as $key => $value) {
+        $contacts[]=array(
+        'name'=>$value->first_name." ".$value->suffix." ".$value->last_name,
+        'email'=>$value->email);
+      }
+    return $contacts;
+    }
    function save_history($history){
           $element = array(
             'template' =>$history['template'],

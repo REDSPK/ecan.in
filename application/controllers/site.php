@@ -76,7 +76,6 @@ class Site extends CI_Controller
 				$this->table->set_template($tmpl);
 				$data['record']= $this->table->generate($records);
 				$this->load->view('includes/template',$data);
-
 			//$data['history']=$this->form_model->admin_history_details();
 		}
 		else

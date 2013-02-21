@@ -198,11 +198,11 @@ $cweb = array(
 
 <?php
 $btn = array(
-        'class' => 'btn-inverse',
+        'class' => 'btn btn-inverse',
                     'id' => 'save_account',
                     'name'=>'save_account',
                     'value'=>'Save Account',
-                    'style' =>'margin-left:250px;'
+                    'style' =>'margin-left:280px;'
                     );
 echo form_submit($btn);
 echo form_close();
