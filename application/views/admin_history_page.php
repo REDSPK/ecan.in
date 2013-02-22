@@ -1,4 +1,3 @@
-		<h4>This is admin panal</h4>
 <div class ='pagination pagination-centered'>
 <?php
 if($record){
@@ -7,7 +6,7 @@ if($record){
 }
 else
 {
-	echo "No user to show";
+	echo "No history to show";
 }
 ?>
 </div>

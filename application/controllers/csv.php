@@ -119,9 +119,9 @@ class CSV extends CI_Controller
         
         $returnHTML = "<select name='escalation_level'>";
         foreach($this->escalationToCompanyHash as $key=>$value):
-            if($value == $companytypeID) {
-                $returnHTML .= "<option value='$value'>$key</option>";
-            } 
+              if($value == $companytypeID) {
+                $returnHTML .= '<option value='.$this->getEscalationLevelID($key).'>'.$key.'</option>';
+            }
         endforeach;
         $returnHTML.= "</select>";
         

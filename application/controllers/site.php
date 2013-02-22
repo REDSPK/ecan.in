@@ -2,22 +2,26 @@
 /**
 * 
 */
+require_once('csv.php');
 class Site extends CI_Controller
 {
+	var $member;
 	function __construct() {
         parent::__construct();
         $this->is_logeed_in();
     }
 	function member_area()
 	{
-		$this->load->model('form_model');
-		$data['loan_type']=$this->form_model->get_loan_types();
+		$member= new CSV();
+		$member->new_members_page();
+		//$this->load->('form_model');
+		/*$data['loan_type']=$this->form_model->get_loan_types();
 		$data['level']=$this->form_model->get_level();
 		$data['companies']=$this->form_model->get_companies();
 		$data['departments']=$this->form_model->get_departments();
 		$data['sections']=$this->form_model->get_sections();
 		$data['main_content']='member_area';
-		$this->load->view('includes/template',$data);
+		$this->load->view('includes/template',$data);*/
 	}
 	function is_logeed_in(){
 		$is_logged_in=$this->session->userdata('is_logged_in');
@@ -46,6 +50,40 @@ class Site extends CI_Controller
 		'inaccurate'         =>	$this->input->post('inaccurate'),
 		'comment'            =>	$this->input->post('comment')
 		);
+	}
+	function history_detail() {
+		$this->load->model('form_model');
+		if($this->session->userdata('admin')){
+			 	$this->load->library('pagination');
+				$this->load->library('table');
+				$config['base_url'] = base_url().'site/history_detail';
+				$config['total_rows'] = $this->db->get('history')->num_rows();
+				$config['per_page'] = 5;
+				$config['uri_segment'] = 3;
+				$config['num_links'] = 20;
+
+				$config['full_tag_open'] = '<div id="pagination">';
+				$config['full_tag_close'] = '</div>';
+
+				$config['first_link'] = '&larr;First';
+				$config['last_link'] = 'Last &rarr;';
+				
+				$this->pagination->initialize($config);
+				
+				$data['main_content']='admin_history_page';
+				$records = $this->db->get('history',$config['per_page'],$this->uri->segment(3));
+				$tmpl = array ('table_open'  => '<table class="table table-bordered table-condensed table-hover">');
+				$this->table->set_template($tmpl);
+				$data['record']= $this->table->generate($records);
+				$this->load->view('includes/template',$data);
+			//$data['history']=$this->form_model->admin_history_details();
+		}
+		else
+		{
+			$data['history']=$this->form_model->my_history_details($this->session->userdata('username'));
+			$data['main_content']='history_page';
+			$this->load->view('includes/template',$data);
+		}
 	}
 }
 ?>

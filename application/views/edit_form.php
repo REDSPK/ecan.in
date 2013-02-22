@@ -198,11 +198,11 @@ $cweb = array(
 
 <?php
 $btn = array(
-        'class' => 'btn-inverse',
+        'class' => 'btn btn-inverse',
                     'id' => 'save_account',
                     'name'=>'save_account',
                     'value'=>'Save Account',
-                    'style' =>'margin-left:250px;'
+                    'style' =>'margin-left:280px;'
                     );
 echo form_submit($btn);
 echo form_close();
@@ -213,9 +213,7 @@ echo form_close();
 
 <div class="span3">
 	<h4>Actions</h4>
-	<?php echo anchor('edit_profile/change_password','Change Password'); ?><br><br>
-	<?php echo anchor('','Change Signature'); ?><br><br>
-	<?php echo anchor('','Change Email'); ?><br><br>
+	<?php echo anchor('edit_profile/change_password','Change Password'); ?><br>
 </div><!-- 3rd span4 close here-->
 </div>
 

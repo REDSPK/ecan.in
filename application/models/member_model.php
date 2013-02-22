@@ -205,11 +205,5 @@ class Member_model extends CI_Model
 
        return $signature='<strong>Phone:</strong> '.$value[0]->company_telephone."<br>".'<strong>Company:</strong> '.$value[0]->company_name." ".$value[0]->company_street_address." ".$value[0]->company_city."<br>".'<strong>Email:</strong> '.$value[0]->email_address;
     }
-    
-    function updateUserCredits($username,$credits) {
-        $data = array('credits'=>$credits);
-        $this->db->where('username',$username);
-        $this->db->update('member',$data);
-    }
 }
 ?>
