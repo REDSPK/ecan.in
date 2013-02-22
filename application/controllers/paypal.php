@@ -106,13 +106,14 @@ class paypal extends CI_Controller {
             }
             $this->load->model('transaction');
             $exists = $this->transaction->checkDuplicateTransaction($_POST['txn_id']);
-            if ($exists) {
+            if (!$exists) {
                 $errmsg .= "'txn_id' has already been processed: ".$_POST['txn_id']."\n";
+                error_log(var_dump($errmsg));
             }
             if (!empty($errmsg)) {
                 // manually investigate errors from the fraud checking
                 $body = "IPN failed fraud checks: \n$errmsg\n\n";
-                $body .= $listener->getTextReport();
+                $body .= $this->getTextReport();
                 error_log($body);
 //                mail(PAYPAL_TRANSACTION_EMAIL, 'IPN Fraud Warning', $body,$headers);
 
@@ -133,7 +134,8 @@ class paypal extends CI_Controller {
             }
 } else {
     error_log("Invalid IPN".$verified);
-    mail(PAYPAL_TRANSACTION_EMAIL, 'Invalid IPN', $listener->getTextReport(),$headers);
+    error_log(var_dump($_POST));
+//    mail(PAYPAL_TRANSACTION_EMAIL, 'Invalid IPN', $this->getTextReport(),$headers);
 }
         
     }
