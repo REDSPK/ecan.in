@@ -2,7 +2,7 @@
     $(function(){
         $('#select_company').change(function(){
             $.ajax({
-                url:'<?= base_url()?>CSV/get_company_dropdowns?company_id='+$(this).val(),
+                url:'<?= base_url()?>csv/get_company_dropdowns?company_id='+$(this).val(),
                 type:'GET',
                 success: function(data){
                     $('#optional_checkboxes').html(data);
@@ -31,6 +31,17 @@
             </div>
         </div>
         <div class="span4">
+            <select name="num_of_mails" id="num_of_mails">
+                <option value="1">1 contact</option>
+                <option value="2">2 contacts</option>
+                <option value="3">3 contacts</option>
+                <option value="5">5 contacts</option>
+                <option value="10">10 contacts</option>
+                <option value="15">15 contacts</option>
+                <option value="20">20 contacts</option>
+                <option value="30">30 contacts</option>
+            </select>
+            <span class="help-block">Select the number of contacts to send email to</span>
             <input type="text" name="loan_number" placeholder="Loan number" /> <br/>
             <input type="text" name="date" id="date" placeholder="Date" /> <br/>
 

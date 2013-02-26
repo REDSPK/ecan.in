@@ -12,7 +12,7 @@ class Site extends CI_Controller
     }
 	function member_area()
 	{
-		$member= new CSV();
+		$member = new CSV();
 		$member->new_members_page();
 		//$this->load->('form_model');
 		/*$data['loan_type']=$this->form_model->get_loan_types();
@@ -52,38 +52,38 @@ class Site extends CI_Controller
 		);
 	}
 	function history_detail() {
-		$this->load->model('form_model');
-		if($this->session->userdata('admin')){
-			 	$this->load->library('pagination');
-				$this->load->library('table');
-				$config['base_url'] = base_url().'site/history_detail';
-				$config['total_rows'] = $this->db->get('history')->num_rows();
-				$config['per_page'] = 5;
-				$config['uri_segment'] = 3;
-				$config['num_links'] = 20;
-
-				$config['full_tag_open'] = '<div id="pagination">';
-				$config['full_tag_close'] = '</div>';
-
-				$config['first_link'] = '&larr;First';
-				$config['last_link'] = 'Last &rarr;';
-				
-				$this->pagination->initialize($config);
-				
-				$data['main_content']='admin_history_page';
-				$records = $this->db->get('history',$config['per_page'],$this->uri->segment(3));
-				$tmpl = array ('table_open'  => '<table class="table table-bordered table-condensed table-hover">');
-				$this->table->set_template($tmpl);
-				$data['record']= $this->table->generate($records);
-				$this->load->view('includes/template',$data);
-			//$data['history']=$this->form_model->admin_history_details();
-		}
-		else
-		{
-			$data['history']=$this->form_model->my_history_details($this->session->userdata('username'));
-			$data['main_content']='history_page';
-			$this->load->view('includes/template',$data);
-		}
+            $this->load->model('form_model');
+            $this->load->library('pagination');
+            $this->load->library('table');
+            $config['base_url'] = base_url().'site/history_detail';
+            
+            $config['per_page'] = 4;
+            $config['uri_segment'] = 3;
+            $config['num_links'] = 20;
+            $config['full_tag_open'] = '<div id="pagination">';
+            $config['full_tag_close'] = '</div>';
+            $config['first_link'] = '&larr;First';
+            $config['last_link'] = 'Last &rarr;';
+            
+            if($this->session->userdata('admin')){
+                
+                $config['total_rows'] = $this->db->get('history')->num_rows();
+                $records = $this->form_model->admin_history_details($this->uri->segment(3),$this->uri->segment(3)+$config['per_page']);
+                $data['history'] = $records;
+                $this->pagination->initialize($config);
+                $data['main_content']='admin_history_page';
+                $this->load->view('includes/template',$data);
+             
+            }
+            else
+            {
+                $config['total_rows'] = $this->form_model->my_history_rows($this->session->userdata('username'));
+                $records = $this->form_model->my_history_details($this->session->userdata('username'),$this->uri->segment(3),$this->uri->segment(3)+$config['per_page']);
+                $data['history'] = $records;
+                $this->pagination->initialize($config);
+                $data['main_content']='history_page';
+                $this->load->view('includes/template',$data);
+            }
 	}
 }
 ?>

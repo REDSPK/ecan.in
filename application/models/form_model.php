@@ -52,29 +52,49 @@ class Form_model extends CI_model
 		}
 		return $data;
 	}
-	function my_history_details($username){
-		$q=$this->db->select('date,subject,template')
-				->where('username',$username);
-		$temp=$q->get('history')->result();
-		$data=array();
-		foreach ($temp as $key => $value) {
-			$data[]=array(
-					'date'=>$value->date,
-					'subject'=>$value->subject,
-					'template'=>$value->template);
-		}
-		return $data;
+        function my_history_rows($username) {
+            $q = $this->db->query("select Count(0) as num_rows
+                                    from contact_new 
+                                    inner join  companies c on contact_new.company_id = c.id 
+                                    inner join history on contact_new.id = history.receiver_email 
+                                    inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
+                                    inner join departments on contact_new.departmend_id = departments.id
+                                    where username = '$username'")->result();
+            return $q[0]->num_rows;
+        }
+	function my_history_details($username,$start,$end){
+            if(!isset($start) || !$start){
+                $start = 0;
+            }
+            $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,`subject`,template,date,username,escalation_level,department_name
+                                    from contact_new 
+                                    inner join  companies c on contact_new.company_id = c.id 
+                                    inner join history on contact_new.id = history.receiver_email 
+                                    inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
+                                    inner join departments on contact_new.departmend_id = departments.id
+                                    where username = '$username' LIMIT $start,$end");
+            $data=array();
+            foreach ($q->result() as $history) {
+                $data[] = $history;
+            }
+            return $data;
 	}
-	function admin_history_details(){
-		$q=$this->db->select('date,subject,template');
-		$temp=$q->get('history')->result();
-		$data=array();
-		foreach ($temp as $key => $value) {
-			$data[]=array(
-					'date'=>$value->date,
-					'subject'=>$value->subject,
-					'template'=>$value->template);
-		}
-		return $data;
+        
+	function admin_history_details($start,$end){
+            if(!isset($start) || !$start){
+                $start = 0;
+            }
+            $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,`subject`,template,date,username,escalation_level,department_name
+                                    from contact_new 
+                                    inner join  companies c on contact_new.company_id = c.id 
+                                    inner join history on contact_new.id = history.receiver_email 
+                                    inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
+                                    inner join departments on contact_new.departmend_id = departments.id
+                                    LIMIT $start,$end");
+            $data=array();
+            foreach ($q->result() as $history) {
+                $data[] = $history;
+            }
+            return $data;
 	}
 }

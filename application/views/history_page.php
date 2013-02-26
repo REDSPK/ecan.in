@@ -1,27 +1,32 @@
- <?php
-/*
-$assistance_type=array(
-      'Short Sale'=>'Short Sale',
-      'Loan Modification'=>'Loan Modification',
-      'Other'=>'Other');
-$form_attributes = array('class' => 'form-horizontal', 'id'=>'application_form');
-echo form_open('template/post_email', $form_attributes);
-?>
- last week, month, and then archived where they can see things by years and months.
- echo form_label('N0 of contacts to send Mail: ');
-          echo form_dropdown('limit', $limit,set_value('limit'), 'id="limit"class="span3"');
-*/
-
+<div class ='pagination pagination-centered'>
+<?php
 if(!$history)
 echo "You don't have any recorded history";
 else{
+        echo "<table class='table table-striped'>";
+        echo "<th>First Name</th>
+              <th>Suffix</th>
+              <th>Last Name</th>
+              <th>Company Name</th>
+              <th>Escalation Level</th>
+              <th>Department</th>
+              <th>Job Title</th>
+              <th>Sent</th>
+                        ";
 	foreach ($history as $h){
-		echo "<strong>DAte: </strong>".$h['date'];
-		echo '<br>';
-		echo "<strong>Subject: </strong>".$h['subject'];
-		echo '<br>';
-		echo "<strong>Template: </strong><br>".$h['template'];
-		echo '<hr/>';
-		echo '<br>';
+           echo "<tr>
+                    <td>$h->first_name</td>
+                    <td>$h->suffix</td>
+                    <td>$h->last_name</td>
+                    <td>$h->company_name</td>
+                    <td>$h->escalation_level</td>
+                    <td>$h->department_name</td>
+                    <td>$h->job_title</td>
+                    <td>$h->date</td>
+               </tr>";
 	}
+        echo "</table>";
+        echo $this->pagination->create_links();
 }
+?>
+</div>

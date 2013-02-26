@@ -29,6 +29,7 @@
                       <li><?php echo anchor('site/member_area','Home'); ?></li>
                       <li><?php echo anchor('edit_profile','Edit Profile'); ?></li>
                       <li><?php echo anchor('site/history_detail','History'); ?></li>
+                      <li><?php echo anchor('paypal/buy_credits','Buy Credits'); ?></li>
                       <?php
                 else: ?>
                       <li><?php echo anchor('login','Home'); ?></li><?php

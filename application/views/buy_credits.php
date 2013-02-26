@@ -6,7 +6,7 @@
         <table class="table-bordered">
             <tr>
                 <td>
-                    500 credits for <span style="color:green">$<?=ECAN500_PRICE;?>.00</span>
+                    500 credits for <span style="color:green">$<?=rtrim(ECAN500_PRICE,"0");?>.00</span>
                 </td>
                 <td>
                     <form action="<?=PAYPAL_URL?>" method="post">

@@ -74,66 +74,70 @@ class Template_model extends CI_Model{
     }
 
     function get_contacts($limit){
-    $array = array(
-    'level'              => $this->input->post('level'),
-    'type'          => $this->input->post('loan_type'),
-    'company'          => $this->input->post('companies'),
-    'department'        => $this->input->post('departments'),
-    'section'           => $this->input->post('sections')
-    );
-      if($limit=="all"){
-      $q=$this->db->select('e_mail_address, first_name, middle_name, last_name')
-        ->from('contacts')
-        ->where($array);
-      }
-      else{
-        $q=$this->db->select('e_mail_address, first_name, middle_name, last_name')
-        ->from('contacts')
-        ->where($array)
-        ->limit($limit);
-      }
+        $array = array(
+                    'level'              => $this->input->post('level'),
+                    'type'          => $this->input->post('loan_type'),
+                    'company'          => $this->input->post('companies'),
+                    'department'        => $this->input->post('departments'),
+                    'section'           => $this->input->post('sections')
+                    );
+        if($limit=="all"){
+            $q=$this->db->select('e_mail_address, first_name, middle_name, last_name')
+            ->from('contacts')
+            ->where($array);
+        }
+        else{
+            $q=$this->db->select('e_mail_address, first_name, middle_name, last_name')
+            ->from('contacts')
+            ->where($array)
+            ->limit($limit);
+        }
 
-      $contacts=array();
-      foreach ($q->get()->result() as $key => $value) {
-        $contacts[]=array(
-        'name'=>$value->first_name." ".$value->middle_name." ".$value->last_name,
-        'email'=>$value->e_mail_address);
-      }
+        $contacts=array();
+        
+        foreach ($q->get()->result() as $key => $value) {
+            $contacts[]=array(
+            'name'=>$value->first_name." ".$value->middle_name." ".$value->last_name,
+            'email'=>$value->e_mail_address);
+        }
 
-    return $contacts;
+        return $contacts;
     }
-    function get_contacts_new(){
-       $companies =$this->input->post('companies');
-       $condition = array();
-        if($companies ==1)
+    
+    function get_contacts_new($limit){
+        $companies =$this->input->post('companies');
+        $condition = array();
+        if($companies == 1)
         {
-
-          $condition['company_id'] =$this->input->post('company_id');
-          $condition['lien_position'] =$this->input->post('lien_position');
-          $condition['departmend_id'] =$this->input->post('department');
-          $condition['section_id'] =$this->input->post('section');
-          $condition['loan_type_id'] =$this->input->post('loan_type');
+            $condition['company_id'] = $this->input->post('company_id');
+            $condition['lien_position'] = $this->input->post('lien_position');
+            $condition['departmend_id'] = $this->input->post('department');
+            $condition['section_id'] = $this->input->post('section');
+            $condition['loan_type_id'] = $this->input->post('loan_type');
+            $condition['escalation_level_id'] = $this->input->post('escalation_level');
+        }
+        else {
+            $condition['escalation_level_id'] = $this->input->post('escalation_level');
         }
         
-        $condition['escalation_level_id'] =$this->input->post('escalation_level');
-
-        $q=$this->db->select('email, first_name, suffix, last_name')
-        ->from('contact_new')
-        ->where($condition);
-
-      $contacts=array();
-      foreach ($q->get()->result() as $key => $value) {
-        $contacts[]=array(
-        'name'=>$value->first_name." ".$value->suffix." ".$value->last_name,
-        'email'=>$value->email);
-      }
-    return $contacts;
+        $q = $this->db->select('id,email, first_name, suffix, last_name')->from('contact_new')
+        ->where($condition)->order_by('','random')->limit($limit)->get()->result();
+        $contacts=array();
+        foreach ($q as $contact) {
+            $contacts[]=array(
+            'name'=> $contact->first_name." ".$contact->suffix." ".$contact->last_name,
+            'email'=> $contact->email,
+            'id' => $contact->id );
+        }
+        return $contacts;
     }
-   function save_history($history){
+   
+    function save_history($history) {
           $element = array(
-            'template' =>$history['template'],
-            'subject' =>$history['subject'],
-            'username' =>$history['username']);
+            'template' => $history['template'],
+            'subject' => $history['subject'],
+            'username' => $history['username'],
+            'receiver_email' => $history['receiver_id']);
         return $this->db->insert('history',$element);
-   } 
+    } 
 }

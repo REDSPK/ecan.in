@@ -1,8 +1,9 @@
 <?php
-
+if($success) {
+    echo '<div class="alert alert-success">The contact has been added succesfully</div>';
+}
 ?>
-<html>
-    <form method="POST" action="<?= base_url()?>CSV/do_enter_contact" enctype='multipart/form-data'>
+    <form method="POST" action="<?= base_url()?>csv/do_enter_contact" enctype='multipart/form-data'>
         <fieldset>
         <select name="escalation_level">
             <? 
@@ -73,4 +74,3 @@
         <input type="submit" class="btn btn-inverse" style ='margin-left:150px;'>
         </fieldset>
 </form>
-</html>

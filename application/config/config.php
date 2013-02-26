@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-//$config['base_url']	= 'http://localhost/ecan.in/index.php';
-$config['base_url']	= 'http://ecan.in/index.php';
+$config['base_url']	= 'http://localhost/ecan.in/index.php';
+//$config['base_url']	= 'http://ecan.in/index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +81,7 @@ $config['language']	= 'english';
 | that require a character set to be provided.
 |
 */
+
 $config['charset'] = 'UTF-8';
 
 /*

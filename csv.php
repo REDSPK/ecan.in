@@ -10,7 +10,7 @@ class CSV extends CI_Controller
     
     function __construct() {
         parent::__construct();
-        $this->load->helper('url');
+        
         $this->escalationToCompanyHash = array
         ('CL1'=>1,'ML1'=>1,'ML2'=>1,'ML3'=>1,'ML4'=>1,'OOPG'=>1,'OOP1'=>1,'OOP2'=>1,'OOP3'=>1,'OOP4'=>1,'OOP5'=>1,
          'INVG'=>2,'INV1'=>2,'INV2'=>2,'INV3'=>2,   
@@ -74,19 +74,15 @@ class CSV extends CI_Controller
         }
     }
     
-    function enter_contact($success = null){
+    function enter_contact(){
         $data['escalations'] = $this->escalationToIDHash;
         $data['companies'] = $this->companiesToIDHash;
         $data['lien_position'] = $this->lienToIDHash;
         $data['section'] = $this->sectionsHash;
         $data['department'] = $this->departmentsHash;
         $data['loan_type'] = $this->loanTypeHash;
-        if($success) {
-           $data['success'] = 1;
-        }
-        else {
-            $data['success'] = null;
-        }
+//        var_dump($this->escalationToCompanyHash);
+//        die();
         $data['main_content'] = 'upload_single_contact';
         $this->load->view('includes/template',$data);
     }
@@ -105,7 +101,7 @@ class CSV extends CI_Controller
         $data['lien_position'] = $this->input->post('lien_position');
         $data['company_id'] = $this->input->post('companies');
         if($this->insertContact($data)) {
-            redirect('/csv/enter_contact/success', 'refresh');
+            echo "contact Added";
         }
         else {
             echo "error Adding the contact";

@@ -21,7 +21,7 @@ echo form_open('template/post_email', $form_attributes);
           echo form_dropdown('assistance_type', $assistance_type,set_value('assistance_type'), 'id="assistance_type" class="span3"');
 
           echo form_label('N0 of contacts to send Mail: ');
-          echo form_dropdown('limit', $limit,set_value('limit'), 'id="limit"class="span3"');
+          echo form_dropdown('limit', $limit,set_value('limit'), 'id="limit "class="span3"');
 
           $subject = array(
               'name' => 'subject',

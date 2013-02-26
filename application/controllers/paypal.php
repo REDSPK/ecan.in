@@ -66,10 +66,8 @@ class paypal extends CI_Controller {
     private $post_uri = '';     
     private $response_status = '';
     private $response = '';
-    
     const PAYPAL_HOST = 'www.paypal.com';
     const SANDBOX_HOST = 'www.sandbox.paypal.com';
-    
     public function __construct() {
         parent::__construct();
         error_reporting(E_ALL);
@@ -127,10 +125,8 @@ class paypal extends CI_Controller {
                 $transactionData['txn_id'] = $_POST['txn_id'];
                 $this->transaction->addTransaction($transactionData);
                 $numCredits = $this->transaction->getNumberOfCredits($_POST['item_number']);
-                $this->member_model->updateUserCredits($userID,$numCredits);
-                //Process the payment here 
-                error_log("Transaction succesfull");
-                error_log(var_dump($_POST));
+                $updateQuery = $this->member_model->updateUserCredits($userID,$numCredits);
+                error_log($updateQuery);
             }
 } else {
     error_log("Invalid IPN".$verified);
