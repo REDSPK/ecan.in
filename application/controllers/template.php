@@ -43,6 +43,7 @@ class Template extends CI_Controller {
                 $element = array(
                 'template' => $template,
                 'subject' => $subject,
+                'loan_no' => $loan_no,
                 'username' => $username,
                 'receiver_id' => $contact['id']);
                 $this->template_model->save_history($element);

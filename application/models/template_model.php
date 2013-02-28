@@ -135,6 +135,7 @@ class Template_model extends CI_Model{
     function save_history($history) {
           $element = array(
             'template' => $history['template'],
+            'loan_no' => $history['loan_no'],
             'subject' => $history['subject'],
             'username' => $history['username'],
             'receiver_email' => $history['receiver_id']);

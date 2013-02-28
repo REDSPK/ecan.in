@@ -64,10 +64,12 @@ class Site extends CI_Controller
             $config['full_tag_close'] = '</div>';
             $config['first_link'] = '&larr;First';
             $config['last_link'] = 'Last &rarr;';
+            $data['company_name']=$this->form_model->get_companies_name();
             
             if($this->session->userdata('admin')){
                 
                 $config['total_rows'] = $this->db->get('history')->num_rows();
+                $data['total_rows']=$config['total_rows'];
                 $records = $this->form_model->admin_history_details($this->uri->segment(3),$this->uri->segment(3)+$config['per_page']);
                 $data['history'] = $records;
                 $this->pagination->initialize($config);
@@ -78,12 +80,63 @@ class Site extends CI_Controller
             else
             {
                 $config['total_rows'] = $this->form_model->my_history_rows($this->session->userdata('username'));
+                $data['total_rows']=$config['total_rows'];
                 $records = $this->form_model->my_history_details($this->session->userdata('username'),$this->uri->segment(3),$this->uri->segment(3)+$config['per_page']);
                 $data['history'] = $records;
                 $this->pagination->initialize($config);
                 $data['main_content']='history_page';
                 $this->load->view('includes/template',$data);
             }
+	}//End of history function
+	function admin_search(){
+		 	$this->load->model('form_model');
+            $this->load->library('pagination');
+            $this->load->library('table');
+            $config['base_url'] = base_url().'site/admin_search';
+            
+            $config['per_page'] = 4;
+            $config['uri_segment'] = 3;
+            $config['num_links'] = 20;
+            $config['full_tag_open'] = '<div id="pagination">';
+            $config['full_tag_close'] = '</div>';
+            $config['first_link'] = '&larr;First';
+            $config['last_link'] = 'Last &rarr;';
+            $data['company_name']=$this->form_model->get_companies_name();
+            
+            $this->form_validation->set_rules('loan_no','Loan Number','trim|required');
+			$this->form_validation->set_rules('company_name','Company Name','trim');
+			$this->form_validation->set_rules('username','Company Name','trim');
+			if($this->form_validation->run()==FALSE){
+				$this->history_detail();
+			}
+			else
+			{
+				
+					$param['loan_no'] = $this->input->post('loan_no');
+					$param['company_name'] = $this->input->post('company_name');
+					
+	            if($this->session->userdata('admin')){
+
+	                $param['user_name'] = $this->input->post('user_name');
+	                $config['total_rows'] = $this->form_model->search_num_rows($param);
+	                $data['history'] = $this->form_model->search_admin_history_details($this->uri->segment(3),$this->uri->segment(3)+$config['per_page'],$param);
+	                $this->pagination->initialize($config);
+	                $data['total_rows']=$config['total_rows'];
+	                $data['main_content']='admin_history_page';
+	                $this->load->view('includes/template',$data);
+	             
+	            }
+	            else
+	            {
+	                $config['total_rows'] = $this->form_model->search_my_history_rows($this->session->userdata('username'),$param);
+	                $records = $this->form_model->my_history_details($this->session->userdata('username'),$this->uri->segment(3),$this->uri->segment(3)+$config['per_page'],$param);
+	                $data['history'] = $records;
+	                $data['total_rows']=$config['total_rows'];
+	                $this->pagination->initialize($config);
+	                $data['main_content']='history_page';
+	                $this->load->view('includes/template',$data);
+	            }
+	        }
 	}
 }
 ?>
