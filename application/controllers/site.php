@@ -14,14 +14,6 @@ class Site extends CI_Controller
 	{
 		$member = new CSV();
 		$member->new_members_page();
-		//$this->load->('form_model');
-		/*$data['loan_type']=$this->form_model->get_loan_types();
-		$data['level']=$this->form_model->get_level();
-		$data['companies']=$this->form_model->get_companies();
-		$data['departments']=$this->form_model->get_departments();
-		$data['sections']=$this->form_model->get_sections();
-		$data['main_content']='member_area';
-		$this->load->view('includes/template',$data);*/
 	}
 	function is_logeed_in(){
 		$is_logged_in=$this->session->userdata('is_logged_in');
@@ -89,35 +81,33 @@ class Site extends CI_Controller
             }
 	}//End of history function
 	function admin_search(){
-		 	$this->load->model('form_model');
-            $this->load->library('pagination');
-            $this->load->library('table');
-            $config['base_url'] = base_url().'site/admin_search';
-            
-            $config['per_page'] = 4;
-            $config['uri_segment'] = 3;
-            $config['num_links'] = 20;
-            $config['full_tag_open'] = '<div id="pagination">';
-            $config['full_tag_close'] = '</div>';
-            $config['first_link'] = '&larr;First';
-            $config['last_link'] = 'Last &rarr;';
-            $data['company_name']=$this->form_model->get_companies_name();
-            
-            $this->form_validation->set_rules('loan_no','Loan Number','trim|required');
-			$this->form_validation->set_rules('company_name','Company Name','trim');
-			$this->form_validation->set_rules('username','Company Name','trim');
-			if($this->form_validation->run()==FALSE){
-				$this->history_detail();
-			}
-			else
-			{
-				
-					$param['loan_no'] = $this->input->post('loan_no');
-					$param['company_name'] = $this->input->post('company_name');
-					
-	            if($this->session->userdata('admin')){
+                $this->load->model('form_model');
+                $this->load->library('pagination');
+                $this->load->library('table');
+                $config['base_url'] = base_url().'site/admin_search';
 
-	                $param['user_name'] = $this->input->post('user_name');
+                $config['per_page'] = 4;
+                $config['uri_segment'] = 3;
+                $config['num_links'] = 20;
+                $config['full_tag_open'] = '<div id="pagination">';
+                $config['full_tag_close'] = '</div>';
+                $config['first_link'] = '&larr;First';
+                $config['last_link'] = 'Last &rarr;';
+                $data['company_name']=$this->form_model->get_companies_name();
+
+                $this->form_validation->set_rules('loan_no','Loan Number','trim');
+                $this->form_validation->set_rules('company_name','Company Name','trim');
+                $this->form_validation->set_rules('username','Company Name','trim');
+                if($this->form_validation->run()==FALSE){
+                        $this->history_detail();
+                }
+                else
+                {
+				
+                    $param['loan_no'] = $this->input->post('loan_no');
+                    $param['company_name'] = $this->input->post('company_name');
+	            if($this->session->userdata('admin')){
+	                $param['user_name'] = $this->input->post('username');
 	                $config['total_rows'] = $this->form_model->search_num_rows($param);
 	                $data['history'] = $this->form_model->search_admin_history_details($this->uri->segment(3),$this->uri->segment(3)+$config['per_page'],$param);
 	                $this->pagination->initialize($config);
@@ -129,7 +119,7 @@ class Site extends CI_Controller
 	            else
 	            {
 	                $config['total_rows'] = $this->form_model->search_my_history_rows($this->session->userdata('username'),$param);
-	                $records = $this->form_model->my_history_details($this->session->userdata('username'),$this->uri->segment(3),$this->uri->segment(3)+$config['per_page'],$param);
+	                $records = $this->form_model->search_my_history_details($this->session->userdata('username'),$this->uri->segment(3),$this->uri->segment(3)+$config['per_page'],$param);
 	                $data['history'] = $records;
 	                $data['total_rows']=$config['total_rows'];
 	                $this->pagination->initialize($config);

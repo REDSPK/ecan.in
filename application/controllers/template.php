@@ -20,8 +20,7 @@ class Template extends CI_Controller {
 	}
     public function post_email(){
         $this->load->model('template_model');
-       
-        $loan_no = $this->input->post('loan_no');
+        $loan_no = $this->input->post('loan_number');
         $date =	$this->input->post('date');
         $limit = $this->input->post('num_of_mails');
         $subject="";
@@ -35,9 +34,9 @@ class Template extends CI_Controller {
         if($contacts) {
             foreach ($contacts as $contact) 
             {
-                $template=$this->template_model->selectTemplate($contact,$name,$signature);
+                $template = $this->template_model->selectTemplate($contact,$name,$signature,$loan_no);
                 echo "<h3>mail to " .$contact['name']." his email: ". $contact['email']."</h3><br>";
-                $subject ="SALE DATE: ".$this->input->post('date')." - ".$this->input->post('subject')." - LN#:".$this->input->post('loan_no')."-".$this->input->post('client_name');
+                $subject ="SALE DATE: ".$this->input->post('date')." - ".$this->input->post('subject')." - LN#:".$this->input->post('loan_number')."-".$this->input->post('client_name');
                 echo $subject."<br>";
                 /*--save_history for admin*/
                 $element = array(

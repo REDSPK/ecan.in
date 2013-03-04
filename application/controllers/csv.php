@@ -65,7 +65,9 @@ class CSV extends CI_Controller
                 $data['departmend_id'] = $this->getDepartmentID(trim($contact['Department']));
                 $data['lien_position'] = $this->getLientPositionID(trim($contact['Lien Position']));
                 $data['company_id'] = $this->getCompanyID($contact['Company'], $this->getCompanyTypeFromEscalation(trim($contact['Level'])));
-                $this->insertContact($data);
+                if(!$this->isDuplicate($data['email'])) {
+                    $this->insertContact($data);
+                }
             }
         }
         else {
@@ -93,6 +95,13 @@ class CSV extends CI_Controller
     
     function do_enter_contact() {
         $data = array();
+        $companyName =  $this->input->post('company_name_text');
+        $companyType = $this->input->post('companies');
+        if(!empty($companyName)) {
+            $companyID = $this->insertCompany($companyName, $companyType);
+        }else {
+            $companyID = $this->input->post('company_id');
+        }
         $data['first_name'] = $this->input->post('first_name');
         $data['suffix'] = $this->input->post('middle_name');
         $data['last_name'] = $this->input->post('last_name');
@@ -103,13 +112,19 @@ class CSV extends CI_Controller
         $data['loan_type_id'] = $this->input->post('loan_type');
         $data['departmend_id'] = $this->input->post('department');
         $data['lien_position'] = $this->input->post('lien_position');
-        $data['company_id'] = $this->input->post('companies');
-        if($this->insertContact($data)) {
-            redirect('/csv/enter_contact/success', 'refresh');
+        $data['company_id'] = $companyID;
+        if(!$this->isDuplicate($this->input->post('email'))) {
+            if($this->insertContact($data)) {
+                echo 1;
+            }
+            else {
+                echo "error Adding the contact";
+            }
         }
         else {
-            echo "error Adding the contact";
+            echo 0;
         }
+        
     }
     
     function new_members_page() {
@@ -215,7 +230,12 @@ class CSV extends CI_Controller
         }
     }
     
-    function insertContact($data) {
+    function insertCompany($companyName,$companyType) {
+        $this->db->insert('companies',array('company_type_id'=>$companyType,'company_name'=>$companyName));
+        return $this->db->insert_id();
+    }
+    
+    private function insertContact($data) {
         return $this->db->insert('contact_new',$data);
     }
     
@@ -240,6 +260,32 @@ class CSV extends CI_Controller
             //still to figure what to do here
             return;
         }
+    }
+    
+    function get_company_name_dropdowns() {
+        $companyTypeID = $this->input->get('company_type');
+        $companies = $this->db->where('company_type_id',$companyTypeID)->get('companies')->result();
+        if($companies){
+            $returnHTML = "<select name='company_id' id='company_id'>";
+            foreach($companies as $company) {
+                $returnHTML .= "<option value=$company->id>$company->company_name</option>";
+            }
+            $returnHTML .= "</select>";
+            echo $returnHTML;
+        }
+        else {
+            //still to figure what to do here
+            echo "<select name='company_id' id='company_id'><option value=''>no company found</option></select>";
+        }
+    }
+    
+    private function isDuplicate($email) {
+        $contacts = $this->db->where('email',$email)->get('contact_new')->result();
+        if($contacts):
+            return true;
+        else:
+            return false;
+        endif;
     }
 }
 ?>

@@ -3,6 +3,49 @@ if($success) {
     echo '<div class="alert alert-success">The contact has been added succesfully</div>';
 }
 ?>
+<script>
+    $(function(){
+       var company_type_selected = $('#companies').val();
+       $.ajax({
+           url:'<?= base_url()?>csv/get_company_name_dropdowns?company_type='+company_type_selected,
+           type:'GET',
+            success: function(data){
+                $('#companies_names').html(data);
+            } 
+       });
+       
+       $('#companies').live('change',function(e){
+           console.log('here');
+            company_type_selected = $('#companies').val();
+            $.ajax({
+               url:'<?= base_url()?>csv/get_company_name_dropdowns?company_type='+company_type_selected,
+               type:'GET',
+                success: function(data){
+                    $('#companies_names').html(data);
+                } 
+            }); 
+       });
+       $('form').on('submit',function(e){
+            $('.alert').remove();
+            e.preventDefault();
+            $.ajax({
+            url:$(this).attr('action'),
+            type:'POST',
+            data:$(this).serialize(),
+            success: function(data){
+                var msg;
+                if(data == 1){
+                    msg = '<div class="alert alert-success">The contact has been added succesfully</div>';
+                }
+                else {
+                    msg = '<div class="alert alert-error">Duplicate E-mail. Another contact with this email already exist</div>'; 
+                }
+                $('form').before(msg)
+            }
+            });
+       })
+    });
+</script>
     <form method="POST" action="<?= base_url()?>csv/do_enter_contact" enctype='multipart/form-data'>
         <fieldset>
         <select name="escalation_level">
@@ -15,7 +58,7 @@ if($success) {
             ?>
         </select>
         <br/>
-        <select name="companies">
+        <select name="companies" id='companies'>
             <? 
                 foreach($companies as $key=>$value):
             ?>
@@ -25,6 +68,12 @@ if($success) {
             ?>
         </select>
         <br/>
+        <div id="companies_names">
+            
+        </div>
+        OR
+        <br/>
+        <input type="text" name="company_name_text" placeholder="Type the company name here" /> <br/>
         <select name="lien_position">
             <? 
                 foreach($lien_position as $key=>$value):

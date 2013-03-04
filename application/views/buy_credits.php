@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <td>
-                    1500 credits for <span style="color:green">$<?=ECAN1500_PRICE;?>.00</span>
+                    1500 credits for <span style="color:green">$<?=ECAN1500_PRICE;?></span>
                 </td>
                 <td>
                     <form action="<?=PAYPAL_URL?>" method="post">
@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td>
-                    2500 credits for <span style="color:green">$<?=ECAN2500_PRICE;?>.00</span>
+                    2500 credits for <span style="color:green">$<?=ECAN2500_PRICE;?>0</span>
                 </td>
                 <td>
                     <form action="<?=PAYPAL_URL?>" method="post">
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <td>
-                    5000 credits for <span style="color:green">$<?=ECAN5000_PRICE;?>.00</span>
+                    5000 credits for <span style="color:green">$<?=ECAN5000_PRICE;?>0</span>
                 </td>
                 <td>
                     <form action="<?=PAYPAL_URL?>" method="post">
@@ -79,7 +79,7 @@
             </tr>
             <tr>
                 <td>
-                    10000 credits for <span style="color:green">$<?=ECAN10000_PRICE;?>.00</span>
+                    10000 credits for <span style="color:green">$<?=ECAN10000_PRICE;?>0</span>
                 </td>
                 <td>
                     <form action="<?=PAYPAL_URL?>" method="post">
@@ -98,7 +98,7 @@
             </tr>
             <tr>
                 <td>
-                    25000 credits for <span style="color:green">$<?=ECAN25000_PRICE;?>.00</span>
+                    25000 credits for <span style="color:green">$<?=ECAN25000_PRICE;?>0</span>
                 </td>
                 <td>
                     <form action="<?=PAYPAL_URL?>" method="post">

@@ -1,37 +1,47 @@
 <?php 
 $attributes = array(
-  'id' => 'search_form',
-  'name'=> 'search_form');
+    'id' => 'search_form',
+    'name'=> 'search_form',
+    'class'=>'form-inline');
+
 echo form_open('site/admin_search',$attributes);
+
 $loan_no = array(
     'name' => 'loan_no',
     'id'=> 'loan_no',
-    'class' => 'span3',
+    'class' => 'span2',
     'value' => set_value('loan_no'),
-    'placeholder'=>"Type loan_no here..."
+    'placeholder'=>"Type loan_no here...",
+    'style'=>'margin-left:9px;margin-right:9px;'
     );
 echo form_label('Loan Number: ');
 echo form_input($loan_no);
 
-echo form_label('Company Name: ');
-echo form_dropdown('company_name', $company_name,set_value('company_name'), 'id="company_name"');
 
 $username = array(
     'name' => 'username',
     'id'=> 'username',
-    'class' => 'span3',
+    'class' => 'span2',
     'value' => set_value('username'),
     'placeholder'=>"Type username here..."
     );
 echo form_label('username: ');
 echo form_input($username);
-echo form_submit('search', 'Search');
+echo form_submit(array('name'=>'search','class'=>'btn btn-primary','value'=>'Search','style'=>'margin-left:9px;'));
 echo validation_errors('<p class="error">','</p>');
 echo form_close();
 ?>
-
-
-<h3>Total number of records are <?php echo $total_rows;?>.</h3>
+<script>
+$(function(){
+   $('#search_form').submit(function(e){
+       if($('#loan_no').val() == '' && $('#username').val() == '') {
+           e.preventDefault();
+           alert('You must specify atleast 1 search criteria');
+           return false;
+       }
+   });
+});
+</script>
 
 <div class ='pagination pagination-centered'>
 <?php

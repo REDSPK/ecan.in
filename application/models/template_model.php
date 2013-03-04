@@ -21,7 +21,7 @@ class Template_model extends CI_Model{
         return $part;
     }
     
-     public function selectTemplate($contact,$username,$signature) {
+     public function selectTemplate($contact,$username,$signature,$loanNumber) {
         $firstname = $contact['name'];
         $typeOfAssitance = "sample type of assitance";
         $additionalComments = $this->input->post('comment');

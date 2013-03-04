@@ -1,14 +1,16 @@
 <?php 
 $attributes = array(
   'id' => 'search_form',
-  'name'=> 'search_form');
+    'name'=> 'search_form',
+   'class'=>'form-inline');
 echo form_open('site/admin_search',$attributes);
 $loan_no = array(
     'name' => 'loan_no',
     'id'=> 'loan_no',
-    'class' => 'span3',
+    'class' => 'span2',
     'value' => set_value('loan_no'),
-    'placeholder'=>"Type loan_no here..."
+    'placeholder'=>"Type loan_no here...",
+    'style'=>'margin-left:9px;margin-right:9px;'
     );
 echo form_label('Loan Number: ');
 echo form_input($loan_no);
@@ -16,13 +18,21 @@ echo form_input($loan_no);
 echo form_label('Company Name: ');
 echo form_dropdown('company_name', $company_name,set_value('company_name'), 'id="company_name"');
 
-echo form_submit('search', 'Search');
+echo form_submit(array('name'=>'search','class'=>'btn btn-primary','value'=>'Search','style'=>'margin-left:9px;'));
 echo validation_errors('<p class="error">','</p>');
 echo form_close();
 ?>
-
-
-<h3>Total number of records are <?php echo $total_rows;?>.</h3>
+<script>
+$(function(){
+   $('#search_form').submit(function(e){
+       if($('#loan_no').val() == '' && $('#company_name').val() == '') {
+           e.preventDefault();
+           alert('You must specify atleast 1 search criteria');
+           return false;
+       }
+   });
+});
+</script>
 <div class ='pagination pagination-centered'>
 <?php
 if(!$history)
@@ -31,7 +41,6 @@ else{
         echo "<table class='table table-striped'>";
         echo "<th>First Name</th>
               <th>Suffix</th>
-              <th>Last Name</th>
               <th>Company Name</th>
               <th>Loan Number</th>
               <th>Escalation Level</th>
@@ -43,7 +52,6 @@ else{
            echo "<tr>
                     <td>$h->first_name</td>
                     <td>$h->suffix</td>
-                    <td>$h->last_name</td>
                     <td>$h->company_name</td>
                     <td>$h->loan_no</td>
                     <td>$h->escalation_level</td>
