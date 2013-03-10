@@ -13,41 +13,49 @@ class Login extends CI_Controller {
 	function validate_cradentials(){
 		$this->load->model('member_model');
 		$query= $this->member_model->validate();
-		if($query=='ac'){
-				$data = array(
-					'username' => $this->input->post('username'),
-					'is_logged_in' => true,
-					'admin'=>FALSE );
-				$this->session->set_userdata($data);
-				redirect('site/member_area');
+		if($query==END_USER_LOGGED_IN){
+                    $data = array(
+                        'username' => $this->input->post('username'),
+                        'is_logged_in' => true,
+                        'admin'=>FALSE,
+                        'employee' =>FALSE
+                        );
+                    $this->session->set_userdata($data);
+                    redirect('site/member_area');
 		}
-		else if($query=='na')
+		else if($query==ACCOUNT_NOT_ACTIVATED)
 		{
-			$data['message']='Your Account is not activated.Please activate through the link we had sent you.';
-			$data['main_content']='mail_error';
-			$this->load->view('includes/template',$data);
+                    $data['message']='Your Account is not activated.Please activate through the link we had sent you.';
+                    $data['main_content']='mail_error';
+                    $this->load->view('includes/template',$data);
 		}
-		else if($query=='pe')
+		else if($query==INVALID_USERNAME_PASSWORD)
 		{
-			$data['message']='Your username or password may wrong.';
-			$data['main_content']='mail_error';
-			$this->load->view('includes/template',$data);
+                    $data['message']='Your username or password may wrong.';
+                    $data['main_content']='mail_error';
+                    $this->load->view('includes/template',$data);
 		}
-		else if($query=='ne')
+		else if($query == ADMIN_USER_LOGGED_IN)
 		{
-			$data['message']='Account with such username and password does not exist.';
-			$data['main_content']='signup_unsuccessful';
-			$this->load->view('includes/template',$data);
+                    $data = array(
+                        'username' => $this->input->post('username'),
+                        'is_logged_in' => true,
+                        'admin'=>true,
+                        'employee' =>FALSE
+                        );
+                    $this->session->set_userdata($data);
+                    redirect('admin/admin_area');
 		}
-		else if($query=='admin')
-		{
-			$data = array(
-					'username' => $this->input->post('username'),
-					'is_logged_in' => true,
-					'admin'=>true );
-				$this->session->set_userdata($data);
-				redirect('admin/admin_area');
-		}
+                else if ($query == EMPLOYEE_LOGGED_IN) {
+                    $data = array(
+                        'username' => $this->input->post('username'),
+                        'is_logged_in' => true,
+                        'admin'=>true,
+                        'employee' =>true    
+                        );
+                    $this->session->set_userdata($data);
+                    redirect('admin/admin_area');
+                }
 		else
 		{
 			$this->index();

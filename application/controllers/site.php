@@ -44,12 +44,13 @@ class Site extends CI_Controller
 		);
 	}
 	function history_detail() {
+            
             $this->load->model('form_model');
             $this->load->library('pagination');
             $this->load->library('table');
             $config['base_url'] = base_url().'site/history_detail';
             
-            $config['per_page'] = 4;
+            $config['per_page'] = 10;
             $config['uri_segment'] = 3;
             $config['num_links'] = 20;
             $config['full_tag_open'] = '<div id="pagination">';
@@ -61,19 +62,18 @@ class Site extends CI_Controller
             if($this->session->userdata('admin')){
                 
                 $config['total_rows'] = $this->db->get('history')->num_rows();
-                $data['total_rows']=$config['total_rows'];
-                $records = $this->form_model->admin_history_details($this->uri->segment(3),$this->uri->segment(3)+$config['per_page']);
+                $data['total_rows'] = $config['total_rows'];
+                $records = $this->form_model->admin_history_details($this->uri->segment(3),$config['per_page']);
                 $data['history'] = $records;
                 $this->pagination->initialize($config);
                 $data['main_content']='admin_history_page';
                 $this->load->view('includes/template',$data);
-             
             }
             else
             {
                 $config['total_rows'] = $this->form_model->my_history_rows($this->session->userdata('username'));
                 $data['total_rows']=$config['total_rows'];
-                $records = $this->form_model->my_history_details($this->session->userdata('username'),$this->uri->segment(3),$this->uri->segment(3)+$config['per_page']);
+                $records = $this->form_model->my_history_details($this->session->userdata('username'),$this->uri->segment(3),$config['per_page']);
                 $data['history'] = $records;
                 $this->pagination->initialize($config);
                 $data['main_content']='history_page';
@@ -86,7 +86,7 @@ class Site extends CI_Controller
                 $this->load->library('table');
                 $config['base_url'] = base_url().'site/admin_search';
 
-                $config['per_page'] = 4;
+                $config['per_page'] = 10;
                 $config['uri_segment'] = 3;
                 $config['num_links'] = 20;
                 $config['full_tag_open'] = '<div id="pagination">';
@@ -109,7 +109,7 @@ class Site extends CI_Controller
 	            if($this->session->userdata('admin')){
 	                $param['user_name'] = $this->input->post('username');
 	                $config['total_rows'] = $this->form_model->search_num_rows($param);
-	                $data['history'] = $this->form_model->search_admin_history_details($this->uri->segment(3),$this->uri->segment(3)+$config['per_page'],$param);
+	                $data['history'] = $this->form_model->search_admin_history_details($config['per_page'],$this->uri->segment(3),$param);
 	                $this->pagination->initialize($config);
 	                $data['total_rows']=$config['total_rows'];
 	                $data['main_content']='admin_history_page';
@@ -119,7 +119,7 @@ class Site extends CI_Controller
 	            else
 	            {
 	                $config['total_rows'] = $this->form_model->search_my_history_rows($this->session->userdata('username'),$param);
-	                $records = $this->form_model->search_my_history_details($this->session->userdata('username'),$this->uri->segment(3),$this->uri->segment(3)+$config['per_page'],$param);
+	                $records = $this->form_model->search_my_history_details($this->session->userdata('username'),$config['per_page'],$this->uri->segment(3),$param);
 	                $data['history'] = $records;
 	                $data['total_rows']=$config['total_rows'];
 	                $this->pagination->initialize($config);

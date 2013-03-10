@@ -41,6 +41,27 @@ define('FOPEN_READ_WRITE_CREATE_STRICT','x+b');
 /*
 |--------------------------------------------------------------------------
  */
+
+
+/**
+ * Table Names
+ */
+define('CONTACTS_TABLE','contact_new');
+
+
+
+/**
+ * Error Codes
+ */
+define('INVALID_USERNAME_PASSWORD',-1000);
+define('ACCOUNT_NOT_ACTIVATED',-1001);
+define('ADMIN_USER_LOGGED_IN',999);
+define('EMPLOYEE_LOGGED_IN',998);
+define('END_USER_LOGGED_IN',997);
+define('NOT_ACTIVATED',0);
+
+define('EMPLOYEE_TYPE',1);
+define('END_USER_TYPE',0);
 define('CODE','code');
 define('MSG','message');
 define('DATA','data');
@@ -94,6 +115,11 @@ define('PAYPAL_CALLBACK_URL',"http://ecan.in/index.php"."/paypal/notify_paypal")
 
 //define('PAYPAL_RETURN_URL', "http://localhost/ecan.in/index.php"."/paypal/thankyou");
 //define('PAYPAL_CALLBACK_URL',"http://localhost/ecan.in/index.php"."/paypal/notify_paypal");
+
+
+define('SEARCH_BY_USERNAME',1);
+define('SEARCH_BY_EMAIL',2);
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

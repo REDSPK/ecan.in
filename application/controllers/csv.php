@@ -252,7 +252,7 @@ class CSV extends CI_Controller
     }
     
     function getCompaniesFromCompanyType($companyTypeID) {
-        $companies = $this->db->where('company_type_id',$companyTypeID)->get('companies')->result();
+        $companies = $this->db->where('company_type_id',$companyTypeID)->order_by("company_name", "asc")->get('companies')->result();
         if($companies){
             return $companies;
         }
@@ -264,11 +264,17 @@ class CSV extends CI_Controller
     
     function get_company_name_dropdowns() {
         $companyTypeID = $this->input->get('company_type');
-        $companies = $this->db->where('company_type_id',$companyTypeID)->get('companies')->result();
+        $companyID = $this->input->get('company_id');
+        $companies = $this->db->where('company_type_id',$companyTypeID)->order_by("company_name", "asc")->get('companies')->result();
         if($companies){
             $returnHTML = "<select name='company_id' id='company_id'>";
             foreach($companies as $company) {
-                $returnHTML .= "<option value=$company->id>$company->company_name</option>";
+                if($companyID == $company->id){
+                    $returnHTML .= "<option value=$company->id selected='selected'>$company->company_name</option>";
+                }
+                else {
+                    $returnHTML .= "<option value=$company->id>$company->company_name</option>";
+                }
             }
             $returnHTML .= "</select>";
             echo $returnHTML;
@@ -286,6 +292,96 @@ class CSV extends CI_Controller
         else:
             return false;
         endif;
+    }
+    
+    public function all_contacts(){
+         $this->load->library('pagination');
+            $config['base_url'] = base_url().'csv/all_contacts';
+            $config['total_rows'] = $this->db->count_all('contact_new');
+            $config['per_page'] = 10;
+            $config['uri_segment'] = 3;
+            $config['num_links'] = 20;
+
+            $config['full_tag_open'] = '<div id="pagination">';
+            $config['full_tag_close'] = '</div>';
+
+            $config['first_link'] = '&larr;First';
+            $config['last_link'] = 'Last &rarr;';
+
+            $this->pagination->initialize($config);
+
+            $data['main_content']='contacts';
+            $records = $this->db->select('contact_new.id,first_name,last_name,job_title,email,company_name,escalation_level')->from('contact_new')->join('companies','contact_new.company_id = companies.id','inner')
+                        ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->limit($config['per_page'],$this->uri->segment(3))
+                        ->get()->result();
+            $data['record']= $records;
+            $this->load->view('includes/template',$data);
+    }
+    
+    public function delete_contact(){
+        $email = $this->input->post('email');
+        $this->db->delete(CONTACTS_TABLE, array('email' => $email));
+//        echo $this->db->last_query();
+    }
+    
+    public function edit_contact($id,$success = null){
+        if($success) {
+           $data['success'] = 1;
+        }
+        else {
+            $data['success'] = null;
+        }
+        $result = $this->db->select('*')->from('contact_new')->where(array('id'=>$id))->get()->result();
+        $data['contact'] = $result[0];
+        $data['escalations'] = $this->escalationToIDHash;
+        $data['companies'] = $this->companiesToIDHash;
+        $data['lien_position'] = $this->lienToIDHash;
+        $data['section'] = $this->sectionsHash;
+        $data['department'] = $this->departmentsHash;
+        $data['loan_type'] = $this->loanTypeHash;
+        $data['main_content']='edit_contact';
+        $this->load->view('includes/template',$data);
+        
+    }
+    
+    function do_edit_contact($contactId){
+        $data = array();
+        $companyName =  $this->input->post('company_name_text');
+        $companyType = $this->input->post('companies');
+        if(!empty($companyName)) {
+            $companyID = $this->insertCompany($companyName, $companyType);
+        }else {
+            $companyID = $this->input->post('company_id');
+        }
+        $data['first_name'] = $this->input->post('first_name');
+        $data['suffix'] = $this->input->post('middle_name');
+        $data['last_name'] = $this->input->post('last_name');
+        $data['job_title'] = $this->input->post('job_title');
+        $data['email'] = $this->input->post('email');
+        $data['escalation_level_id'] = $this->input->post('escalation_level');
+        $data['section_id'] = $this->input->post('section');
+        $data['loan_type_id'] = $this->input->post('loan_type');
+        $data['departmend_id'] = $this->input->post('department');
+        $data['lien_position'] = $this->input->post('lien_position');
+        $data['company_id'] = $companyID;
+        if(!$this->isDuplicate($this->input->post('email'))) {
+            if($this->editContact($contactId,$data)) {
+                echo 1;
+            }
+            else {
+                echo "error Adding the contact";
+            }
+        }
+        else {
+            echo 0;
+        }
+    }
+    private function editContact($contactID,$data){
+        $this->db->where(array('id'=>$contactID));
+        $this->db->update('contact_new',$data);
+        echo $this->db->last_query();
+        die();
+        return true;
     }
 }
 ?>

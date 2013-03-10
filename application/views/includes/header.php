@@ -12,6 +12,7 @@
     <script src="<?php echo base_url().'../assets/js/jquery.js' ?>"></script>
     <script src="<?php echo base_url().'../assets/js/jquery.validate.min.js' ?>"></script>
     <script src="<?php echo base_url().'../assets/js/bootstrap.min.js' ?>"></script>
+    <script src="<?php echo base_url().'../assets/js/lightbox_me.js' ?>"></script>
   </head>
 
   <body>
@@ -40,6 +41,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Dropdown <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                       <li><?php echo anchor('admin/admin_area','Admin Panel'); ?></li>
+                      <li><?php echo anchor('csv/all_contacts','Contacts'); ?></li>
                       <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
                       <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
                     </ul></li>

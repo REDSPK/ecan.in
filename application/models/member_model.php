@@ -6,34 +6,26 @@ class Member_model extends CI_Model
 	{
 		$this->db->where('username',$this->input->post('username'));
 		$this->db->where('password',md5($this->input->post('password')));
-		$this->db->where('activated',1);
-		$query =$this->db->get('member');
-		if($query->num_rows==1)
-		{
-			return "ac";
+		$result =$this->db->get('member')->result();
+		if(count($result) >= 1)
+		{                        
+                    $result = $result[0];
+                    if($result->activated == NOT_ACTIVATED){
+                        return ACCOUNT_NOT_ACTIVATED;
+                    }
+                    else if ($result->admin == 1) {
+                        return ADMIN_USER_LOGGED_IN;
+                    }
+                    else if ($result->user_type == EMPLOYEE_TYPE){
+                        return EMPLOYEE_LOGGED_IN;
+                    }
+                    else {
+                        return END_USER_LOGGED_IN;
+                    }
 		}
-		$array = array('username' => $this->input->post('username'), 'password' => md5($this->input->post('password')), 'admin' => 1);
-		$this->db->where($array);
-		$query =$this->db->get('member');
-		if($query->num_rows==1)
-		{
-			return 'admin';
-		}
-		$array = array('username' => $this->input->post('username'), 'password' => md5($this->input->post('password')), 'activated !=' => 1);
-		$this->db->where($array);
-		$query =$this->db->get('member');
-		if($query->num_rows==1)
-		{
-			return 'na';
-		}
-		$array = array('username' => $this->input->post('username'), 'password !=' => md5($this->input->post('password')));
-		$this->db->where($array);
-		$query =$this->db->get('member');
-		if($query->num_rows==1)
-		{
-			return 'pe';
-		}
-		return 'ne';
+                else {
+                    return INVALID_USERNAME_PASSWORD;
+                }
 	}
 	function create_member(){
 		$new_member = array(
@@ -167,12 +159,14 @@ class Member_model extends CI_Model
 		);
 		return $member;
     }
+    
     function get_member_name($username){
     	$this->db->where('username',$username);
 		$query =$this->db->get('member')->result();
 		
 		return $query[0]->first_name.' '.$query[0]->last_name;
     }
+    
     function updateUserCredits($userID,$numCredits) {
         if($this->db->query('UPDATE member SET credits = credits + '.$numCredits.' WHERE username = '."'$userID'")){
             return true;
@@ -181,6 +175,21 @@ class Member_model extends CI_Model
             return false;
         }
     }
+    
+    function deductUserCredits($userID,$numCredits) {
+        if($this->db->query('UPDATE member SET credits = credits - '.$numCredits.' WHERE username = '."'$userID'")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    function getUserCredits($username) {
+        $result = $this->db->select('credits')->from('member')->where('username',$username)->get()->result();
+        return $result[0]->credits;
+    }
+    
     function save_profile_data($username){
     	$update_member = array(
 			'first_name' => $this->input->post('first_name'),
@@ -206,6 +215,24 @@ class Member_model extends CI_Model
         ->where('username',$username)->get()->result();
 
        return $signature='<strong>Phone:</strong> '.$value[0]->company_telephone."<br>".'<strong>Company:</strong> '.$value[0]->company_name." ".$value[0]->company_street_address." ".$value[0]->company_city."<br>".'<strong>Email:</strong> '.$value[0]->email_address;
+    }
+    
+    function searchUser(){
+        $criteria = $this->input->post('search_criteria');
+        $phrase = $this->input->post('phrase');
+        if($criteria == SEARCH_BY_EMAIL) {
+            $result = $this->db->select('*')->from('member')->where('email_address',$phrase)->get()->result();
+        }
+        else if ($criteria == SEARCH_BY_USERNAME) {
+            $result = $this->db->select('*')->from('member')->where('username',$phrase)->get()->result();
+        }
+        if(count($result)>0){
+            return $result[0];
+        }
+        else {
+            return FALSE;
+        }
+        
     }
 }
 ?>

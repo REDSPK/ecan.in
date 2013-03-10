@@ -75,11 +75,11 @@ class Template_model extends CI_Model{
 
     function get_contacts($limit){
         $array = array(
-                    'level'              => $this->input->post('level'),
-                    'type'          => $this->input->post('loan_type'),
-                    'company'          => $this->input->post('companies'),
-                    'department'        => $this->input->post('departments'),
-                    'section'           => $this->input->post('sections')
+                    'level' => $this->input->post('level'),
+                    'type' => $this->input->post('loan_type'),
+                    'company' => $this->input->post('companies'),
+                    'department' => $this->input->post('departments'),
+                    'section' => $this->input->post('sections')
                     );
         if($limit=="all"){
             $q=$this->db->select('e_mail_address, first_name, middle_name, last_name')
@@ -141,4 +141,13 @@ class Template_model extends CI_Model{
             'receiver_email' => $history['receiver_id']);
         return $this->db->insert('history',$element);
     } 
+    
+    function getNumberOfCredits($escalationLevelID) {
+        $result = $this->db->select('num_of_credits')
+                  ->from('credits_per_escalation')
+                  ->where('escalation_level_id',$escalationLevelID)
+                  ->get()->result();
+        return $result[0]->num_of_credits;
+        
+    }
 }
