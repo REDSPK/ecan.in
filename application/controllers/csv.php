@@ -113,6 +113,7 @@ class CSV extends CI_Controller
         $data['departmend_id'] = $this->input->post('department');
         $data['lien_position'] = $this->input->post('lien_position');
         $data['company_id'] = $companyID;
+        $data['added_by'] = $this->session->userdata('username');
         if(!$this->isDuplicate($this->input->post('email'))) {
             if($this->insertContact($data)) {
                 echo 1;
@@ -311,17 +312,18 @@ class CSV extends CI_Controller
             $this->pagination->initialize($config);
 
             $data['main_content']='contacts';
-            $records = $this->db->select('contact_new.id,first_name,last_name,job_title,email,company_name,escalation_level')->from('contact_new')->join('companies','contact_new.company_id = companies.id','inner')
+            $records = $this->db->select('contact_new.id,first_name,last_name,job_title,email,company_name,escalation_level')
+                        ->from('contact_new')
+                        ->join('companies','contact_new.company_id = companies.id','inner')
                         ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->limit($config['per_page'],$this->uri->segment(3))
                         ->get()->result();
             $data['record']= $records;
             $this->load->view('includes/template',$data);
     }
     
-    public function delete_contact(){
-        $email = $this->input->post('email');
-        $this->db->delete(CONTACTS_TABLE, array('email' => $email));
-//        echo $this->db->last_query();
+    public function delete_contact($id){
+        $this->db->where('id', $id);
+        $this->db->delete(CONTACTS_TABLE); 
     }
     
     public function edit_contact($id,$success = null){
@@ -364,23 +366,16 @@ class CSV extends CI_Controller
         $data['departmend_id'] = $this->input->post('department');
         $data['lien_position'] = $this->input->post('lien_position');
         $data['company_id'] = $companyID;
-        if(!$this->isDuplicate($this->input->post('email'))) {
-            if($this->editContact($contactId,$data)) {
-                echo 1;
-            }
-            else {
-                echo "error Adding the contact";
-            }
+        if($this->editContact($contactId,$data)) {
+            echo 1;
         }
         else {
-            echo 0;
+            echo "error Adding the contact";
         }
     }
     private function editContact($contactID,$data){
         $this->db->where(array('id'=>$contactID));
         $this->db->update('contact_new',$data);
-        echo $this->db->last_query();
-        die();
         return true;
     }
 }

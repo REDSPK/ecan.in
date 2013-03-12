@@ -36,8 +36,14 @@ $(function(){
         $('#delete-topic-title').html('<strong> Delete '+email+' ?? </strong>');
         link = $(this).attr('href');
         $('#btn-confirm-delete').on('click',function(e){
-            deleteUser(link,email);
-            $('.popup').trigger('close');
+            $.ajax({
+               url:link,
+               type:'GET',
+               success:function(data){
+                   $('.popup').trigger('close');
+               }
+            });
+            
             location.reload();
         });
     });
@@ -46,12 +52,10 @@ $(function(){
         $('.popup').trigger('close'); 
     });   
 });
-function deleteUser(link,email){
-    console.log(link);
+function deleteUser(link){
     $.ajax({
        url:link,
-       type:'POST',
-       data:'email='+email,
+       type:'GET',
        success:function(data){
            console.log(data);
        }
@@ -79,7 +83,7 @@ foreach ($record as $r){
         <td><?=$r->company_name?></td>
         <td>
             <a href="<?=base_url()?>csv/edit_contact/<?=$r->id?>">Edit</a> |
-            <a href="<?=base_url()?>csv/delete_contact" class="delete_contact" id="<?=$r->email?>">Delete</a>
+            <a href="<?=base_url()?>csv/delete_contact/<?=$r->id?>" class="delete_contact" id="<?=$r->email?>">Delete</a>
         </td>
     </tr>
 <?

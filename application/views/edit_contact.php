@@ -25,25 +25,25 @@ if($success) {
                 } 
             }); 
        });
-//       $('form').on('submit',function(e){
-//            $('.alert').remove();
-//            e.preventDefault();
-//            $.ajax({
-//            url:$(this).attr('action'),
-//            type:'POST',
-//            data:$(this).serialize(),
-//            success: function(data){
-//                var msg;
-//                if(data == 1){
-////                    window.location.href('');
-//                }
-//                else {
-//                    msg = '<div class="alert alert-error">Duplicate E-mail. Another contact with this email already exist</div>'; 
-//                }
-//                $('form').before(msg)
-//            }
-//            });
-//       });
+       $('form').on('submit',function(e){
+            $('.alert').remove();
+            e.preventDefault();
+            $.ajax({
+            url:$(this).attr('action'),
+            type:'POST',
+            data:$(this).serialize(),
+            success: function(data){
+                if(data == 1){
+                    window.location.href = '<?= base_url()?>csv/all_contacts';
+                    console.log('here');
+                }
+                else {
+                    msg = '<div class="alert alert-error">Duplicate E-mail. Another contact with this email already exist</div>'; 
+                }
+                $('form').before(msg)
+            }
+            });
+       });
     });
 </script>
     <form method="POST" action="<?= base_url()?>csv/do_edit_contact/<?=$contact->id?>" enctype='multipart/form-data'>
