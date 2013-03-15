@@ -148,6 +148,5 @@ class Template_model extends CI_Model{
                   ->where('escalation_level_id',$escalationLevelID)
                   ->get()->result();
         return $result[0]->num_of_credits;
-        
     }
 }

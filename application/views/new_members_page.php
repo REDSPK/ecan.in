@@ -1,3 +1,29 @@
+<style>
+.popup{
+	padding: 3px 40px 17px 19px;
+	background-color: #FAFAFA;
+	background-image: -moz-linear-gradient(top, white, #F2F2F2);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(#F2F2F2));
+	background-image: -webkit-linear-gradient(top, white, #F2F2F2);
+	background-image: -o-linear-gradient(top, white, #F2F2F2);
+	background-image: linear-gradient(to bottom, white, #F2F2F2);
+	background-repeat: repeat-x;
+	border: 1px solid #D4D4D4;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+        width:300px;
+}
+
+#delete-topic-title {
+	margin-bottom: 19px;
+}
+
+</style>
 <script>
     $(function(){
         var companyVal = $('#select_company').val();
@@ -10,7 +36,7 @@
             } 
         });
         
-        $('#select_company').change(function(){
+        $('#select_company').change(function() {
             $.ajax({
                 url:'<?= base_url()?>csv/get_company_dropdowns?company_id='+$(this).val(),
                 type:'GET',
@@ -20,18 +46,52 @@
             });
         });
         
-        $('form').on('submit',function(e){
+        $('form').live('submit',function(e) {
+            e.preventDefault();
             $('.help-block').remove();
             if($.trim($('#loan_number').val()) == '') {
                 e.preventDefault();
                 $('#loan_number').after('<div class="help-block error" style="display:block">Loan Number cannot be left empty</span>')
+                return
             }
-        })
+            else {
+                var escalation = $('#escalation_level').val();
+                var limit = $('#num_of_mails').val();
+
+                $.ajax({
+                    url:'<?= base_url()?>template/have_required_credits/'+escalation+'/'+limit,
+                    type:'GET',
+                    success:function(data) {
+                        if(data.code > 0){
+                            $('#not-enough-credits').html('You need <strong>'+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
+                            $('#confirm-delete-popup').lightbox_me({
+                                centered: true 
+                            });
+                        }
+                        else{
+                            var link = $(this).attr('action');
+                            $.ajax({
+                                url:link,
+                                type:'POST',
+                                data:$(this).serialize(),
+                                success:function(data){
+                                    alert('Your form has been posted');
+                                }
+                            });
+                        }
+
+                    }
+                });
+            }
+        });
         
+        $('.cancel').on('click',function(){
+            $('.popup').trigger('close'); 
+        });
     });
 </script>
 <div class="row">
-    <form action='<?= base_url()?>template/post_email' method="POST">
+    <form action='<?= base_url()?>template/post_email' method="POST" id="blast-form">
         <fieldset>
         <div class="span4">
             
@@ -95,3 +155,10 @@ $(function() {
         $( "#date" ).datepicker({ dateFormat: 'yy-mm-dd' });
       });
 </script>
+
+<div id="confirm-delete-popup" class="popup" style="display: none;">
+    <legend>Not Enough Credits</legend>
+    <div id="not-enough-credits" style="margin-bottom: 20px;"></div>
+    <a href="<?=base_url().'paypal/buy_credits'?>" class="btn btn-success"/>Buy Credits</a>
+    <button class="btn cancel" >Cancel</button>
+</div>

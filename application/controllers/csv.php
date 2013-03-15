@@ -137,7 +137,7 @@ class CSV extends CI_Controller
     function get_company_dropdowns() {
         $companytypeID = $this->input->get('company_id');
         
-        $returnHTML = "<select name='escalation_level'>";
+        $returnHTML = "<select name='escalation_level' id='escalation_level' >";
         foreach($this->escalationToCompanyHash as $key=>$value):
               if($value == $companytypeID) {
                 $returnHTML .= '<option value='.$this->getEscalationLevelID($key).'>'.$key.'</option>';
@@ -302,20 +302,16 @@ class CSV extends CI_Controller
             $config['per_page'] = 10;
             $config['uri_segment'] = 3;
             $config['num_links'] = 20;
-
             $config['full_tag_open'] = '<div id="pagination">';
             $config['full_tag_close'] = '</div>';
-
             $config['first_link'] = '&larr;First';
             $config['last_link'] = 'Last &rarr;';
-
             $this->pagination->initialize($config);
-
             $data['main_content']='contacts';
             $records = $this->db->select('contact_new.id,first_name,last_name,job_title,email,company_name,escalation_level')
                         ->from('contact_new')
                         ->join('companies','contact_new.company_id = companies.id','inner')
-                        ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->limit($config['per_page'],$this->uri->segment(3))
+                        ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->order_by('first_name','ASC')->limit($config['per_page'],$this->uri->segment(3))
                         ->get()->result();
             $data['record']= $records;
             $this->load->view('includes/template',$data);

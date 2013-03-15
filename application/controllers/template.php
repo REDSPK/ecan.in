@@ -64,6 +64,22 @@ class Template extends CI_Controller {
             echo "No Contacts With this criteria found";
         }
     }
+    
+    public function have_required_credits($num_of_credits,$limit){
+        $this->load->model('template_model');
+        $this->load->model('member_model');
+        $username = $this->session->userdata('username');
+        $requiredCredits = $this->template_model->getNumberOfCredits($num_of_credits);
+        $userCredits = $this->member_model->getUserCredits($username);
+        
+        if($userCredits < $requiredCredits) {
+            
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits,'code'=>1)));
+        }
+        else {
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits,'code'=>0)));
+        }
+    }
 }
 
 ?>

@@ -36,7 +36,7 @@ class Admin extends CI_Controller
             $this->pagination->initialize($config);
 
             $data['main_content']='admin_panal';
-            $records = $this->db->get('member',$config['per_page'],$this->uri->segment(3))->result();
+            $records = $this->db->select('*')->from('member')->order_by('first_name','asc')->limit($config['per_page'],$this->uri->segment(3))->get()->result();
             $data['record']= $records;
             $this->load->view('includes/template',$data);
 	}

@@ -8,7 +8,7 @@
 		'name' => 'username',
 		'id'=> 'username',
 		'class' => 'span3',
-		'placeholder'=>"Type UserName here...",
+		'placeholder'=>"Type User Name here...",
     'required'=>'required'
 		);
 		echo form_input($username);
@@ -17,7 +17,7 @@
 		'name' => 'password',
 		'id'=>'password',
 		'class' =>'span3',
-		'placeholder' => 'Type password here...',
+		'placeholder' => 'Type Password here...',
     'required'=>'required' );
 	echo form_password($password);
 
@@ -25,7 +25,7 @@
                     'class' => 'btn-primary',
                     'id' => 'submit',
                     'name'=>'submit',
-                    'value'=>'login'
+                    'value'=>'Login'
                     );
 	echo form_submit($btn);
 
@@ -35,7 +35,7 @@
   $anchor_attr = array(
     'id' => 'pass_recover_anchor',
     'class'=>'span3');
-  echo anchor('login/recover_password','Forget PassWord',$anchor_attr);
+  echo anchor('login/recover_password','Forgot Password?',$anchor_attr);
 	echo form_close();
 ?>
 </div>
