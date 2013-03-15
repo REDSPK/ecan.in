@@ -61,7 +61,7 @@ class Site extends CI_Controller
             
             if($this->session->userdata('admin')){
                 
-                $config['total_rows'] = $this->db->get('history')->num_rows();
+                $config['total_rows'] = $this->form_model->admin_history_rows();
                 $data['total_rows'] = $config['total_rows'];
                 $records = $this->form_model->admin_history_details($this->uri->segment(3),$config['per_page']);
                 $data['history'] = $records;
@@ -80,6 +80,7 @@ class Site extends CI_Controller
                 $this->load->view('includes/template',$data);
             }
 	}//End of history function
+	
 	function admin_search(){
                 $this->load->model('form_model');
                 $this->load->library('pagination');
@@ -109,7 +110,7 @@ class Site extends CI_Controller
 	            if($this->session->userdata('admin')){
 	                $param['user_name'] = $this->input->post('username');
 	                $config['total_rows'] = $this->form_model->search_num_rows($param);
-	                $data['history'] = $this->form_model->search_admin_history_details($config['per_page'],$this->uri->segment(3),$param);
+	                $data['history'] = $this->form_model->search_admin_history_details($this->uri->segment(3),$config['per_page'],$param);
 	                $this->pagination->initialize($config);
 	                $data['total_rows']=$config['total_rows'];
 	                $data['main_content']='admin_history_page';
@@ -119,7 +120,7 @@ class Site extends CI_Controller
 	            else
 	            {
 	                $config['total_rows'] = $this->form_model->search_my_history_rows($this->session->userdata('username'),$param);
-	                $records = $this->form_model->search_my_history_details($this->session->userdata('username'),$config['per_page'],$this->uri->segment(3),$param);
+	                $records = $this->form_model->search_my_history_details($this->session->userdata('username'),$this->uri->segment(3),$config['per_page'],$param);
 	                $data['history'] = $records;
 	                $data['total_rows']=$config['total_rows'];
 	                $this->pagination->initialize($config);

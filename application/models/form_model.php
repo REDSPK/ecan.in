@@ -66,6 +66,7 @@ class Form_model extends CI_model
             if(!isset($start) || !$start){
                 $start = 0;
             }
+
             $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
@@ -97,6 +98,15 @@ class Form_model extends CI_model
             }
             return $data;
 	}
+    function admin_history_rows(){
+            $q = $this->db->query("select Count(0) as num_rows
+                                    from contact_new 
+                                    inner join  companies c on contact_new.company_id = c.id 
+                                    inner join history on contact_new.id = history.receiver_email 
+                                    inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
+                                    inner join departments on contact_new.departmend_id = departments.id")->result();
+            return $q[0]->num_rows;
+    }
 
 	/*--------------------serch queries for history--------------------------*/
 	function get_companies_name(){
@@ -152,16 +162,16 @@ class Form_model extends CI_model
                     $loanNumber = $param['loan_no'];
                     $whereClause = "loan_no = '$loanNumber' AND company_name = '$companyName'";
                 }
-//                if(!isset($start) || !$start){
-//                    $start = 0;
-//                }
+                if(!isset($start) || !$start){
+                    $start = 0;
+                }
                 $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
                                     inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
                                     inner join departments on contact_new.departmend_id = departments.id
-                                    where $whereClause LIMIT $end,$start")->result();
+                                    where $whereClause LIMIT $start,$end")->result();
                 
                 $data=array();
                 foreach ($q as $history) {
@@ -194,7 +204,7 @@ class Form_model extends CI_model
                                     inner join history on contact_new.id = history.receiver_email 
                                     inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
                                     inner join departments on contact_new.departmend_id = departments.id
-                                    WHERE  $whereClause LIMIT $end,$start")->result();
+                                    WHERE  $whereClause LIMIT $start,$end")->result();
             
             $data=array();
             foreach ($q as $history) {

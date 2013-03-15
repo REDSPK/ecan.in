@@ -136,6 +136,7 @@ if($record){
           <th>Username</th>
           <th>Email</th>
           <th>Credits</th>
+          <th>User History</th>
           <th>Type</th>
           <th>Joined</th>
           <th>Admin</th>";
@@ -146,6 +147,7 @@ if($record){
                     <td>$h->username</td>
                     <td>$h->email_address</td>
                     <td>$h->credits</td>
+                    <td>".anchor('admin/user_history/'.$h->username,$h->username.' History')."</td>
                     <td>";
                             if($h->user_type)
                                 echo "Employee";

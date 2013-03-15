@@ -111,4 +111,27 @@ class Admin extends CI_Controller
             $data = array('to_user'=>$toUser,'from_user'=>$fromUser,'item_id'=>$itemID);
             $this->db->insert('admin_awarded_credits', $data); 
         } 
+        function user_history($username){
+        $this->load->model('form_model');
+            $this->load->library('pagination');
+            $this->load->library('table');
+            $config['base_url'] = base_url().'admin/user_history/'.$username;
+            
+            $config['per_page'] = 10;
+            $config['uri_segment'] = 4;
+            $config['full_tag_open'] = '<div id="pagination">';
+            $config['full_tag_close'] = '</div>';
+            $config['first_link'] = '&larr;First';
+            $config['last_link'] = 'Last &rarr;';
+            $data['company_name']=$this->form_model->get_companies_name();
+            
+            
+            $config['total_rows'] = $this->form_model->my_history_rows($this->uri->segment(3));
+            $data['total_rows']=$config['total_rows'];
+            $records = $this->form_model->my_history_details($this->uri->segment(3),$this->uri->segment(4),$config['per_page']);
+            $data['history'] = $records;
+            $this->pagination->initialize($config);
+            $data['main_content']='user_history_adminlink';
+            $this->load->view('includes/template',$data);
+    }
 }

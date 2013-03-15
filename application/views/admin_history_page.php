@@ -58,6 +58,7 @@ else{
               <th>Department</th>
               <th>Job Title</th>
               <th>Sent</th>
+              <th>Email Template</th>
               <th>Receiver Email</th>
               <th>sender Username</th>
                         ";
@@ -72,9 +73,10 @@ else{
                     <td>$h->department_name</td>
                     <td>$h->job_title</td>
                     <td>$h->date</td>
+                    <td>$h->template</td>
                     <td>$h->email</td>
                     <td>$h->username</td>
-
+                    
                </tr>";
 	}
         echo "</table>";

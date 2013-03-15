@@ -45,7 +45,11 @@ class Template extends CI_Controller {
             {
                 $template = $this->template_model->selectTemplate($contact,$name,$signature,$loan_no);
                 echo "<h3>mail to " .$contact['name']." his email: ". $contact['email']."</h3><br>";
-                $subject ="SALE DATE: ".$this->input->post('date')." - ".$this->input->post('subject')." - LN#:".$this->input->post('loan_number')."-".$this->input->post('client_name');
+                if($this->input->post('date'))
+                {
+                    $subject ="SALE DATE: ".$this->input->post('date')." - ";
+                }
+                $subject=$subject.$this->input->post('subject')." - LN#:".$this->input->post('loan_number')."-".$this->input->post('client_name');
                 echo $subject."<br>";
                 $element = array(
                 'template' => $template,

@@ -316,6 +316,7 @@ class CSV extends CI_Controller
                         ->from('contact_new')
                         ->join('companies','contact_new.company_id = companies.id','inner')
                         ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->limit($config['per_page'],$this->uri->segment(3))
+                        ->order_by('first_name','asc')
                         ->get()->result();
             $data['record']= $records;
             $this->load->view('includes/template',$data);
