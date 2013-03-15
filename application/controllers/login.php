@@ -26,7 +26,8 @@ class Login extends CI_Controller {
 		else if($query==ACCOUNT_NOT_ACTIVATED)
 		{
                     $data['message']='Your Account is not activated.Please activate through the link we had sent you.';
-                    $data['main_content']='mail_error';
+                    $data['main_content']='resend_activation';
+                    $data['username']=$this->input->post('username');
                     $this->load->view('includes/template',$data);
 		}
 		else if($query==INVALID_USERNAME_PASSWORD)
@@ -104,6 +105,15 @@ class Login extends CI_Controller {
 				$this->load->view('signup_form');
 			}
   		}
+	}
+	function resend_activation_link(){
+				$this->load->model('member_model');
+				$credentials= $this->member_model->get_activation_code($this->uri->segment(3));
+				$subject='Ecan.in account activation link';
+				$success_message="check your inbox for activate your account";
+				$message='Click the link below to activate your account' . anchor('http://ecan.in/login/account_activation/' . $credentials['activationcode'],'Confirmation Register');
+                $email=$credentials['email'];
+                $this->sendemail($subject,$message,$success_message,$email);
 	}
 	function recover_password(){
 		$data['main_content']='recover_password';

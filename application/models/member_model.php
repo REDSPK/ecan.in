@@ -73,6 +73,17 @@ class Member_model extends CI_Model
         $this->db->update('member', $data);
         return $password;
     }
+    function get_activation_code($username){
+        $credentials = array(
+            'username'=>$username);
+        $code=$this->db->select('activationcode,email_address')
+                 ->from('member')
+                 ->where($credentials);
+                 $q=$code->get()->result();
+                 $ret = array('activationcode' => $q[0]->activationcode,
+                 'email'=>$q[0]->email_address );
+        return $ret;
+    }
     function recover_email_password(){
         $password=$this->get_random_password(6,8, false,true,false);
         $data = array('password' => md5($password));
