@@ -27,7 +27,6 @@
 <script>
     $(function(){
         var companyVal = $('#select_company').val();
-        
         $.ajax({
             url:'<?= base_url()?>csv/get_company_dropdowns?company_id='+companyVal,
             type:'GET',
@@ -69,11 +68,11 @@
                             });
                         }
                         else{
-                            var link = $(this).attr('action');
+                            var link = $('#blast-form').attr('action');
                             $.ajax({
                                 url:link,
                                 type:'POST',
-                                data:$(this).serialize(),
+                                data:$('#blast-form').serialize(),
                                 success:function(data){
                                     alert('Your form has been posted');
                                 }

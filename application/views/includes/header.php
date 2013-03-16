@@ -13,10 +13,36 @@
     <script src="<?php echo base_url().'../assets/js/jquery.validate.min.js' ?>"></script>
     <script src="<?php echo base_url().'../assets/js/bootstrap.min.js' ?>"></script>
     <script src="<?php echo base_url().'../assets/js/lightbox_me.js' ?>"></script>
+    <style>
+        #overlay {
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+    </style>
+    <script>
+        $(function() {
+            $(document).ajaxStart(function(){ 
+                $('#ajax-loader').show();
+                $('#overlay').show(); 
+                
+            });
+            $(document).ajaxStop(function(){ 
+                $('#overlay').hide(); 
+                $('#ajax-loader').hide();
+            });
+        });
+    </script>
   </head>
 
   <body>
-
+    <div class="ajax-loader" style="position:absolute;top:50%;left:50%;z-index:999;display:none;"><img src="<?php echo base_url().'../assets/img/ajax-loader.gif'?>"></img></div>
+    <div id="overlay"></div>
      <div class="container">
     <!-- Header row start here -->
        

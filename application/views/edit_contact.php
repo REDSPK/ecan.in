@@ -5,9 +5,21 @@ if($success) {
 ?>
 <script>
     $(function(){
-       var company_type_selected = $('#companies').val();
+        var company_type_selected = $('#companies').val();
+        if(company_type_selected != 1){
+            $('#lien_position').hide();
+            $('#section').hide();
+            $('#department').hide();
+            $('#loan_type').hide();
+        }
+        else {
+            $('#lien_position').show();
+            $('#section').show();
+            $('#department').show();
+            $('#loan_type').show();
 
-       $('#companies').live('change',function(e) {
+        }
+        $('#companies').live('change',function(e) {
             company_type_selected = $('#companies').val();
             if(company_type_selected != 1){
                 $('#lien_position').hide();
@@ -61,23 +73,6 @@ if($success) {
             ?>
                     <option value="<?=$value?>"> <?=$key?> </option>
             <?
-                endforeach;
-            ?>
-        </select>
-        <br/>
-        <select name="escalation_level">
-            <? 
-                foreach($escalations as $key=>$value):
-                    if($value == $contact->escalation_level_id){
-            ?>
-                    <option value="<?=$value?>" selected="selected"> <?=$key?> </option>
-            <?
-                    }
-                    else{
-            ?>
-                        <option value="<?=$value?>"> <?=$key?> </option>
-            <?
-                    }
                 endforeach;
             ?>
         </select>
