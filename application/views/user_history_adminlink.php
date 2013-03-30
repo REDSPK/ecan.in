@@ -10,6 +10,7 @@ else{
               <th>Loan Number</th>
               <th>Escalation Level</th>
               <th>Department</th>
+              <th>Email Template</th>
               <th>Job Title</th>
               <th>Sent</th>
                         ";
@@ -21,6 +22,7 @@ else{
                     <td>$h->loan_no</td>
                     <td>$h->escalation_level</td>
                     <td>$h->department_name</td>
+                    <td>$h->template</td>
                     <td>$h->job_title</td>
                     <td>$h->date</td>
                </tr>";

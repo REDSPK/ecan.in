@@ -62,7 +62,7 @@
                     type:'GET',
                     success:function(data) {
                         if(data.code > 0){
-                            $('#not-enough-credits').html('You need <strong>'+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
+                            $('#not-enough-credits').html('You need <strong>'+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits');
                             $('#confirm-delete-popup').lightbox_me({
                                 centered: true 
                             });
@@ -74,7 +74,22 @@
                                 type:'POST',
                                 data:$('#blast-form').serialize(),
                                 success:function(data){
-                                    alert('Your form has been posted');
+                                    if(data.code == <?=SUCCESS_CODE?>) {
+                                        $('#success-msg').html(data.msg + "<strong> "+data.credits_consumed+"</strong> credits consumed")
+                                        $('#blast-success-popup').lightbox_me({
+                                            centered: true 
+                                        });
+                                    }else if (data.code == <?=NO_CONTACT_CODE?>){
+                                        $('#success-msg').html(data.msg)
+                                        $('#blast-success-popup').lightbox_me({
+                                            centered: true 
+                                        });
+                                    }else if (data.code == <?=NOT_ENOUGH_CREDITS_CODE?>) {
+                                        $('#not-enough-credits').html('You need <strong> '+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
+                                        $('#confirm-delete-popup').lightbox_me({
+                                            centered: true 
+                                        });
+                                    }
                                 }
                             });
                         }
@@ -160,4 +175,11 @@ $(function() {
     <div id="not-enough-credits" style="margin-bottom: 20px;"></div>
     <a href="<?=base_url().'paypal/buy_credits'?>" class="btn btn-success"/>Buy Credits</a>
     <button class="btn cancel" >Cancel</button>
+</div>
+
+<div id="blast-success-popup" class="popup" style="display: none;">
+    <legend>Blast Success</legend>
+    <div id="success-msg" style="margin-bottom: 20px;"></div>
+    <a href="#" class="btn btn-primary cancel"/>Close</a>
+    <a href="<?=base_url().'paypal/buy_credits'?>" class="btn btn-success"/>Buy More Credits</a>
 </div>

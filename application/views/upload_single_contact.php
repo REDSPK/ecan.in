@@ -77,9 +77,7 @@ if($success) {
         <div id="companies_names">
             
         </div>
-        OR
         <br/>
-        <input type="text" name="company_name_text" placeholder="Type the company name here" /> <br/>
         <div id="lien_position">
             <select name="lien_position">
                 <? 

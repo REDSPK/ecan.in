@@ -6,7 +6,8 @@ class Member_model extends CI_Model
 	{
 		$this->db->where('username',$this->input->post('username'));
 		$this->db->where('password',md5($this->input->post('password')));
-		$result =$this->db->get('member')->result();
+		$result = $this->db->get('member')->result();
+                
 		if(count($result) >= 1)
 		{                        
                     $result = $result[0];
@@ -243,7 +244,27 @@ class Member_model extends CI_Model
         else {
             return FALSE;
         }
-        
+    }
+    
+    function get_delete_requests($all = false){
+        $query = $this->db->select('*')->from(EMPLOYEE_DELETE_TABLE)->get()->result_array();
+        $inArr = $query;//This is the 2D array
+        if($all){
+            return $inArr;
+        }
+        else {
+            $outArr = array();
+            for($i=0;$i<count($inArr);$i++){
+                    $outArr[$i] = $inArr[$i]['user_requested'];
+            }
+            return $outArr;
+        }  
+    }
+    
+    function add_credits_consumed($numCredits){
+        $user = $this->session->userdata(USERNAME);
+        $this->db->query('UPDATE member SET credits_consumed = credits_consumed + '.$numCredits.' WHERE username = '."'$user'");
+        return;
     }
 }
 ?>

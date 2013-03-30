@@ -37,20 +37,18 @@ class Template extends CI_Controller {
         $userCredits = $this->member_model->getUserCredits($username);
         $consumedCredits = 0;
         if($userCredits < $requiredCredits) {
-            echo "you dont have required credits you require atleast $requiredCredits to send this mail. consider limiting your blast size";
-            exit;
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->
+            set_output(json_encode(array('msg'=>"you dont have required credits you require atleast $requiredCredits to send this mail. consider limiting your blast size",'code'=>NOT_ENOUGH_CREDITS_CODE)));
         }
         if($contacts) {
             foreach ($contacts as $contact) 
             {
                 $template = $this->template_model->selectTemplate($contact,$name,$signature,$loan_no);
-                echo "<h3>mail to " .$contact['name']." his email: ". $contact['email']."</h3><br>";
                 if($this->input->post('date'))
                 {
                     $subject ="SALE DATE: ".$this->input->post('date')." - ";
                 }
                 $subject=$subject.$this->input->post('subject')." - LN#:".$this->input->post('loan_number')."-".$this->input->post('client_name');
-                echo $subject."<br>";
                 $element = array(
                 'template' => $template,
                 'subject' => $subject,
@@ -60,24 +58,25 @@ class Template extends CI_Controller {
                 $this->template_model->save_history($element);
                 $this->member_model->deductUserCredits($username,$num_of_credits);
                 $consumedCredits += $num_of_credits;
-                print_r($template);
             }
-            echo "<br/> $consumedCredits credits Consumed";
+            $this->member_model->add_credits_consumed($consumedCredits);
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->
+            set_output(json_encode(array('msg'=>"Your Blast have been posted",'code'=>SUCCESS_CODE,'credits_consumed'=>$consumedCredits)));
         }
         else {
-            echo "No Contacts With this criteria found";
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->
+            set_output(json_encode(array('msg'=>"Ooops.. No contact with this criteria found",'code'=>NO_CONTACT_CODE)));
         }
     }
     
-    public function have_required_credits($num_of_credits,$limit){
+    function have_required_credits($num_of_credits,$limit){
         $this->load->model('template_model');
         $this->load->model('member_model');
         $username = $this->session->userdata('username');
         $requiredCredits = $this->template_model->getNumberOfCredits($num_of_credits);
         $userCredits = $this->member_model->getUserCredits($username);
         
-        if($userCredits < $requiredCredits) {
-            
+        if($userCredits < $requiredCredits) {            
             $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits,'code'=>1)));
         }
         else {

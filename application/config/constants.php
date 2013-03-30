@@ -42,14 +42,29 @@ define('FOPEN_READ_WRITE_CREATE_STRICT','x+b');
 |--------------------------------------------------------------------------
  */
 
+/**
+ * Session Variable Names
+ */
+define('USERNAME','username');
+define('EMPLOYEE','employee');
+define('ADMIN','admin');
+
 
 /**
  * Table Names
  */
 define('CONTACTS_TABLE','contact_new');
-
-
-
+define('COMPANIES_TABLE','companies');
+define('EMPLOYEE_DELETE_TABLE','employee_delete_requests');
+define('MEMBER_TABLE','member');
+define('CONTACTS_DELETE_TABLE','contact_delete_requests');
+define('CREDITS_PER_ESCALATION_TABLE','credits_per_escalation');
+define('ESCALATION_LEVEL_TABLE','escalation_level');
+define('COMPANY_TYPE_TABLE','company_type');
+define('DEPARTMENT_TABLE','departments');
+define('LOAN_TYPE_TABLE','loan_type');
+define('SECTIONS_TABLE','sections');
+define('LIEN_POSITION_TABLE','lien_positions');
 /**
  * Error Codes
  */
@@ -58,6 +73,13 @@ define('ACCOUNT_NOT_ACTIVATED',-1001);
 define('ADMIN_USER_LOGGED_IN',999);
 define('EMPLOYEE_LOGGED_IN',998);
 define('END_USER_LOGGED_IN',997);
+define('NOT_ENOUGH_CREDITS_CODE',996);
+define('NO_CONTACT_CODE',995);
+define('COMPANY_ALREADY_EXIST_CODE',994);
+define('SUCCESS_CODE',0);
+
+
+
 define('NOT_ACTIVATED',0);
 
 define('EMPLOYEE_TYPE',1);
@@ -119,7 +141,7 @@ define('PAYPAL_CALLBACK_URL',"http://ecan.in/index.php"."/paypal/notify_paypal")
 
 define('SEARCH_BY_USERNAME',1);
 define('SEARCH_BY_EMAIL',2);
-
+define('SEARCH_BY_COMPANY',3);
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

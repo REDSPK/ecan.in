@@ -67,18 +67,58 @@ if($success) {
     <form method="POST" action="<?= base_url()?>csv/do_edit_contact/<?=$contact->id?>" enctype='multipart/form-data'>
         <fieldset>
         
-        <select name="companies" id='companies'>
-            <? 
-                foreach($companies as $key=>$value):
-            ?>
-                    <option value="<?=$value?>"> <?=$key?> </option>
+        <select name="company_id" id='companies'>
             <?
+                foreach ($company_types as $key=>$value):
+                    if($value == $selected_company->company_type_id){
+            ?>
+                        <option value="<?=$value?>" selected="selected"> <?=$key?> </option>
+            <?
+                    }else {
+            ?>
+                        <option value="<?=$value?>"> <?=$key?> </option>
+            <?
+                    }
+                endforeach;
+            ?>
+        </select>
+        
+        
+        <div id="companies_names">
+        <select name="escalation_level" id='companies'>
+            <? 
+                foreach($escalations as $escalation):
+                    if($escalation->id == $contact->escalation_level_id){
+            ?>
+                        <option value="<?=$escalation->id?>" selected="selected"> <?=$escalation->escalation_level?> </option>
+            <?
+                    }else {
+            ?>
+                        <option value="<?=$escalation->id?>" > <?=$escalation->escalation_level?> </option>
+            <?    
+                    }
                 endforeach;
             ?>
         </select>
         <br/>
-        <div id="companies_names">
-            
+        <select name="companies" id='company_name'>
+            <? 
+                foreach($companies as $company):
+                    if($company->id == $selected_company->id){
+            ?>
+                        <option value="<?=$company->id?>" selected="selected"> <?=$company->company_name?> </option>
+            <?
+                    }
+                    else
+                    {
+            ?>
+                        <option value="<?=$company->id?>"> <?=$company->company_name?> </option>
+            <?
+                    }
+                endforeach;
+            ?>
+        </select>
+        <br/>
         </div>
         <div id="lien_position">
             <select name="lien_position">

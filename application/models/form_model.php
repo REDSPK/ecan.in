@@ -212,6 +212,7 @@ class Form_model extends CI_model
             }
             return $data;
 	}
+        
 	function search_num_rows($param){
                 
                 if(isset($param['user_name']) && $param['user_name'] != '' && $param['loan_no'] == '') {

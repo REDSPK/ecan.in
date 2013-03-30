@@ -1,5 +1,5 @@
+<center><img src="<?php echo base_url().'../assets/img/ecanlogo600200.png'?>"></img></center>
 <div id='login_form'>
-	<h2>Login Here</h2>
 	<?php 
 	$attributes = array('class' => 'well span4', 'id' => 'login_form');
 	echo form_open('login/validate_cradentials',$attributes);

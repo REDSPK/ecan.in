@@ -1,5 +1,5 @@
 <?php
-//    var_dump($record);
+//    var_dump($deleted);
 //    die();
 ?>
 <style>
@@ -41,55 +41,114 @@ $(function(){
                type:'GET',
                success:function(data){
                    $('.popup').trigger('close');
+                   
                }
             });
-            
             location.reload();
         });
     });
     
     $('.cancel').on('click',function(){
         $('.popup').trigger('close'); 
-    });   
+    });
+    
+    $('.search_form').on('submit',function(e){
+        $('#pagination').hide();
+        e.preventDefault();
+        var destUrl = $(this).attr('action');
+        $.ajax({
+            url: destUrl,
+            type: 'POST',
+            data: $(this).serialize(),
+            success:function(data){
+                $('#table-container').html(data);
+            }
+        });
+    });
+    
+    $('#search_criteria').on('change',function(e){
+        var selectedVal = $(this).val();
+        var response = '';
+        if(selectedVal == 2){
+            $('#phrase').html('<input type="text" placeholder="Enter the criteria here" name="phrase" />');
+        }
+        else if(selectedVal == 3) {
+            loadCompanies();
+        }
+    });
 });
 function deleteUser(link){
     $.ajax({
        url:link,
        type:'GET',
        success:function(data){
-           console.log(data);
+           location.reload();
+       }
+    });
+}
+
+function loadCompanies(){
+    $.ajax({
+       url:'<?=base_url()?>csv/get_all_companies_dropdowns',
+       type:'GET',
+       async:false,
+       success:function(data){
+           $('#phrase').html(data);
        }
     });
 }
 </script>
 <div class ='pagination pagination-centered'>
-<table class='table table-striped'>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th style="width: 20%;">Job Title</th>
-    <th>Email</th>
-    <th>Escalation Level</th>
-    <th>Company</th>
-    <th>Admin</th>
-<?
-foreach ($record as $r){
-?>
-    <tr>
-        <td><?=$r->first_name?></td>
-        <td><?=$r->last_name?></td>
-        <td><?=$r->job_title?></td>
-        <td><?=$r->email?></td>
-        <td><?=$r->escalation_level?></td>
-        <td><?=$r->company_name?></td>
-        <td>
-            <a href="<?=base_url()?>csv/edit_contact/<?=$r->id?>">Edit</a> |
-            <a href="<?=base_url()?>csv/delete_contact/<?=$r->id?>" class="delete_contact" id="<?=$r->email?>">Delete</a>
-        </td>
-    </tr>
-<?
-}
-?>
-</table>`
+<form class="form-inline search_form" action="<?=base_url()?>csv/search_contact" method="POST">
+    <select name="search_criteria" id="search_criteria" >
+        <option value="<?=SEARCH_BY_EMAIL?>">By Email</option>
+        <option value="<?=SEARCH_BY_COMPANY?>">By Company</option>
+    </select>
+    <span id="phrase">
+        <input type="text" placeholder="Enter the criteria here" name="phrase" />
+    </span>
+    <button type='submit' class="btn btn-inverse">Search</button>
+</form>
+<div id="table-container">
+    <table class='table table-striped'>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th style="width: 20%;">Job Title</th>
+        <th>Email</th>
+        <th>Escalation Level</th>
+        <th>Company</th>
+        <th>Admin</th>
+    <?
+    foreach ($record as $r){
+    ?>
+        <tr>
+            <td><?=$r->first_name?></td>
+            <td><?=$r->last_name?></td>
+            <td><?=$r->job_title?></td>
+            <td><?=$r->email?></td>
+            <td><?=$r->escalation_level?></td>
+            <td><?=$r->company_name?></td>
+            <td>
+                <a href="<?=base_url()?>csv/edit_contact/<?=$r->id?>">Edit</a> |
+            <? 
+                if(!in_array($r->id,$deleted)){
+            ?>
+                <a href="<?=base_url()?>csv/delete_contact?id=<?=$r->id?>" class="delete_contact" id="<?=$r->email?>">Delete</a>
+            <?
+                }
+                else {
+            ?>
+                <i>Delete Requested</i>
+            <?
+                }
+            ?>
+            </td>
+        </tr>
+    <?
+    }
+    ?>
+    </table>
+</div>
 <?
 if(isset($this->pagination)) {
     echo $this->pagination->create_links();

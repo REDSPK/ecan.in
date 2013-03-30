@@ -1,4 +1,4 @@
-<h4>Welcome Admin</h4>
+<h4>Welcome <?=$this->session->userdata('username')?></h4>
 <div class ='pagination pagination-centered'>
 <style>
 .popup{
@@ -92,11 +92,17 @@ $(function(){
                 $('#table-container').html(data);
             }
         });
-    })
+    });
 });
 
 function deleteUser(link){
-    console.log(link);
+    $.ajax({
+        url: link,
+        type: 'GET',
+        success:function(data){
+            location.reload();
+        }
+    });
 }
 
 function makeEmployee(link,isUser) {
@@ -136,6 +142,7 @@ if($record){
           <th>Username</th>
           <th>Email</th>
           <th>Credits</th>
+          <th>Consumed</th>
           <th>User History</th>
           <th>Type</th>
           <th>Joined</th>
@@ -147,6 +154,7 @@ if($record){
                     <td>$h->username</td>
                     <td>$h->email_address</td>
                     <td>$h->credits</td>
+                    <td>$h->credits_consumed</td>
                     <td>".anchor('admin/user_history/'.$h->username,$h->username.' History')."</td>
                     <td>";
                             if($h->user_type)
@@ -156,15 +164,32 @@ if($record){
               echo "</td>
                     <td>$h->date_joined</td>
                     <td>
-                      <a href='delete_user?id=$h->username' class='delete_employee' id='$h->username'>Delete</a> | ";
-                      if($h->user_type == END_USER_TYPE){
-                        echo "<a href='make_employee/$h->username' class='confirm-employee' id='$h->username'>Make Employee</a> | ";
-                      }
-                      else {
-                          echo "<a href='make_employee/$h->username' class='remove-employee' id='$h->username'>Make End User</a> | ";
-                      }
-                      echo "<a href='add_credits/$h->username' class='award-credits'>Credits</a>
-                    </td>
+                    ";
+                      
+                    if($this->session->userdata(USERNAME) != $h->username) {
+                          if(!in_array($h->username,$delete_requests)){
+                            echo "<a href='delete_user?id=$h->username' class='delete_employee' id='$h->username'>Delete</a> | ";
+                          }
+                          else if (in_array($h->username,$delete_requests)) {
+                              echo "<i>Delete Requested</i> | ";
+                          }
+                    }
+                      
+                    if ($this->session->userdata('employee')) {
+                        if($h->username == $this->session->userdata('username')){
+                          echo "<a href='add_credits/$h->username' class='award-credits'>Award Credits</a>";
+                        }
+                    } 
+                    else if($this->session->userdata('admin')) {
+                        if($h->user_type == END_USER_TYPE) {
+                            echo "<a href='make_employee/$h->username' class='confirm-employee' id='$h->username'>Make Employee</a> | ";
+                        }
+                        else {
+                            echo "<a href='make_employee/$h->username' class='remove-employee' id='$h->username'>Make End User</a> | ";
+                        }
+                        echo "<a href='add_credits/$h->username' class='award-credits'>Credits</a>";
+                    }       
+                    echo "</td>
                </tr>";
     endforeach;
     if(isset($this->pagination)) {

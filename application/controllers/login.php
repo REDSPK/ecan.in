@@ -30,7 +30,7 @@ class Login extends CI_Controller {
                     $data['username']=$this->input->post('username');
                     $this->load->view('includes/template',$data);
 		}
-		else if($query==INVALID_USERNAME_PASSWORD)
+		else if($query == INVALID_USERNAME_PASSWORD)
 		{
                     $data['message']='Your username or password may wrong.';
                     $data['main_content']='mail_error';
@@ -51,7 +51,7 @@ class Login extends CI_Controller {
                     $data = array(
                         'username' => $this->input->post('username'),
                         'is_logged_in' => true,
-                        'admin'=>true,
+                        'admin'=>False,
                         'employee' =>true    
                         );
                     $this->session->set_userdata($data);
