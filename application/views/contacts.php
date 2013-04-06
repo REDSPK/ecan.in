@@ -111,19 +111,23 @@ function loadCompanies(){
 </form>
 <div id="table-container">
     <table class='table table-striped'>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>First</th>
+        <th>Middle</th>
+        <th>Last</th>
+        <th>Suffix</th>
         <th style="width: 20%;">Job Title</th>
         <th>Email</th>
         <th>Escalation Level</th>
         <th>Company</th>
-        <th>Admin</th>
+        <th style="width:8%;">Admin</th>
     <?
     foreach ($record as $r){
     ?>
         <tr>
             <td><?=$r->first_name?></td>
+            <td><?=$r->middle_name?></td>
             <td><?=$r->last_name?></td>
+            <td><?=$r->suffix?></td>
             <td><?=$r->job_title?></td>
             <td><?=$r->email?></td>
             <td><?=$r->escalation_level?></td>

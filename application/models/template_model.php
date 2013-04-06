@@ -138,7 +138,9 @@ class Template_model extends CI_Model{
             'loan_no' => $history['loan_no'],
             'subject' => $history['subject'],
             'username' => $history['username'],
-            'receiver_email' => $history['receiver_id']);
+            'receiver_email' => $history['receiver_id'],
+            'credits_consumed' => $history['credits_consumed']  
+              );
         return $this->db->insert('history',$element);
     } 
     

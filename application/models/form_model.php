@@ -67,13 +67,15 @@ class Form_model extends CI_model
                 $start = 0;
             }
 
-            $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+            $q = $this->db->query("select first_name,suffix,credits_consumed,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
                                     inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
                                     inner join departments on contact_new.departmend_id = departments.id
-                                    where username = '$username' LIMIT $start,$end");
+                                    where username = '$username'
+                                    ORDER BY date DESC
+                                    LIMIT $start,$end");
             $data=array();
             foreach ($q->result() as $history) {
                 $data[] = $history;
@@ -85,12 +87,13 @@ class Form_model extends CI_model
             if(!isset($start) || !$start){
                 $start = 0;
             }
-            $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+            $q = $this->db->query("select history.id,first_name,suffix,credits_consumed,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
                                     inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
                                     inner join departments on contact_new.departmend_id = departments.id
+                                    ORDER BY date DESC
                                     LIMIT $start,$end");
             $data=array();
             foreach ($q->result() as $history) {
@@ -165,13 +168,15 @@ class Form_model extends CI_model
                 if(!isset($start) || !$start){
                     $start = 0;
                 }
-                $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+                $q = $this->db->query("select first_name,credits_consumed,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
                                     inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
                                     inner join departments on contact_new.departmend_id = departments.id
-                                    where $whereClause LIMIT $start,$end")->result();
+                                    where $whereClause
+                                    ORDER BY date DESC
+                                    LIMIT $start,$end")->result();
                 
                 $data=array();
                 foreach ($q as $history) {
@@ -198,13 +203,15 @@ class Form_model extends CI_model
                 $whereClause = "loan_no = '$loanNumber' AND username = '$companyName'";
             }
             
-            $q = $this->db->query("select first_name,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+            $q = $this->db->query("select first_name,suffix,last_name,credits_consumed,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
                                     inner join escalation_level on contact_new.escalation_level_id = escalation_level.id
                                     inner join departments on contact_new.departmend_id = departments.id
-                                    WHERE  $whereClause LIMIT $start,$end")->result();
+                                    WHERE  $whereClause
+                                    ORDER BY date DESC
+                                    LIMIT $start,$end")->result();
             
             $data=array();
             foreach ($q as $history) {

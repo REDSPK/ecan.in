@@ -8,7 +8,7 @@
 		'name' => 'username',
 		'id'=> 'username',
 		'class' => 'span3',
-		'placeholder'=>"Type User Name here...",
+		'placeholder'=>"Type Username here...",
     'required'=>'required'
 		);
 		echo form_input($username);

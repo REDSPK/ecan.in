@@ -38,7 +38,8 @@ class CSV extends CI_Controller
             foreach ($csv as $contact) {
                 $data = array();
                 $data['first_name'] = $contact['First Name'];
-                $data['suffix'] = $contact['Middle Name'];
+                $data['middle_name'] = $contact['Middle Name'];
+                $data['suffix'] = $contact['Suffix'];
                 $data['last_name'] = $contact['Last Name'];
                 $data['job_title'] = $contact['Job Title'];
                 $data['email'] = $contact['E-mail Address'];
@@ -98,7 +99,8 @@ class CSV extends CI_Controller
         $companyType = $this->input->post('companies');
         $companyID = $this->input->post('company_id');
         $data['first_name'] = $this->input->post('first_name');
-        $data['suffix'] = $this->input->post('middle_name');
+        $data['suffix'] = $this->input->post('suffix');
+        $data['middle_name'] = $this->input->post('middle_name');
         $data['last_name'] = $this->input->post('last_name');
         $data['job_title'] = $this->input->post('job_title');
         $data['email'] = $this->input->post('email');
@@ -325,7 +327,7 @@ class CSV extends CI_Controller
         $config['last_link'] = 'Last &rarr;';
         $this->pagination->initialize($config);
         
-        $records = $this->db->select('contact_new.id,first_name,last_name,job_title,email,company_name,escalation_level')
+        $records = $this->db->select('contact_new.id,first_name,last_name,suffix,middle_name,job_title,email,company_name,escalation_level')
                 ->from('contact_new')
                 ->join('companies','contact_new.company_id = companies.id','inner')
                 ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->order_by('last_name','ASC')->limit($config['per_page'],$this->uri->segment(3))
@@ -410,7 +412,7 @@ class CSV extends CI_Controller
         $criteria = $this->input->post('search_criteria');
         $this->load->model('contacts_model');
         if($criteria == SEARCH_BY_EMAIL){
-            $records = $this->db->select('contact_new.id,first_name,last_name,job_title,email,company_name,escalation_level')
+            $records = $this->db->select('contact_new.id,first_name,last_name,middle_name,suffix,job_title,email,company_name,escalation_level')
                         ->from('contact_new')
                         ->join('companies','contact_new.company_id = companies.id','inner')
                         ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->where('email',$phrase)
@@ -418,7 +420,7 @@ class CSV extends CI_Controller
             
         }
         else if($criteria == SEARCH_BY_COMPANY) {
-            $records = $this->db->select('contact_new.id,first_name,last_name,job_title,email,company_name,escalation_level')
+            $records = $this->db->select('contact_new.id,first_name,last_name,middle_name,suffix,job_title,email,company_name,escalation_level')
                         ->from('contact_new')
                         ->join('companies','contact_new.company_id = companies.id','inner')
                         ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->where('company_id',$phrase)
@@ -427,17 +429,21 @@ class CSV extends CI_Controller
         $deleted = $this->contacts_model->get_delete_requests();
         if($records){
             echo "<table class='table table-striped'>";
-            echo '  <th>First Name</th>
-                    <th>Last Name</th>
+            echo '  <th>First</th>
+                    <th>Middle</th>
+                    <th>Last</th>
+                    <th>Suffix</th>
                     <th style="width: 20%;">Job Title</th>
                     <th>Email</th>
                     <th>Escalation Level</th>
                     <th>Company</th>
-                    <th>Admin</th>';
+                    <th style="width:8%;">Admin</th>';
             foreach($records as $r){
                 echo "<tr>
                         <td>$r->first_name</td>
+                        <td>$r->middle_name</td>
                         <td>$r->last_name</td>
+                        <td>$r->suffix</td>
                         <td>$r->job_title</td>
                         <td>$r->email</td>
                         <td>$r->escalation_level</td>
@@ -528,6 +534,44 @@ class CSV extends CI_Controller
             $this->insertCompany($companyName,$companyType);
             $returnDict[MSG] = "Company Succesfully added";
         }
+        $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($returnDict));
+    }
+    
+    function add_loantype(){
+        $data['main_content'] = 'add_loantype';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function do_add_loantype(){
+        $this->load->model('contacts_model');
+        $loanType = $this->input->post('loan_type');
+        $returnDict = $this->contacts_model->insertLoanType($loanType);
+        $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($returnDict));
+    }
+    
+    function add_section(){
+        $data['companies'] = $this->companiesToIDHash;
+        $data['main_content'] = 'add_section';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function do_add_section(){
+        $this->load->model('contacts_model');
+        $companyType = $this->input->post('company_type');
+        $sectionName = $this->input->post('section_name');
+        $returnDict = $this->contacts_model->insertSection($companyType,$sectionName);
+        $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($returnDict));
+    }
+    
+    function add_lien_position(){
+        $data['main_content'] = 'add_lien_position';
+        $this->load->view('includes/template',$data); 
+    }
+    
+    function do_add_lien_position(){
+        $this->load->model('contacts_model');
+        $lienPosition = $this->input->post('lien_position');
+        $returnDict = $this->contacts_model->addLienPosition($lienPosition);
         $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($returnDict));
     }
 }

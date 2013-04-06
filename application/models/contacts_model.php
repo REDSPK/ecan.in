@@ -140,5 +140,49 @@ class contacts_model extends CI_Model {
         return $escalationLevels;
     }
     
+    function insertLoanType($name){
+        $returnDict = array();
+        $loanType = $this->db->select('*')->from(LOAN_TYPE_TABLE)->where(array('loan_type'=>$name))->get()->result();
+        if(count($loanType) > 0){
+            $returnDict[CODE] = COMPANY_ALREADY_EXIST_CODE;
+            $returnDict[MSG] = "This Loantype already exist in the system";
+        }
+        else {
+            $this->db->insert(LOAN_TYPE_TABLE,array('loan_type'=>$name));
+            $returnDict[CODE] = SUCCESS_CODE;
+            $returnDict[MSG] = "Loantype successfully added";
+        }
+        return $returnDict;
+    }
+    
+    function insertSection($id,$name) {
+        $returnDict = array();
+        $loanType = $this->db->select('*')->from(SECTIONS_TABLE)->where(array('company_type'=>$id,'section_name'=>$name))->get()->result();
+        if(count($loanType) > 0){
+            $returnDict[CODE] = COMPANY_ALREADY_EXIST_CODE;
+            $returnDict[MSG] = "This Section already exist in the system";
+        }
+        else {
+            $this->db->insert(SECTIONS_TABLE,array('company_type'=>$id,'section_name'=>$name));
+            $returnDict[CODE] = SUCCESS_CODE;
+            $returnDict[MSG] = "Section successfully added";
+        }
+        return $returnDict;
+    }
+    
+    function addLienPosition($position){
+        $returnDict = array();
+        $loanType = $this->db->select('*')->from(LIEN_POSITION_TABLE)->where(array('lien_position'=>$position))->get()->result();
+        if(count($loanType) > 0){
+            $returnDict[CODE] = COMPANY_ALREADY_EXIST_CODE;
+            $returnDict[MSG] = "This Lien Position already exist in the system";
+        }
+        else {
+            $this->db->insert(LIEN_POSITION_TABLE,array('lien_position'=>$position));
+            $returnDict[CODE] = SUCCESS_CODE;
+            $returnDict[MSG] = "Lien Position successfully added";
+        }
+        return $returnDict;
+    }
 }
 ?>

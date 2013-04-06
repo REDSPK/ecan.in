@@ -52,6 +52,9 @@ if($success) {
                     var msg;
                     if(data == 1){
                         msg = '<div class="alert alert-success">The contact has been added succesfully</div>';
+                        $('form').each (function(){
+                            this.reset();
+                        });
                     }
                     else {
                         msg = '<div class="alert alert-error">Duplicate E-mail. Another contact with this email already exist</div>'; 
@@ -128,6 +131,7 @@ if($success) {
         </div>
         <input type="text" name="first_name" placeholder="First Name" /> <br/>
         <input type="text" name="middle_name" placeholder="Middle Name" /> <br/>
+        <input type="text" name="suffix" placeholder="Suffix" /> <br/>
         <input type="text" name="last_name" placeholder="Last Name" /> <br/>
         <input type="text" name="job_title" placeholder="Job Title" /> <br/>
         <input type="text" name="email" placeholder="Email" /> <br/>

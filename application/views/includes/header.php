@@ -79,6 +79,9 @@
                       <li><?php echo anchor('csv/add_escalation_level','Add Escalation Level'); ?></li>
                       <li><?php echo anchor('csv/add_department','Add Department'); ?></li>
                       <li><?php echo anchor('csv/add_company','Add Company'); ?></li>
+                      <li><?php echo anchor('csv/add_loantype','Add Loantype'); ?></li>
+                      <li><?php echo anchor('csv/add_section','Add Section'); ?></li>
+                      <li><?php echo anchor('csv/add_lien_position','Add Lien Position'); ?></li>
                     </ul></li>
                       <?php 
                 }

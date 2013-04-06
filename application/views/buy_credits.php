@@ -1,7 +1,6 @@
 <?php
 ?>
-<div class="span12">
-    <div class="hero-unit">
+<div class="span6">
         <h3>Buy Credits</h3>
         <table class="table-bordered">
             <tr>
@@ -154,5 +153,9 @@
                 </td>
             </tr>
         </table>
-    </div>
+</div>
+<div class="span6">
+    <h3>
+        information about credits go here
+    </h3>
 </div>

@@ -218,15 +218,15 @@ class Login extends CI_Controller {
 			echo "username Too short";
 		else
 		{
-			$this->load->model('member_model');
-			$num=$this->member_model->check_username_data();
-			if($num==0)
-			{
-				echo "Username Available!";
-			}
-			else if($num==1){
-				echo "Username Not Available!";
-			}
+                    $this->load->model('member_model');
+                    $num=$this->member_model->check_username_data();
+                    if($num==0)
+                    {
+                            echo "Username Available!";
+                    }
+                    else if($num==1){
+                            echo "Username Not Available!";
+                    }
 		}
 	}
 }

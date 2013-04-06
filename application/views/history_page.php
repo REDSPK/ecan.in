@@ -39,25 +39,30 @@ if(!$history)
 echo "You don't have any recorded history";
 else{
         echo "<table class='table table-striped'>";
-        echo "<th>Last Name</th>
+        echo "
+              <th>First Name</th>
+              <th>Last Name</th>
               <th>Suffix</th>
               <th>Company Name</th>
               <th>Loan Number</th>
               <th>Escalation Level</th>
               <th>Department</th>
-              <th>Job Title</th>
+              <th>Job Title</th>              
               <th>Sent</th>
+              <th>Credits</th>
                         ";
 	foreach ($history as $h){
            echo "<tr>
+                    <td>$h->first_name</td>
                     <td>".substr($h->last_name, 0,1)."</td>
                     <td>$h->suffix</td>
                     <td>$h->company_name</td>
                     <td>$h->loan_no</td>
                     <td>$h->escalation_level</td>
                     <td>$h->department_name</td>
-                    <td>$h->job_title</td>
+                    <td>$h->job_title</td>                    
                     <td>$h->date</td>
+                    <td>$h->credits_consumed</td>
                </tr>";
 	}
         echo "</table>";

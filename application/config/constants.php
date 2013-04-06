@@ -64,6 +64,7 @@ define('COMPANY_TYPE_TABLE','company_type');
 define('DEPARTMENT_TABLE','departments');
 define('LOAN_TYPE_TABLE','loan_type');
 define('SECTIONS_TABLE','sections');
+define('ASSISTANCE_TYPE_TABLE','type_of_assistance');
 define('LIEN_POSITION_TABLE','lien_positions');
 /**
  * Error Codes
@@ -145,3 +146,6 @@ define('SEARCH_BY_COMPANY',3);
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
+
+
+define('MIN_CREDITS_THRESHOLD',500);

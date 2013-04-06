@@ -54,7 +54,9 @@ class Template extends CI_Controller {
                 'subject' => $subject,
                 'loan_no' => $loan_no,
                 'username' => $username,
-                'receiver_id' => $contact['id']);
+                'receiver_id' => $contact['id'],
+                'credits_consumed' => $num_of_credits
+                    );
                 $this->template_model->save_history($element);
                 $this->member_model->deductUserCredits($username,$num_of_credits);
                 $consumedCredits += $num_of_credits;
@@ -83,6 +85,23 @@ class Template extends CI_Controller {
             $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits,'code'=>0)));
         }
     }
+    
+    function getCredits($escalationLevel,$limit) {
+        $this->load->model('template_model');
+        $this->load->model('member_model');
+        $username = $this->session->userdata('username');
+//        $escalationLevel = $this->input->get('num_of_credits');
+//        $limit = $this->input->get('limit');
+        $requiredCredits = $this->template_model->getNumberOfCredits($escalationLevel)*$limit;
+        $userCredits = $this->member_model->getUserCredits($username);
+        if($userCredits < $requiredCredits) {            
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits)));
+        }
+        else {
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits)));
+        }
+    }
+    
 }
 
 ?>
