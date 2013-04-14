@@ -91,6 +91,7 @@ echo "You don't have any recorded history";
 else{
         echo "<table class='table table-striped'>";
         echo "<th>First Name</th>
+              <th>Middle Name</th>
               <th>Last Name</th>
               <th>Suffix</th>
               <th>Company Name</th>
@@ -107,6 +108,7 @@ else{
 	foreach ($history as $h){
            echo "<tr>
                     <td>$h->first_name</td>
+                    <td>$h->middle_name</td>
                     <td>$h->last_name</td>
                     <td>$h->suffix</td>
                     <td>$h->company_name</td>

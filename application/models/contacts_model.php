@@ -44,7 +44,9 @@ class contacts_model extends CI_Model {
         foreach($levels as $level){
             $output[$level->escalation_level] = $level->company_type_id; 
         }
-       return $output;
+        ksort($output);
+        return ($output);
+       
     }
     
     function getCompaniesTypeToIdArray() {
@@ -53,6 +55,7 @@ class contacts_model extends CI_Model {
         foreach($company_type as $company){
             $output[$company->name] = $company->id;
         }
+        ksort($output);
         return $output;
     }
     
@@ -62,7 +65,8 @@ class contacts_model extends CI_Model {
         foreach($levels as $level){
             $output[$level->escalation_level] = $level->id; 
         }
-       return $output;
+        ksort($output);
+        return $output;
     }
     
     function getDepartmentToidArray(){
@@ -71,6 +75,7 @@ class contacts_model extends CI_Model {
         foreach($departments as $department) {
             $output[$department->department_name] = $department->id;
         }
+        ksort($output);
         return $output;
     }
     
@@ -80,6 +85,7 @@ class contacts_model extends CI_Model {
         foreach($loan_type as $loan) {
             $output[$loan->loan_type] = $loan->id;
         }
+        ksort($output);
         return $output;
     }
     
@@ -89,6 +95,7 @@ class contacts_model extends CI_Model {
         foreach($sections as $section) {
             $output[$section->section_name] = $section->id;
         }
+        ksort($output);
         return $output;
     }
     
@@ -98,6 +105,7 @@ class contacts_model extends CI_Model {
         foreach($lienPositions as $position) {
             $output[$position->lien_position] = $position->id;
         }
+        ksort($output);
         return $output;
     }
     
@@ -136,7 +144,7 @@ class contacts_model extends CI_Model {
     }
     
     function getCompanyEscalationLevels($companyTypeId) {
-        $escalationLevels = $this->db->select('*')->from(ESCALATION_LEVEL_TABLE)->where(array('company_type_id'=>$companyTypeId))->get()->result();
+        $escalationLevels = $this->db->select('*')->from(ESCALATION_LEVEL_TABLE)->where(array('company_type_id'=>$companyTypeId))->order_by('escalation_level')->get()->result();
         return $escalationLevels;
     }
     
@@ -181,6 +189,28 @@ class contacts_model extends CI_Model {
             $this->db->insert(LIEN_POSITION_TABLE,array('lien_position'=>$position));
             $returnDict[CODE] = SUCCESS_CODE;
             $returnDict[MSG] = "Lien Position successfully added";
+        }
+        return $returnDict;
+    }
+    
+    function getDepartmentByID($id) {
+        $department = $this->db->select('*')->from(DEPARTMENT_TABLE)->where(array('id'=>$id))->get()->result();
+        return $department[0]->department_name;
+    }
+    
+    function addCompanyType($name) {
+        $returnDict = array();
+        $companyType = $this->db->select('*')->from(COMPANY_TYPE_TABLE)->where(array('name'=>$name))->get()->result();
+        if(count($companyType) > 0){
+            $returnDict[CODE] = COMPANY_ALREADY_EXIST_CODE;
+            $returnDict[MSG] = "The Company Type already exists";
+        }
+        else {
+            $data = array();
+            $data['name'] = $name;
+            $this->db->insert(COMPANY_TYPE_TABLE,$data);
+            $returnDict[CODE] = SUCCESS_CODE;
+            $returnDict[MSG] = "The Company type added to the system";
         }
         return $returnDict;
     }

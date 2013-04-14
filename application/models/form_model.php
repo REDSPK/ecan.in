@@ -87,7 +87,7 @@ class Form_model extends CI_model
             if(!isset($start) || !$start){
                 $start = 0;
             }
-            $q = $this->db->query("select history.id,first_name,suffix,credits_consumed,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+            $q = $this->db->query("select history.id,first_name,middle_name,suffix,credits_consumed,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
@@ -168,7 +168,7 @@ class Form_model extends CI_model
                 if(!isset($start) || !$start){
                     $start = 0;
                 }
-                $q = $this->db->query("select first_name,credits_consumed,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+                $q = $this->db->query("select first_name,credits_consumed,middle_name,suffix,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
@@ -203,7 +203,7 @@ class Form_model extends CI_model
                 $whereClause = "loan_no = '$loanNumber' AND username = '$companyName'";
             }
             
-            $q = $this->db->query("select first_name,suffix,last_name,credits_consumed,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+            $q = $this->db->query("select first_name,suffix,last_name,middle_name,credits_consumed,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 

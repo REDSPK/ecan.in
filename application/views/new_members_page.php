@@ -102,6 +102,7 @@
                                 type:'POST',
                                 data:$('#blast-form').serialize(),
                                 success:function(data){
+                                    $('input').blur();
                                     if(data.code == <?=SUCCESS_CODE?>) {
                                         updateCredits();
                                         $('#success-msg').html(data.msg + "<strong> "+data.credits_consumed+"</strong> credits consumed")

@@ -381,7 +381,7 @@ class CSV extends CI_Controller
     
     function do_edit_contact($contactId){
         $data = array();
-        $companyID = $this->input->post('company_id');
+        $companyID = $this->input->post('companies');
         $data['first_name'] = $this->input->post('first_name');
         $data['suffix'] = $this->input->post('middle_name');
         $data['last_name'] = $this->input->post('last_name');
@@ -572,6 +572,18 @@ class CSV extends CI_Controller
         $this->load->model('contacts_model');
         $lienPosition = $this->input->post('lien_position');
         $returnDict = $this->contacts_model->addLienPosition($lienPosition);
+        $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($returnDict));
+    }
+    
+    function add_company_type(){
+        $data['main_content'] = 'add_company_type';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function do_add_company_type(){
+        $this->load->model('contacts_model');
+        $companyType = $this->input->post('company_type');
+        $returnDict = $this->contacts_model->addCompanyType($companyType);
         $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($returnDict));
     }
 }

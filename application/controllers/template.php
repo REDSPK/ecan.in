@@ -29,8 +29,8 @@ class Template extends CI_Controller {
         $username = $this->session->userdata('username');
         $this->load->model('member_model');
         $this->load->model('template_model');
-        $name=$this->member_model->get_member_name($username);
-        $signature=$this->member_model->get_signature($username);
+        $name = $this->member_model->get_member_name($username);
+        $signature = $this->member_model->get_signature($username);
         $contacts = $this->template_model->get_contacts_new($limit);
         $num_of_credits = $this->template_model->getNumberOfCredits($this->input->post('escalation_level'));
         $requiredCredits = $num_of_credits*$limit;
@@ -46,9 +46,9 @@ class Template extends CI_Controller {
                 $template = $this->template_model->selectTemplate($contact,$name,$signature,$loan_no);
                 if($this->input->post('date'))
                 {
-                    $subject ="SALE DATE: ".$this->input->post('date')." - ";
+                    $subject ="DATE: ".$this->input->post('date')." - ";
                 }
-                $subject=$subject.$this->input->post('subject')." - LN#:".$this->input->post('loan_number')."-".$this->input->post('client_name');
+                $subject = $subject.$this->input->post('subject')." - LN#:".$this->input->post('loan_number')."-".$this->input->post('client_name');
                 $element = array(
                 'template' => $template,
                 'subject' => $subject,

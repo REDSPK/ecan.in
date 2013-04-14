@@ -266,5 +266,11 @@ class Member_model extends CI_Model
         $this->db->query('UPDATE member SET credits_consumed = credits_consumed + '.$numCredits.' WHERE username = '."'$user'");
         return;
     }
+    
+    function sendCreditsAwardedEmail(){
+        /**
+         * to implement that later
+         */
+    }
 }
 ?>

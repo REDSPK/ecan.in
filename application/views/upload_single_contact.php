@@ -14,7 +14,19 @@ if($success) {
                 $('#companies_names').html(data);
             } 
        });
-       
+       if(company_type_selected != 1){
+            $('#lien_position').hide();
+            $('#section').hide();
+            $('#department').hide();
+            $('#loan_type').hide();
+        }
+        else {
+            $('#lien_position').show();
+            $('#section').show();
+            $('#department').show();
+            $('#loan_type').show();
+
+        }
        $('#companies').live('change',function(e){
             company_type_selected = $('#companies').val();
             if(company_type_selected != 1){
@@ -62,7 +74,7 @@ if($success) {
                     $('form').before(msg)
                 }
             });
-       })
+       });
     });
 </script>
     <form method="POST" action="<?= base_url()?>csv/do_enter_contact" enctype='multipart/form-data'>
@@ -93,6 +105,18 @@ if($success) {
             </select>
             <br/>
         </div>
+         <div id="department">
+            <select name="department">
+                <? 
+                    foreach($department as $key=>$value):
+                ?>
+                        <option value="<?=$value?>"> <?=$key?> </option>
+                <?
+                    endforeach;
+                ?>
+            </select>
+            <br/>
+        </div>
         <div id="section">
             <select name="section">
                 <? 
@@ -105,18 +129,7 @@ if($success) {
             </select>
             <br/>
         </div>
-        <div id="department">
-            <select name="department">
-                <? 
-                    foreach($department as $key=>$value):
-                ?>
-                        <option value="<?=$value?>"> <?=$key?> </option>
-                <?
-                    endforeach;
-                ?>
-            </select>
-            <br/>
-        </div>
+       
         <div id="loan_type">
             <select name="loan_type">
                 <? 

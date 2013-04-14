@@ -40,7 +40,7 @@ class Admin extends CI_Controller
 
             $data['main_content']='admin_panal';
             $delete_requested = $this->member_model->get_delete_requests();
-            $records = $this->db->select('*')->from('member')->order_by('first_name','asc')->limit($config['per_page'],$this->uri->segment(3))->get()->result();
+            $records = $this->db->select('*')->from('member')->order_by('last_name','asc')->limit($config['per_page'],$this->uri->segment(3))->get()->result();
             $data['record']= $records;
             $data['delete_requests'] = $delete_requested;
             $this->load->view('includes/template',$data);
@@ -131,11 +131,13 @@ class Admin extends CI_Controller
         private function updateAdminCredits($toUser,$itemID) {
             $fromUser = $this->session->userdata('username');
             $data = array('to_user'=>$toUser,'from_user'=>$fromUser,'item_id'=>$itemID);
-            $this->db->insert('admin_awarded_credits', $data); 
+            $this->db->insert('admin_awarded_credits', $data);
+            $this->load->model('member_model');
+            $this->member_model->sendCreditsAwardedEmail($toUser,$itemID);
         } 
         
         function user_history($username) {
-        $this->load->model('form_model');
+            $this->load->model('form_model');
             $this->load->library('pagination');
             $this->load->library('table');
             $config['base_url'] = base_url().'admin/user_history/'.$username;

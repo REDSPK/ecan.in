@@ -17,7 +17,6 @@ if($success) {
             $('#section').show();
             $('#department').show();
             $('#loan_type').show();
-
         }
         $('#companies').live('change',function(e) {
             company_type_selected = $('#companies').val();
@@ -85,7 +84,7 @@ if($success) {
         
         
         <div id="companies_names">
-        <select name="escalation_level" id='companies'>
+        <select name="escalation_level" >
             <? 
                 foreach($escalations as $escalation):
                     if($escalation->id == $contact->escalation_level_id){

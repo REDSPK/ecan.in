@@ -3,24 +3,24 @@
 	<?php 
 	$attributes = array('class' => 'well span4', 'id' => 'login_form');
 	echo form_open('login/validate_cradentials',$attributes);
-
+        echo "<div>";
 	$username = array(
 		'name' => 'username',
 		'id'=> 'username',
 		'class' => 'span3',
 		'placeholder'=>"Type Username here...",
-    'required'=>'required'
+                'required'=>'required'
 		);
 		echo form_input($username);
-
+     
 	$password = array(
 		'name' => 'password',
 		'id'=>'password',
 		'class' =>'span3',
 		'placeholder' => 'Type Password here...',
-    'required'=>'required' );
+        'required'=>'required' );
 	echo form_password($password);
-
+        echo "</div>";
 	$btn = array(
                     'class' => 'btn-primary',
                     'id' => 'submit',
