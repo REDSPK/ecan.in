@@ -101,6 +101,7 @@ function loadCompanies(){
 <div class ='pagination pagination-centered'>
 <form class="form-inline search_form" action="<?=base_url()?>csv/search_contact" method="POST">
     <select name="search_criteria" id="search_criteria" >
+        <option value="<?=SEARCH_BY_LASTNAME?>">By Last Name</option>
         <option value="<?=SEARCH_BY_EMAIL?>">By Email</option>
         <option value="<?=SEARCH_BY_COMPANY?>">By Company</option>
     </select>

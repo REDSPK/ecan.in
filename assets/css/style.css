@@ -14,9 +14,8 @@
 
 #login_form,#contact_form{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
 #myform{width: 400px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
-#myform input[type=submit],#login_form input[type=submit]{background: #348075; -moz-border-radius:4px;-webkit-border-radius:4px;}
 
-#login_form #signup_anchor{margin-left:20px;text-decoration: none;padding: 4px;color: white; background: #348075; border: none; -moz-border-radius:4px;-webkit-border-radius:4px;}
+#login_form #signup_anchor{margin-left:9px;}
 #login_form #pass_recover_anchor{margin: 5px;}
 .error{background: #eee;margin: 5px;font-style: italic;font-weight: bold; width:300px;color: red; display: inline; -moz-border-radius:4px;-webkit-border-radius:4px;}
 #errorstring{margin-left: 400px; text-align: center;}
@@ -33,12 +32,19 @@
     width:100%; 
 }
 #popup{margin: 200px;padding: 30px;background-color:#eee;-moz-border-radius:12px;-webkit-border-radius:12px;}
-#message h1{margin: 200px;}
-
+#message h1 {margin: 200px;}
 label.valid {
-		  width: 24px;
-		  height: 24px;
-		  background: url(../img/valid.png) center center no-repeat;
-		  display: inline-block;
-		  text-indent: -9999px;
-		}
+  width: 24px;
+  height: 24px;
+  background: url(../img/valid.png) center center no-repeat;
+  display: inline-block;
+  text-indent: -9999px;
+}
+.heading{
+    font-size: 24px;
+}
+.credits{
+    font-weight: bold;
+    font-size: 24px;
+    color:green;
+}

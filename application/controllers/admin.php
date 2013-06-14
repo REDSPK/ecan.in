@@ -57,12 +57,12 @@ class Admin extends CI_Controller
             $this->db->update('member',$data);
         }
         
-        function add_credits($username,$itemID) {
+        function add_credits($username,$itemID,$comments) {
             $this->load->model('transaction');
             $this->load->model('member_model');
             $num_credits = $this->transaction->getNumberOfCredits($itemID);
             $updateQuery = $this->member_model->updateUserCredits($username,$num_credits);
-            $this->updateAdminCredits($username, $itemID);
+            $this->updateAdminCredits($username, $itemID,$comments);
         }
        
         function search_user() {
@@ -108,7 +108,6 @@ class Admin extends CI_Controller
                               echo "<a href='add_credits/$h->username' class='award-credits'>Award Credits</a>";
                             }
                         }
-                        
                         else if($this->session->userdata('admin')) {
                             if($h->user_type == END_USER_TYPE) {
                                 echo "<a href='make_employee/$h->username' class='confirm-employee' id='$h->username'>Make Employee</a> | ";
@@ -128,7 +127,7 @@ class Admin extends CI_Controller
             }
         }
         
-        private function updateAdminCredits($toUser,$itemID) {
+        private function updateAdminCredits($toUser,$itemID,$comments) {
             $fromUser = $this->session->userdata('username');
             $data = array('to_user'=>$toUser,'from_user'=>$fromUser,'item_id'=>$itemID);
             $this->db->insert('admin_awarded_credits', $data);

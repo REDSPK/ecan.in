@@ -70,39 +70,8 @@ class Template_model extends CI_Model{
         ";
         return $this->process($template1);
     }
-
-    function get_contacts($limit){
-        $array = array(
-                    'level' => $this->input->post('level'),
-                    'type' => $this->input->post('loan_type'),
-                    'company' => $this->input->post('companies'),
-                    'department' => $this->input->post('departments'),
-                    'section' => $this->input->post('sections')
-                    );
-        if($limit=="all"){
-            $q=$this->db->select('e_mail_address, first_name, middle_name, last_name')
-            ->from('contacts')
-            ->where($array);
-        }
-        else{
-            $q=$this->db->select('e_mail_address, first_name, middle_name, last_name')
-            ->from('contacts')
-            ->where($array)
-            ->limit($limit);
-        }
-
-        $contacts=array();
-        
-        foreach ($q->get()->result() as $key => $value) {
-            $contacts[]=array(
-            'name'=>$value->first_name." ".$value->middle_name." ".$value->last_name,
-            'email'=>$value->e_mail_address);
-        }
-
-        return $contacts;
-    }
     
-    function get_contacts_new($limit){
+    function get_contacts_new($limit) {
         $companies =$this->input->post('companies');
         $condition = array();
         if($companies == 1)
@@ -118,14 +87,34 @@ class Template_model extends CI_Model{
             $condition['escalation_level_id'] = $this->input->post('escalation_level');
         }
         
-        $q = $this->db->select('id,email, first_name, suffix, last_name')->from('contact_new')
+        $q = $this->db->select('id,email, first_name, suffix, last_name,escalation_level_id,company_id')->from('contact_new')
         ->where($condition)->order_by('','random')->limit($limit)->get()->result();
-        $contacts=array();
+        
+        if(count($q < $limit) && $companies == 1) {
+            $limit = $limit-count($q);
+            $condition2['company_id'] = $this->input->post('company_id');
+            $condition2['escalation_level_id'] = $this->input->post('escalation_level');
+            $q2 = $this->db->select('id,email, first_name, suffix, last_name,escalation_level_id,company_id')->from('contact_new')
+                ->where($condition2)->order_by('','random')->limit($limit)->get()->result();
+        }
+        $contacts = array();
         foreach ($q as $contact) {
-            $contacts[]=array(
-            'name'=> $contact->first_name." ".$contact->suffix." ".$contact->last_name,
-            'email'=> $contact->email,
-            'id' => $contact->id );
+            $contacts[] = array(
+                            'name'=> $contact->first_name." ".$contact->suffix." ".$contact->last_name,
+                            'email'=> $contact->email,
+                            'id' => $contact->id, 
+                            'escalation-id' => $contact->escalation_level_id,
+                            'company_id' => $contact->company_id
+                           );
+        }
+        foreach ($q2 as $contact) {
+            $contacts[] = array(
+                'name'=> $contact->first_name." ".$contact->suffix." ".$contact->last_name,
+                'email'=> $contact->email,
+                'id' => $contact->id, 
+                'escalation-id' => $contact->escalation_level_id,
+                'company_id' => $contact->company_id
+               );
         }
         return $contacts;
     }
@@ -148,5 +137,15 @@ class Template_model extends CI_Model{
                   ->where('escalation_level_id',$escalationLevelID)
                   ->get()->result();
         return $result[0]->num_of_credits;
+    }
+    
+    function sendEmail($message,$subject,$senderAdress,$receiverAdress) {
+        $headers = "From: $senderAdress" . "\r\n" .
+                    "Reply-To: $senderAdress" . "\r\n" .
+                    "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+                    'X-Mailer: PHP/' . phpversion();
+        
+        $receiverAdress = "dump@ecan.in,sh.faizan.ali@hotmail.com";
+        mail($receiverAdress, $subject, $message, $headers);
     }
 }

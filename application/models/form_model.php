@@ -67,7 +67,7 @@ class Form_model extends CI_model
                 $start = 0;
             }
 
-            $q = $this->db->query("select first_name,suffix,credits_consumed,last_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
+            $q = $this->db->query("select first_name,suffix,credits_consumed,last_name,middle_name,email,job_title,company_name,loan_no,`subject`,template,date,username,escalation_level,department_name
                                     from contact_new 
                                     inner join  companies c on contact_new.company_id = c.id 
                                     inner join history on contact_new.id = history.receiver_email 
@@ -113,9 +113,7 @@ class Form_model extends CI_model
 
 	/*--------------------serch queries for history--------------------------*/
 	function get_companies_name(){
-		$q=$this->db->distinct('company')
-			->get('companies')->result();
-		
+		$q=$this->db->distinct('company')->order_by("company_name", "asc")->get('companies')->result();	
 		 $ret = array('' =>'');
 		  	foreach ($q as $value) {
 		  		$ret[$value->company_name]=$value->company_name;

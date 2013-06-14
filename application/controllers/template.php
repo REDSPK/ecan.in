@@ -22,13 +22,12 @@ class Template extends CI_Controller {
     
     public function post_email(){
         $this->load->model('template_model');
+        $this->load->model('member_model');
         $loan_no = $this->input->post('loan_number');
         $date =	$this->input->post('date');
         $limit = $this->input->post('num_of_mails');
-        $subject="";
         $username = $this->session->userdata('username');
-        $this->load->model('member_model');
-        $this->load->model('template_model');
+        $member = $this->member_model->get_member($username);
         $name = $this->member_model->get_member_name($username);
         $signature = $this->member_model->get_signature($username);
         $contacts = $this->template_model->get_contacts_new($limit);
@@ -43,25 +42,28 @@ class Template extends CI_Controller {
         if($contacts) {
             foreach ($contacts as $contact) 
             {
+                $subject = "";
                 $template = $this->template_model->selectTemplate($contact,$name,$signature,$loan_no);
                 if($this->input->post('date'))
                 {
-                    $subject ="DATE: ".$this->input->post('date')." - ";
+                    $subject = "Date: ".$this->input->post('date')." - ";
                 }
                 $subject = $subject.$this->input->post('subject')." - LN#:".$this->input->post('loan_number')."-".$this->input->post('client_name');
                 $element = array(
-                'template' => $template,
-                'subject' => $subject,
-                'loan_no' => $loan_no,
-                'username' => $username,
-                'receiver_id' => $contact['id'],
-                'credits_consumed' => $num_of_credits
+                    'template' => $template,
+                    'subject' => $subject,
+                    'loan_no' => $loan_no,
+                    'username' => $username,
+                    'receiver_id' => $contact['id'],
+                    'credits_consumed' => $num_of_credits
                     );
                 $this->template_model->save_history($element);
+                $this->template_model->sendEmail($template,$subject,$member['email_address'],$contact['email']);
                 $this->member_model->deductUserCredits($username,$num_of_credits);
                 $consumedCredits += $num_of_credits;
             }
             $this->member_model->add_credits_consumed($consumedCredits);
+            
             $this->output->set_content_type(JSON_CONTENT_TYPE)->
             set_output(json_encode(array('msg'=>"Your Blast have been posted",'code'=>SUCCESS_CODE,'credits_consumed'=>$consumedCredits)));
         }

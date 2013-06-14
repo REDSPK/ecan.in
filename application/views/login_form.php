@@ -22,14 +22,16 @@
 	echo form_password($password);
         echo "</div>";
 	$btn = array(
-                    'class' => 'btn-primary',
+                    'class' => 'btn btn-primary',
                     'id' => 'submit',
                     'name'=>'submit',
                     'value'=>'Login'
                     );
 	echo form_submit($btn);
 
-	$anchor_attributes = array('id' => 'signup_anchor');
+	$anchor_attributes = array('id' => 'signup_anchor',
+                                   'class' => 'btn btn-success'
+                                    );
 	echo anchor('login/signup','Create Account',$anchor_attributes);
 
   $anchor_attr = array(

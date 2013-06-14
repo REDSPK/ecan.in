@@ -76,6 +76,11 @@
                       <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
                       <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
                       <li><?php echo anchor('csv/export_contacts','Export Contacts'); ?></li>
+                      
+                    </ul></li>
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contacts Management<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
                       <li><?php echo anchor('csv/add_escalation_level','Add Escalation Level'); ?></li>
                       <li><?php echo anchor('csv/add_department','Add Department'); ?></li>
                       <li><?php echo anchor('csv/add_company_type','Add Company Type'); ?></li>
@@ -83,6 +88,8 @@
                       <li><?php echo anchor('csv/add_loantype','Add Loan Type'); ?></li>
                       <li><?php echo anchor('csv/add_section','Add Section'); ?></li>
                       <li><?php echo anchor('csv/add_lien_position','Add Lien Position'); ?></li>
+                      <li><?php echo anchor('csv/manage_escalation_levels','Manage Escalation Levels'); ?></li>
+                      <li><?php echo anchor('csv/manage_companies','Manage Companies'); ?></li>
                     </ul></li>
                       <?php 
                 }
@@ -99,7 +106,8 @@
                 }
                 ?>
             <li><a href="#">About</a></li>
-            <li><a href="#">Contact Us</a></li>
+            <li><?php echo anchor('static_pages/disclaimer','Disclaimer');?></li>
+            <li><?php echo anchor('static_pages/contact_us','Contact Us');?></li>
             <?php
                 if ($this->session->userdata('is_logged_in')):
                       $username=$this->session->userdata('username'); ?>

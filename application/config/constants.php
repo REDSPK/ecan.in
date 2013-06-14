@@ -143,7 +143,8 @@ define('PAYPAL_CALLBACK_URL',"http://ecan.in/index.php"."/paypal/notify_paypal")
 define('SEARCH_BY_USERNAME',1);
 define('SEARCH_BY_EMAIL',2);
 define('SEARCH_BY_COMPANY',3);
-
+define('SEARCH_BY_LASTNAME',4);
+define('CONTACT_US_EMAIL','info@ecan.in');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
 

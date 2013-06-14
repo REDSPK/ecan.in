@@ -165,6 +165,7 @@
 
                 <select name="companies" id="select_company">
                 <? 
+                
                     foreach($companies as $key=>$value):
                 ?>
                         <option value="<?= $value?>"> <?=$key?> </option>
@@ -190,7 +191,7 @@
                 </select>
                 <span class="help-block">Select the number of contacts to send email to</span>
                 <input type="text" name="loan_number" placeholder="Loan number" id='loan_number'/> <br/>
-                <input type="text" name="date" id="date" placeholder="Date" /> <br/>
+                <input type="text" name="date" id="date" placeholder="Sale Date" /> <br/>
 
                 <label class="checkbox">
                     <input type="checkbox" name="lack_of_contact" value="1" />Lack of Contact
@@ -216,7 +217,7 @@
     </div>
     <div class="span4">
         <span class="heading">Your Credits :</span>
-        <span class="credits my-credits">... </span>
+        <span class="credits my-credits"><?=$member['credits'];?> </span>
         <br/>
         <br/>
         <span class="heading">This Blast : </span>

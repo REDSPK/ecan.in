@@ -214,5 +214,56 @@ class contacts_model extends CI_Model {
         }
         return $returnDict;
     }
+    
+    function getEscalationLevelsFromDb() {
+        $escalationLevels = $this->db->query('select e.id,e.escalation_level,c.name,cr.num_of_credits,e.comments 
+                                              from escalation_level e 
+                                              INNER JOIN company_type c on e.company_type_id = c.id
+                                              INNER JOIN credits_per_escalation cr on e.id = cr.escalation_level_id')->result();
+        return $escalationLevels;
+        
+    }
+    
+    function getEscalationInfo($id) {
+        $escalationInfo = $this->db->query("select e.id,e.escalation_level,c.name,cr.num_of_credits,e.comments,c.id as company_id
+                                              from escalation_level e 
+                                              INNER JOIN company_type c on e.company_type_id = c.id
+                                              INNER JOIN credits_per_escalation cr on e.id = cr.escalation_level_id where e.id = $id")->result();
+        return $escalationInfo;
+    }
+    
+    function updateEscalation($id,$name,$type,$numCredits,$comments){
+        $data = array();
+        $data['company_type_id'] = $type;
+        $data['escalation_level'] = $name;
+        $data['comments'] = $comments;
+        $this->db->where(array('id'=>$id));
+        $this->db->update(ESCALATION_LEVEL_TABLE,$data);
+        $data2 = array();
+        $data2['num_of_credits'] = $numCredits;
+        $this->db->where(array('escalation_level_id'=>$id));
+        $this->db->update('credits_per_escalation',$data2);
+    }
+    
+    function getAllCompaniesfromDb(){
+        $companies = $this->db->query('select c.id,c.company_type_id,c.company_name,c_type.`name` as company_type_name from companies c inner join company_type c_type on c.company_type_id = c_type.id')
+                     ->result();
+        return $companies;
+    }
+    
+    function getCompanyInfo($id){
+        $companies = $this->db->query("select c.id,c.company_type_id,c.company_name,c_type.`name` as company_type_name 
+                                       from companies c inner join company_type c_type on c.company_type_id = c_type.id
+                                       WHERE c.id = $id")->result();
+        return $companies;
+    }
+    
+    function updateCompany($id,$name,$type) {
+        $data = array();
+        $data['company_name'] = $name;
+        $data['company_type_id'] = $type;
+        $this->db->where(array('id'=>$id));
+        $this->db->update(COMPANIES_TABLE,$data);
+    }
 }
 ?>

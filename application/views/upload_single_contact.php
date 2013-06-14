@@ -144,8 +144,8 @@ if($success) {
         </div>
         <input type="text" name="first_name" placeholder="First Name" /> <br/>
         <input type="text" name="middle_name" placeholder="Middle Name" /> <br/>
-        <input type="text" name="suffix" placeholder="Suffix" /> <br/>
         <input type="text" name="last_name" placeholder="Last Name" /> <br/>
+        <input type="text" name="suffix" placeholder="Suffix" /> <br/>
         <input type="text" name="job_title" placeholder="Job Title" /> <br/>
         <input type="text" name="email" placeholder="Email" /> <br/>
         

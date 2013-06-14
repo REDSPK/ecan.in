@@ -72,8 +72,8 @@ $(function(){
         });
         link3 = $(this).attr('href');
         $('#btn-award-credits').live('click',function(){
-            awardCredits(link3,$('.item_type').val());
-//            $('.popup').trigger('close');
+            var comments = $('#credits_comments').val();
+            awardCredits(link3,$('.item_type').val(),comments);
         });
     });
     
@@ -115,11 +115,11 @@ function makeEmployee(link,isUser) {
     });
 }
 
-function awardCredits(link,numCredits){
+function awardCredits(link,numCredits,comments){
     $.ajax({
-        url: link+'/'+numCredits,
+        url: link+'/'+numCredits+'/'+comments,
         type: 'GET',
-        success:function(data){
+        complete:function(data){
             location.reload();
         }
     });
@@ -225,7 +225,7 @@ else
         <button class="btn cancel" >Cancel</button>
     </div>
     
-    <div id="add-credits-popup" class="popup" style="display: none;">
+    <div id="add-credits-popup" class="popup" style="display: none;width: 27%;">
         <legend>Add Credits</legend>
         <div id="add-credits-title"></div>
         <form class="form-inline">
@@ -239,7 +239,8 @@ else
                 <option value="<?=ECAN50000_PRODUCT_NAME?>"><?=ECAN50000_PRODUCT_NAME?></option>
                 <option value="<?=ECAN100000_PRODUCT_NAME?>"><?=ECAN100000_PRODUCT_NAME?></option>
             </select>
-            
+            <br/>
+            <textarea name="credits_comments" id="credits_comments" placeholder="Enter any additional comments here......" style="resize:none;width: 100%;"></textarea> <br/>
         </form>
         <button class="btn btn-primary" id="btn-award-credits"> Add Credits </button>
         <button class="btn cancel"> Cancel </button>

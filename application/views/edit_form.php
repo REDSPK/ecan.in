@@ -212,8 +212,18 @@ echo form_close();
 </div><!-- 2nd span4 close here-->
 
 <div class="span3">
-	<h4>Actions</h4>
-	<?php echo anchor('edit_profile/change_password','Change Password'); ?><br>
+    <div>
+        <span class="heading">Your Credits :</span>
+        <span class="credits my-credits"><?=$member['credits'];?> </span>
+        <br/>
+        <hr style="margin-bottom: 10px;" >
+        <a href="<?=base_url().'paypal/buy_credits'?>" style="font-size: 1em;text-decoration: underline;"/>Get More Credits</a>
+    </div>
+    <div>
+        <h4>Actions</h4>
+        <hr style="margin-bottom: 10px;" >
+        <?php echo anchor('edit_profile/change_password','Change Password'); ?><br>
+    </div>
 </div><!-- 3rd span4 close here-->
 </div>
 

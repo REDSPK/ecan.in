@@ -12,7 +12,6 @@ class CSV extends CI_Controller
         parent::__construct();
         $this->load->helper('url');
         $this->load->model('contacts_model');
-        
         $this->escalationToCompanyHash = $this->contacts_model->getEscalationsToCompanyIdArray();
         $this->companiesToIDHash = $this->contacts_model->getCompaniesTypeToIdArray();
         $this->escalationToIDHash = $this->contacts_model->getEscalationToIdArray();
@@ -126,12 +125,15 @@ class CSV extends CI_Controller
     }
     
     function new_members_page() {
+        $this->load->model('member_model');
+        $member = $this->member_model->get_member($this->session->userdata('username'));
         $data['companies'] = $this->companiesToIDHash;
         $data['main_content']='new_members_page';
+        $data['member'] = $member;
         $this->load->view('includes/template',$data);
     }
     
-    function get_all_companies_dropdowns(){
+    function get_all_companies_dropdowns() {
         $companies = $this->db->order_by("company_name", "asc")->get('companies')->result();
         if($companies){
             $returnHTML = "<select name='phrase'>";
@@ -426,6 +428,13 @@ class CSV extends CI_Controller
                         ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->where('company_id',$phrase)
                         ->order_by('last_name','ASC')->get()->result();
         }
+        else if ($criteria == SEARCH_BY_LASTNAME) {
+            $records = $this->db->select('contact_new.id,first_name,last_name,middle_name,suffix,job_title,email,company_name,escalation_level')
+                        ->from('contact_new')
+                        ->join('companies','contact_new.company_id = companies.id','inner')
+                        ->join('escalation_level','escalation_level.id = contact_new.escalation_level_id','inner')->where('last_name',$phrase)
+                        ->order_by('last_name','ASC')->get()->result();
+        }
         $deleted = $this->contacts_model->get_delete_requests();
         if($records){
             echo "<table class='table table-striped'>";
@@ -585,6 +594,77 @@ class CSV extends CI_Controller
         $companyType = $this->input->post('company_type');
         $returnDict = $this->contacts_model->addCompanyType($companyType);
         $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($returnDict));
+    }
+    
+    function manage_escalation_levels(){
+        $this->load->model('contacts_model');
+        $escalationLevels = $this->contacts_model->getEscalationLevelsFromDb();
+        $data['escalationLevels'] = $escalationLevels;
+        $data['main_content'] = 'manage_escalation_levels';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function delete_escalation_level(){
+        $id = $this->input->get('id');
+        $this->db->where('id', $id);
+        $this->db->delete(ESCALATION_LEVEL_TABLE);
+        $this->db->where('escalation_level_id' ,$id);
+        $this->db->delete('credits_per_escalation');
+        
+        
+    }
+    function edit_escalation_level() {
+        $id = $this->input->get('id');
+        $this->load->model('contacts_model');
+        $escalationLevel = $this->contacts_model->getEscalationInfo($id);
+        $data['company_type'] = $this->companiesToIDHash;
+        $data['escalationLevel'] = $escalationLevel[0];
+        $data['main_content'] = 'edit_escalation_level';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function do_edit_escalation(){
+        $this->load->model('contacts_model');
+        $id = $this->input->get('id');
+        $name = $this->input->post('escalation_name');
+        $type = $this->input->post('company_type');
+        $numCredits = $this->input->post('num_of_credits');
+        $comments = $this->input->post('comments');
+        $this->contacts_model->updateEscalation($id,$name,$type,$numCredits,$comments);
+        redirect('csv/manage_escalation_levels');
+    }
+    
+    function manage_companies() {
+        $this->load->model('contacts_model');
+        $companies = $this->contacts_model->getAllCompaniesfromDb();
+        $data['companies'] = $companies;
+        $data['main_content'] = 'manage_companies';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function edit_company(){
+        $this->load->model('contacts_model');
+        $id = $this->input->get('id');
+        $company = $this->contacts_model->getCompanyInfo($id);
+        $data['company_type'] = $this->companiesToIDHash;
+        $data['company'] = $company[0];
+        $data['main_content'] = 'edit_company';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function delete_company(){
+        $id = $this->input->get('id');
+        $this->db->where('id', $id);
+        $this->db->delete(COMPANIES_TABLE);
+    }
+    
+    function do_edit_company() {
+        $this->load->model('contacts_model');
+        $id = $this->input->get('id');
+        $name = $this->input->post('company_name');
+        $type = $this->input->post('company_type');
+        $this->contacts_model->updateCompany($id,$name,$type);
+        redirect('csv/manage_companies');
     }
 }
 ?>
