@@ -144,7 +144,6 @@ echo form_input($cweb);
 		'name' => 'affiliate_code',
 		'id'=> 'affiliate_code',
 		'class' => 'span3',
-		'required'=>'required',
 		'placeholder'=>"Type your affiliate code here"
 		);
     echo form_input($afiliateCode);

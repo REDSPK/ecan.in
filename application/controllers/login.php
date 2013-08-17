@@ -106,7 +106,6 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules('company_website','Company Website','trim|required|man_length[25]|xss_clean');
         $this->form_validation->set_rules('username','Username','trim|required|min_length[4]|man_length[15]|is_unique[member.username]|xss_clean|alpha_numeric');
         $this->form_validation->set_rules('password','Password','|trim|required|min_length[4]|max_length[32]');
-        $this->form_validation->set_rules('affiliate_code','Affiliate Code','|trim|required|min_length[6]|max_length[6]');
         $this->form_validation->set_rules('password2','Password Confirm','trim|required|matches[password]');
         if($this->form_validation->run()==FALSE)
         {
