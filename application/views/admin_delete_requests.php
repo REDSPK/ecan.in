@@ -20,6 +20,10 @@
 #delete-topic-title {
 	margin-bottom: 19px;
 }
+.table.table-striped tr th {
+	color: #FFF;
+	background-color: #849BA6;
+}
 </style>
 <script>
     $(function(){
@@ -62,7 +66,7 @@
         });
     }
 </script>
-<h4>Review Delete Requests</h4>
+<div class="row"><h4><a href="../../../as"><img src="../../../assets/img/i-admin.png" width="35" height="35" alt="Home" /></a>Review Delete Requests</h4>
 <? 
 if(count($requests) > 0){
 ?>
@@ -101,4 +105,6 @@ if(count($requests) > 0){
     <legend>Deny Delete</legend>
     <button class="btn btn-danger" id="btn-deny-delete">Confirm</button>
     <button class="btn cancel" >Cancel</button>
+</div>
+
 </div>

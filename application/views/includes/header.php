@@ -23,6 +23,10 @@
             height: 100%;
             display: none;
         }
+        .credit-heading{
+            padding-left: 0px;
+        }
+</style>
     </style>
     <script>
         $(function() {
@@ -33,12 +37,10 @@
                 $('#overlay').show(); 
                 
             });
-            
             $(document).ajaxStop(function(){ 
                 $('#overlay').hide(); 
                 $('#ajax-loader').hide();
             });
-            
         });
     </script>
   </head>
@@ -46,40 +48,54 @@
   <body>
     <div id="ajax-loader" style="position:absolute;top:50%;left:50%;z-index:999;display:none;"><img src="<?php echo base_url().'../assets/img/ajax-loader.gif'?>"></img></div>
     <div id="overlay"></div>
-     <div class="container">
+<div id="bar1"> </div> 
+<div class="container">
+<div id="ecanL"></div>  
     <!-- Header row start here -->
        
         <!-- navigation column-->
       <div class="row">
           <!-- navigation row-->
         <div class="span12 header">
-          <ul class="nav nav-pills pull-right">
+          <ul class="nav nav-pills pull-left">
             <?php
-                if ($this->session->userdata('is_logged_in')): ?>
-                      <li><?php echo anchor('site/member_area','Home'); ?></li>
-                      <li><?php echo anchor('edit_profile','Edit Profile'); ?></li>
-                      <li><?php echo anchor('site/history_detail','History'); ?></li>
-                      <li><?php echo anchor('paypal/buy_credits','Buy Credits'); ?></li>
-                      <?php
-                else: ?>
-                      <li><?php echo anchor('login','Home'); ?></li><?php
-                endif ?>
-            <?php
-                if($this->session->userdata('admin')){?>
-                    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><?php echo anchor('admin/admin_area','Users Table'); ?></li>
-                      <li><?php echo anchor('admin/review_delete_requests','Member Delete Requests'); ?></li>
-                      <li><?php echo anchor('csv/review_delete_requests','Contact Delete Requests'); ?></li>
-                      <li><?php echo anchor('csv/all_contacts','Contacts'); ?></li>
-                      <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
-                      <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
-                      <li><?php echo anchor('csv/export_contacts','Export Contacts'); ?></li>
+                if ($this->session->userdata('is_logged_in'))
+                {
+            ?>
+                  <li><a href="<?php echo base_url('site/member_area'); ?>"><img src="../../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
+                  <li><a href="<?php echo base_url('user/edit_profile'); ?>"><img src="../../assets/img/i-edit.png" width="80" height="35" alt="Edit Profile" />Edit Profile</a></li>
+                  <li><a href="<?php echo base_url('site/history_detail'); ?>"><img src="../../assets/img/i-history.png" width="35" height="35" alt="History" />History</a></li>
+                  <li><a href="<?php echo base_url('paypal/buy_credits'); ?>"><img src="../../assets/img/i-buy.png" width="75" height="35" alt="Buy Credits" />Buy Credits</a></li>
+                  
+          <?php
+                }
+          else
+          {
+          ?>
+                  <li><a href="<?php echo base_url('login'); ?>"><img src="../../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
+          <?php
+          }
+          ?>
+          <?php
+          if($this->session->userdata('admin'))
+          {
+          ?>
+              <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../assets/img/i-admin.png" width="35" height="35" alt="Admin" />Admin<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><?php echo anchor('admin/admin_area','Users Table'); ?></li>
+                <li><?php echo anchor('admin/review_delete_requests','Member Delete Requests'); ?></li>
+                <li><?php echo anchor('csv/review_delete_requests','Contact Delete Requests'); ?></li>
+                <li><?php echo anchor('csv/all_contacts','Contacts'); ?></li>
+                <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
+                <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
+                <li><?php echo anchor('csv/export_contacts','Export Contacts'); ?></li>
                       
-                    </ul></li>
+              </ul>
+                    </li>
                     <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contacts Management<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../assets/img/i-contacts.png" width="75" height="35" alt="Contacts" />Contacts <br>
+                    Management<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <li><?php echo anchor('csv/add_escalation_level','Add Escalation Level'); ?></li>
                       <li><?php echo anchor('csv/add_department','Add Department'); ?></li>
@@ -89,36 +105,54 @@
                       <li><?php echo anchor('csv/add_section','Add Section'); ?></li>
                       <li><?php echo anchor('csv/add_lien_position','Add Lien Position'); ?></li>
                       <li><?php echo anchor('csv/manage_escalation_levels','Manage Escalation Levels'); ?></li>
+                      <li><?php echo anchor('csv/view_company_type','Manage Company Types'); ?></li>
                       <li><?php echo anchor('csv/manage_companies','Manage Companies'); ?></li>
-                    </ul></li>
-                      <?php 
-                }
-                else if ($this->session->userdata('employee')){
-                ?>
-                    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Employee <b class="caret"></b></a>
+</ul></li>
+            <?php 
+            }
+            else if ($this->session->userdata('employee'))
+            {
+            ?>
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><img src="../../assets/img/i-about.png" width="35" height="35" alt="Home" />Employee <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><?php echo anchor('admin/admin_area','Users Table'); ?></li>
+                  <li><?php echo anchor('csv/all_contacts','Contacts'); ?></li>
+                  <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
+                </ul></li>
+            <?    
+            }
+            else if ($this->session->userdata('affiliate'))
+            {    
+            ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><img src="../../assets/img/i-about.png" width="35" height="35" alt="Home" />Affiliate <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                      <li><?php echo anchor('admin/admin_area','Users Table'); ?></li>
-                      <li><?php echo anchor('csv/all_contacts','Contacts'); ?></li>
-                      <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
-                    </ul></li>
-                <?    
-                }
-                ?>
-            <li><a href="#">About</a></li>
-            <li><?php echo anchor('static_pages/disclaimer','Disclaimer');?></li>
-            <li><?php echo anchor('static_pages/contact_us','Contact Us');?></li>
+                      <li><?php echo anchor('affiliate/home','Home'); ?></li>
+                      <li><?php echo anchor('affiliate/generate_referal_code','Generate Referal Code'); ?></li>
+                      <li><?php echo anchor('affiliate/my_referal_codes','My Referal Code'); ?></li>
+                    </ul>
+                </li>
+            <?
+            }
+            ?>
+            <li><a href="#"><img src="../../assets/img/i-about.png" width="35" height="35" alt="Home" />About</a></li>
+            <li><a href="<?php echo base_url('static_pages/disclaimer');?>"><img src="../../assets/img/i-disclamer.png" width="65" height="35" alt="Home" />Disclaimer</a></li>
+            <li><a href="<?php echo base_url('static_pages/contact_us');?>"><img src="../../assets/img/i-contactUs.png" width="70" height="35" alt="Home" />Contact Us</a></li>
             <?php
-                if ($this->session->userdata('is_logged_in')):
-                      $username=$this->session->userdata('username'); ?>
-                      <li><?php echo anchor('signout','signout ('.$username.')'); ?></li><?php
-                endif ?>
+                if ($this->session->userdata('is_logged_in'))
+                {
+                  $username=$this->session->userdata('username'); ?>
+                  <li><a style="white-space: normal;" href="<?php echo base_url('signout') ?>"><img src="../../assets/img/i-logout.png" width="50" height="35" alt="Home" /><? echo "signout ($username)"?></a></li>
+            <?php
+               }
+           ?>
           </ul>
         </div> 
           <!-- End navigation row-->
-       </div>
+       </div> <div class="barbot"></div>
         <!--End navigation column-->
     <!-- End of Header row-->
 
-      <hr class="hup"><hr class="hdown">
-      <div id="content">
+    <!--  <hr class="hup"><hr class="hdown">-->
+      <div id="content"> <div class="row">

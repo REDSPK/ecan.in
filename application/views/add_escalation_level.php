@@ -22,8 +22,8 @@
     });
 </script>
 <div class="row">
-    <h4>Add New Escalation Level</h4>
-<form action='<?=base_url()?>csv/do_add_escalation' method="POST">
+    <h4><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Contacts" />Add New Escalation Level</h4>
+<div class="span11"><fieldset><form action='<?=base_url()?>csv/do_add_escalation' method="POST">
     <select name="company_type">
         <?
             foreach($companies as $key=>$value){
@@ -38,7 +38,8 @@
     <br/>
     <input type="text" name="comments" placeholder="Enter Comments Here"/>
     <br/>
-    <input type="submit" value="Enter" class="btn btn-primary">
-</form>
+    <input type="submit" value="Enter" class="btnGreen">
+</form></fieldset>
 
-</div>
+
+</div></div>

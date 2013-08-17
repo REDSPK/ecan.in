@@ -27,11 +27,12 @@
     });
 </script>
 <div class="row">
-    <h4>Add new Lien Position</h4>
-<form action='<?=base_url()?>csv/do_add_lien_position' method="POST">
+    <h4><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Contacts" />Add new Lien Position</h4>
+<div class="span11"><fieldset><fieldset><form action='<?=base_url()?>csv/do_add_lien_position' method="POST">
     
     <input type="text" name="lien_position" placeholder="Enter Lien Position Here"/> <br/>
-    <input type="submit" value="Enter" class="btn btn-primary">
+    <input type="submit" value="Enter" class="btnGreen">
 </form>
+</fieldset></fieldset>
 
-</div>
+</div></div>

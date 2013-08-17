@@ -1,5 +1,5 @@
-<div  class="signup_form">
-<h2>Create Account</h2>
+<div class="row"><div  class="signup_form">
+<h4><img src="../../assets/img/i-about.png" width="35" height="35" alt="Contacts" />Create Account</h4>
 <fieldset>
 <legend>Personal Information</legend>
 <?php 
@@ -133,6 +133,21 @@ $cweb = array(
 		'placeholder'=>"Type company website here..."
 		);
 echo form_input($cweb);
+
+?>
+</fieldset>
+
+<fieldset>
+    <legend>Affiliate Code</legend>
+<?
+    $afiliateCode = array(
+		'name' => 'affiliate_code',
+		'id'=> 'affiliate_code',
+		'class' => 'span3',
+		'required'=>'required',
+		'placeholder'=>"Type your affiliate code here"
+		);
+    echo form_input($afiliateCode);
 ?>
 </fieldset>
 <fieldset>
@@ -165,7 +180,7 @@ $password2 = array(
 		);
 echo form_password($password2);
 $btn = array(
-        'class' => 'btn-primary',
+        'class' => 'btnGreen',
                     'id' => 'create_account',
                     'name'=>'create_account',
                     'value'=>'Create Account'
@@ -175,7 +190,7 @@ echo form_close();
 ?>
 <?php echo validation_errors('<p class="error">','</p>'); ?>
 </fieldset>
-</div>
+</div></div>
 <script type="text/javascript">
 $(function(){
 	/*check for username*/

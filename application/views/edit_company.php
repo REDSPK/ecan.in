@@ -1,9 +1,11 @@
 <?php
 
 ?>
-<legend>Edit Escalation Level</legend>
+<div class="row"><h4>
+  <legend><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Contacts" />Edit Company</legend>
+</h4>
 <form class="form form-horizontal" method="post" action="do_edit_company?id=<?=$company->id?>">
-    <div class="control-group">
+<div class="control-group">
         <label class="control-label">Name</label>
         <div class="controls">
             <input type="text" name="company_name" value="<?=$company->company_name?>"></input>
@@ -32,7 +34,8 @@
     </div>
     <div class="control-group">
         <div class="controls">
-            <input type="submit" value="Enter" class="btn btn-primary">
+            <input type="submit" value="Enter" class="btnGreen">
         </div>
     </div>
 </form>
+</div>

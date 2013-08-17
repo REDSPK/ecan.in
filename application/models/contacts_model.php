@@ -11,8 +11,10 @@
  * @author FAIZAN ALI
  */
 class contacts_model extends CI_Model {
-    function getContactsArray(){
-            $result = $this->db->query("select first_name,suffix,last_name,job_title,email,company_name,section_name,escalation_level,loan_type,department_name,lien_position
+    
+    function getContactsArray()
+    {
+        $result = $this->db->query("select first_name,suffix,last_name,job_title,email,company_name,section_name,escalation_level,loan_type,department_name,lien_position
                                         from contact_new inner join companies on companies.id = contact_new.company_id
                                         inner join sections on sections.id = contact_new.section_id
                                         inner join escalation_level on escalation_level.id = contact_new.escalation_level_id
@@ -50,7 +52,7 @@ class contacts_model extends CI_Model {
     }
     
     function getCompaniesTypeToIdArray() {
-        $company_type = $this->db->get(COMPANY_TYPE_TABLE)->result();
+        $company_type = $this->db->get_where(COMPANY_TYPE_TABLE,array('is_activated'=>1))->result();
         $output = array();
         foreach($company_type as $company){
             $output[$company->name] = $company->id;
@@ -139,7 +141,7 @@ class contacts_model extends CI_Model {
     }
     
     function getAllCompanies() {
-        $company = $this->db->select('*')->from(COMPANIES_TABLE)->get()->result();
+        $company = $this->db->select('*')->from(COMPANIES_TABLE)->order_by("company_name","ASC")->get()->result();
         return $company;
     }
     
@@ -264,6 +266,24 @@ class contacts_model extends CI_Model {
         $data['company_type_id'] = $type;
         $this->db->where(array('id'=>$id));
         $this->db->update(COMPANIES_TABLE,$data);
+    }
+    
+    function updateCompanyType($id,$name,$status) {
+        $data = array();
+        $data['name'] = $name;
+        $data['is_activated'] = $status;
+        $this->db->where(array('id'=>$id));
+        $this->db->update(COMPANY_TYPE_TABLE,$data);
+    }
+    
+    function getAllCompanyTypes(){
+        $companyTypes = $this->db->get(COMPANY_TYPE_TABLE)->result();
+        return $companyTypes;
+    }
+    
+    function CompanyTypeInfo($id) {
+        $companyType = $this->db->select('*')->from(COMPANY_TYPE_TABLE)->where(array('id'=>$id))->get()->result();
+        return $companyType[0];
     }
 }
 ?>

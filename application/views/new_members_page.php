@@ -1,5 +1,6 @@
 <style>
-.popup{
+.popup
+{
 	padding: 3px 40px 17px 19px;
 	background-color: #FAFAFA;
 	background-image: -moz-linear-gradient(top, white, #F2F2F2);
@@ -19,13 +20,16 @@
         width:300px;
 }
 
-#delete-topic-title {
+#delete-topic-title 
+{
 	margin-bottom: 19px;
 }
-.heading{
+.heading
+{
     font-size: 24px;
 }
-.credits{
+.credits
+{
     font-weight: bold;
     font-size: 24px;
     color:green;
@@ -43,6 +47,36 @@
                 updateCredits();
                
             } 
+        });
+        
+        $('.partial-blast-button').live('click',function(e){
+            e.preventDefault();
+            $.ajax({
+               url:$('form').attr('action'),
+               type: 'POST',
+               data:$('form').serialize(),
+               success:function() {
+                   $('.popup').trigger('close');
+                   if(data.code == <?=SUCCESS_CODE?>) {
+                        updateCredits();
+                        $('#success-msg').html(data.msg + "<strong> "+data.credits_consumed+"</strong> credits consumed")
+                        $('#blast-success-popup').lightbox_me({
+                            centered: true 
+                        });
+                    }else if (data.code == <?=NO_CONTACT_CODE?>){
+                        $('#success-msg').html(data.msg)
+                        $('#blast-success-popup').lightbox_me({
+                            centered: true 
+                        });
+                    }else if (data.code == <?=NOT_ENOUGH_CREDITS_CODE?>) {
+                        $('#not-enough-credits').html('You need <strong> '+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
+                        $('#confirm-delete-popup').lightbox_me({
+                            centered: true 
+                        });
+                    }
+                }
+            });
+            
         });
         
         $('#escalation_level').live('change',function(){
@@ -68,64 +102,84 @@
         $('form').live('submit',function(e) {
             e.preventDefault();
             if(userCredits < requiredCredits) {
-                $('#not-enough-credits').html('You need <strong> '+requiredCredits+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
-                $('#confirm-delete-popup').lightbox_me({
-                    centered: true 
-                });
-                return false;
-            }
-            
-            $('.help-block').remove();
-            if($.trim($('#loan_number').val()) == '') {
-                e.preventDefault();
-                $('#loan_number').after('<div class="help-block error" style="display:block">Loan Number cannot be left empty</span>')
-                return
-            }
-            else {
                 var escalation = $('#escalation_level').val();
                 var limit = $('#num_of_mails').val();
-
                 $.ajax({
-                    url:'<?= base_url()?>template/have_required_credits/'+escalation+'/'+limit,
+                    url:'<?= base_url()?>template/check_partial_credits?escalation='+escalation+'&limit='+limit,
                     type:'GET',
-                    success:function(data) {
-                        if(data.code > 0){
-                            $('#not-enough-credits').html('You need <strong>'+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits');
+                    async:false,
+                    success:function(data){
+                        if(data.code == 2){
+                            $('#partial-blast-popup-message').html('You dony have enough credits, however you can send it to '+data.limit+' contacts for '+data.required+' credits');
+                            $('#num_of_mails').val(data.limit);
+                            $('#partial-blast-popup').lightbox_me({
+                                centered: true 
+                            });
+                            return false;
+                        }
+                        else
+                        {
+                            $('#not-enough-credits').html('You need <strong> '+requiredCredits+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
                             $('#confirm-delete-popup').lightbox_me({
                                 centered: true 
                             });
+                            return false;
                         }
-                        else{
-                            var link = $('#blast-form').attr('action');
-                            $.ajax({
-                                url:link,
-                                type:'POST',
-                                data:$('#blast-form').serialize(),
-                                success:function(data){
-                                    $('input').blur();
-                                    if(data.code == <?=SUCCESS_CODE?>) {
-                                        updateCredits();
-                                        $('#success-msg').html(data.msg + "<strong> "+data.credits_consumed+"</strong> credits consumed")
-                                        $('#blast-success-popup').lightbox_me({
-                                            centered: true 
-                                        });
-                                    }else if (data.code == <?=NO_CONTACT_CODE?>){
-                                        $('#success-msg').html(data.msg)
-                                        $('#blast-success-popup').lightbox_me({
-                                            centered: true 
-                                        });
-                                    }else if (data.code == <?=NOT_ENOUGH_CREDITS_CODE?>) {
-                                        $('#not-enough-credits').html('You need <strong> '+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
-                                        $('#confirm-delete-popup').lightbox_me({
-                                            centered: true 
-                                        });
-                                    }
-                                }
-                            });
-                        }
-
                     }
                 });
+            }
+            else {
+                $('.help-block').remove();
+                if($.trim($('#loan_number').val()) == '') {
+                    e.preventDefault();
+                    $('#loan_number').after('<div class="help-block error" style="display:block">Loan Number cannot be left empty</span>')
+                    return
+                }
+                else {
+                    var escalation = $('#escalation_level').val();
+                    var limit = $('#num_of_mails').val();
+
+                    $.ajax({
+                        url:'<?= base_url()?>template/have_required_credits/'+escalation+'/'+limit,
+                        type:'GET',
+                        success:function(data) {
+                            if(data.code > 0){
+                                $('#not-enough-credits').html('You need <strong>'+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits');
+                                $('#confirm-delete-popup').lightbox_me({
+                                    centered: true 
+                                });
+                            }
+                            else{
+                                var link = $('#blast-form').attr('action');
+                                $.ajax({
+                                    url:link,
+                                    type:'POST',
+                                    data:$('#blast-form').serialize(),
+                                    success:function(data){
+                                        $('input').blur();
+                                        if(data.code == <?=SUCCESS_CODE?>) {
+                                            updateCredits();
+                                            $('#success-msg').html(data.msg + "<strong> "+data.credits_consumed+"</strong> credits consumed")
+                                            $('#blast-success-popup').lightbox_me({
+                                                centered: true 
+                                            });
+                                        }else if (data.code == <?=NO_CONTACT_CODE?>){
+                                            $('#success-msg').html(data.msg)
+                                            $('#blast-success-popup').lightbox_me({
+                                                centered: true 
+                                            });
+                                        }else if (data.code == <?=NOT_ENOUGH_CREDITS_CODE?>) {
+                                            $('#not-enough-credits').html('You need <strong> '+data.required+'</strong> Credits for this blast. Consider decreasing your blast size or buy more credits')
+                                            $('#confirm-delete-popup').lightbox_me({
+                                                centered: true 
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
             }
         });
         
@@ -157,75 +211,104 @@
         });
     }
 </script>
-<div class="row">
-    <div class="span7">
+<div class="row"> <h4>
+<img src="../../assets/img/i-home.png" width="35" height="35" alt="Buy Credits" />HOME</h4>
+    <div class="span6">
         <form action='<?= base_url()?>template/post_email' method="POST" id="blast-form">
             <fieldset>
-            <div class="span4">
+<select name="companies" id="select_company">
+<? 
+    foreach($companies as $key=>$value):
+?>
+        <option value="<?= $value?>"> <?=$key?> </option>
+<?
+    endforeach;
+?>
+</select>
+<div id="optional_checkboxes">
 
-                <select name="companies" id="select_company">
-                <? 
-                
-                    foreach($companies as $key=>$value):
-                ?>
-                        <option value="<?= $value?>"> <?=$key?> </option>
-                <?
-                    endforeach;
-                ?>
-                </select>
+</div>
 
-                <div id="optional_checkboxes">
+<div>
+<select name="num_of_mails" id="num_of_mails">
+    <option value="1">1 contact</option>
+    <option value="2">2 contacts</option>
+    <option value="3">3 contacts</option>
+    <option value="5">5 contacts</option>
+    <option value="10">10 contacts</option>
+    <option value="15">15 contacts</option>
+    <option value="20">20 contacts</option>
+    <option value="30">30 contacts</option>
+</select>
+    <span class="help-block">Select the number of contacts to send email to</span>
+    <input type="text" name="loan_number" placeholder="Loan number" id='loan_number'/> <br/>
+    <input type="text" name="date" id="date" placeholder="Date" /> <br/>
 
-                </div>
-            </div>
-            <div class="span4">
-                <select name="num_of_mails" id="num_of_mails">
-                    <option value="1">1 contact</option>
-                    <option value="2">2 contacts</option>
-                    <option value="3">3 contacts</option>
-                    <option value="5">5 contacts</option>
-                    <option value="10">10 contacts</option>
-                    <option value="15">15 contacts</option>
-                    <option value="20">20 contacts</option>
-                    <option value="30">30 contacts</option>
-                </select>
-                <span class="help-block">Select the number of contacts to send email to</span>
-                <input type="text" name="loan_number" placeholder="Loan number" id='loan_number'/> <br/>
-                <input type="text" name="date" id="date" placeholder="Sale Date" /> <br/>
+    <label class="checkbox">
+        <input type="checkbox" name="lack_of_contact" value="1" />Lack of Contact
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="message_not_return" value="1" /> Left Messages Not Returned
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="manager_not_contact" value="1" /> Escalated To Manager No Contact
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="disagree" value="1" /> Disagree With Decision
+    </label>
+    <label class="checkbox">
+        <input type="checkbox" name="inaccurate" value="1" /> Decision was Based on Inaccurate Info
+    </label>
 
-                <label class="checkbox">
-                    <input type="checkbox" name="lack_of_contact" value="1" />Lack of Contact
-                </label>
-                <label class="checkbox">
-                    <input type="checkbox" name="message_not_return" value="1" /> Left Messages Not Returned
-                </label>
-                <label class="checkbox">
-                    <input type="checkbox" name="manager_not_contact" value="1" /> Escalated To Manager No Contact
-                </label>
-                <label class="checkbox">
-                    <input type="checkbox" name="disagree" value="1" /> Disagree With Decision
-                </label>
-                <label class="checkbox">
-                    <input type="checkbox" name="inaccurate" value="1" /> Decision was Based on Inaccurate Info
-                </label>
-
-                <textarea name="comment" placeholder="Enter Your Comments Here......" style="width:254px;height: 66px;resize:none;"></textarea>
-            </div>
-            <input type="submit" value="submit" class = 'btn btn-inverse pull-right'/>
-            </fieldset>
+    <textarea name="comment" placeholder="Enter Your Comments Here......" style="width:254px;height: 66px;resize:none;"></textarea>
+</div>
+    <input type="submit" value="submit" class="btnGreen"/>
+          </fieldset>
         </form>
     </div>
-    <div class="span4">
-        <span class="heading">Your Credits :</span>
-        <span class="credits my-credits"><?=$member['credits'];?> </span>
-        <br/>
-        <br/>
-        <span class="heading">This Blast : </span>
-        <span class="credits required-credits">... </span>
-        <hr/>
-        <a href="<?=base_url().'paypal/buy_credits'?>" style="font-size: 2em;text-decoration: underline;"/>Get More Credits</a>
+    <div class="span6" style="text-align:right">
+      <div style="border-left-width: 3px;	border-left-style: solid;	border-left-color: #00AE08; width:90%"> <br />
+      </div>
     </div>
-</div>
+    <div class="span6" style="text-align:right; ">
+      <div style="border-left-width: 3px;	border-left-style: solid;	border-left-color: #849BA6; width:90%">
+        <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color:#ECF0F2">
+          <tr>
+            <td width="46%" align="left"><h3>Your Credits:
+             </h3></td>
+            <td width="54%" align="left"><span class="credits my-credits">
+              <?=$member['credits'];?>
+            </span></td>
+          </tr>
+          <tr>
+            <td align="left"><h3>This Blast: </h3></td>
+            <td align="left"><span class="credits required-credits">...</span></td>
+          </tr>
+          <tr>
+            <td align="left" bgcolor="#FFFFFF"> </td>
+            <td align="left" bgcolor="#FFFFFF"><a class="btnGreen" href="<?=base_url().'paypal/buy_credits'?>" />Get More Credits                         </a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="span6">
+      <div style="border-left-width: 3px;	border-left-style: solid;	border-left-color: #00AE08;">
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+
 <link href="<?php echo base_url().'../assets/css/jquery-ui.css' ?>" rel="stylesheet" type="text/css">
 <script src="<?php echo base_url().'../assets/js/jquery.ui.core.js' ?>" type="text/javascript"></script>
 <script src="<?php echo base_url().'../assets/js/jquery.ui.datepicker.js' ?>" type="text/javascript"></script>
@@ -250,9 +333,17 @@
     <a href="<?=base_url().'paypal/buy_credits'?>" class="btn btn-success"/>Buy More Credits</a>
 </div>
 <div id="low-credits-popup" class="popup" style="display: none;">
-    <legend>Fuel More Credits</legend>
+    <h4>Low on fuel?</h4>
     <img src="<?php echo base_url().'../assets/img/low_fuel_light.png' ?>"></img>
     <br/>
+    <h4>Fuel up and Keep Blasting!</h4>
     <a href="#" class="btn btn-primary cancel"/>Close</a>
     <a href="<?=base_url().'paypal/buy_credits'?>" class="btn btn-success"/>Buy More Credits</a>
 </div>
+<div id="partial-blast-popup" class="popup" style="display: none;">
+    <legend>Not Enough Credits - Make a partial blast</legend>
+    <div id="partial-blast-popup-message" style="margin-bottom: 20px;"></div>
+    <a href="#" class="btn btn-success partial-blast-button"/>Make Partial Blast</a>
+    <button class="btn cancel" >Cancel</button>
+</div>
+  <div style="clear:both"></div></div>

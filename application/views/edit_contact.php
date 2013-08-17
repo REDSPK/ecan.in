@@ -63,7 +63,7 @@ if($success) {
        });
     });
 </script>
-    <form method="POST" action="<?= base_url()?>csv/do_edit_contact/<?=$contact->id?>" enctype='multipart/form-data'>
+ <div class="row">  <h4><img src="../../assets/img/i-admin.png" width="35" height="35" alt="Contacts" />Add Contact </h4>  <form method="POST" action="<?= base_url()?>csv/do_edit_contact/<?=$contact->id?>" enctype='multipart/form-data'>
         <fieldset>
         
         <select name="company_id" id='companies'>
@@ -196,12 +196,14 @@ if($success) {
             <br/>
         </div>
         <input type="text" name="first_name" placeholder="First Name" value="<?=$contact->first_name?>"/> <br/>
-        <input type="text" name="middle_name" placeholder="Middle Name" value="<?=$contact->suffix?>" /> <br/>
+        <input type="text" name="middle_name" placeholder="Middle Name" value="<?=$contact->middle_name?>" /> <br/>
         <input type="text" name="last_name" placeholder="Last Name" value="<?=$contact->last_name?>" /> <br/>
+        <input type="text" name="suffix" placeholder="Suffix" value="<?=$contact->suffix?>" /> <br/>
         <input type="text" name="job_title" placeholder="Job Title" value="<?=$contact->job_title?>" /> <br/>
         <input type="text" name="email" placeholder="Email" value="<?=$contact->email?>"/> <br/>
         
-        <input type="submit" class="btn btn-inverse" style ='margin-left:150px;'>
+        <input type="submit" class="btnGreen" style ='margin-left:150px;'>
         </fieldset>
 </form>
 
+       </div>

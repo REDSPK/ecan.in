@@ -66,6 +66,7 @@ define('LOAN_TYPE_TABLE','loan_type');
 define('SECTIONS_TABLE','sections');
 define('ASSISTANCE_TYPE_TABLE','type_of_assistance');
 define('LIEN_POSITION_TABLE','lien_positions');
+define('AFFILIATE_CODES_TABLE','affiliate_codes');
 /**
  * Error Codes
  */
@@ -74,9 +75,11 @@ define('ACCOUNT_NOT_ACTIVATED',-1001);
 define('ADMIN_USER_LOGGED_IN',999);
 define('EMPLOYEE_LOGGED_IN',998);
 define('END_USER_LOGGED_IN',997);
+define('AFFILIATE_LOGGED_IN',993);
 define('NOT_ENOUGH_CREDITS_CODE',996);
 define('NO_CONTACT_CODE',995);
 define('COMPANY_ALREADY_EXIST_CODE',994);
+define('CODE_ALREADY_EXIST_CODE',994);
 define('SUCCESS_CODE',0);
 
 
@@ -85,6 +88,7 @@ define('NOT_ACTIVATED',0);
 
 define('EMPLOYEE_TYPE',1);
 define('END_USER_TYPE',0);
+define('AFFILIATE_TYPE',2);
 define('CODE','code');
 define('MSG','message');
 define('DATA','data');

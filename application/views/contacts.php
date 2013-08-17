@@ -24,6 +24,7 @@
 #delete-topic-title {
 	margin-bottom: 19px;
 }
+
 </style>
 <script>
 $(function(){
@@ -98,7 +99,7 @@ function loadCompanies(){
     });
 }
 </script>
-<div class ='pagination pagination-centered'>
+<div class="row"><h4><img src="../../assets/img/i-admin.png" width="35" height="35" alt="Contacts" />Contacts</h4><div class ='pagination pagination-centered'>
 <form class="form-inline search_form" action="<?=base_url()?>csv/search_contact" method="POST">
     <select name="search_criteria" id="search_criteria" >
         <option value="<?=SEARCH_BY_LASTNAME?>">By Last Name</option>
@@ -108,19 +109,19 @@ function loadCompanies(){
     <span id="phrase">
         <input type="text" placeholder="Enter the criteria here" name="phrase" />
     </span>
-    <button type='submit' class="btn btn-inverse">Search</button>
+    <button type='submit' class="btnGreen">Search</button>
 </form>
 <div id="table-container">
-    <table class='table table-striped'>
-        <th>First</th>
-        <th>Middle</th>
-        <th>Last</th>
-        <th>Suffix</th>
-        <th style="width: 20%;">Job Title</th>
-        <th>Email</th>
-        <th>Escalation Level</th>
-        <th>Company</th>
-        <th style="width:8%;">Admin</th>
+<table width="100%" border="0" cellpadding="5" cellspacing="5" class='table table-striped'>
+        <td width="7%" align="center" bgcolor="#39396C"><p>First</p></td>
+        <td width="9%" align="center" bgcolor="#39396C"><p>Middle</p></td>
+        <td width="7%" align="center" bgcolor="#39396C"><p>Last</p></td>
+        <td width="9%" align="center" bgcolor="#39396C"><p>Suffix</p></td>
+        <td width="20%" align="center" bgcolor="#39396C" style="width: 20%;"><p>Job Title</p></td>
+        <td width="9%" align="center" bgcolor="#39396C"><p>Email</p></td>
+        <td width="17%" align="center" bgcolor="#39396C"><p>Escalation Level</p></td>
+        <td width="11%" align="center" bgcolor="#39396C">Company</td>
+        <td width="11%" align="center" bgcolor="#39396C" style="width:8%;">Admin</td>
     <?
     foreach ($record as $r){
     ?>
@@ -134,7 +135,7 @@ function loadCompanies(){
             <td><?=$r->escalation_level?></td>
             <td><?=$r->company_name?></td>
             <td>
-                <a href="<?=base_url()?>csv/edit_contact/<?=$r->id?>">Edit</a> |
+                <a href="<?=base_url()?>csv/edit_contact?id=<?=$r->id?>">Edit</a> |
             <? 
                 if(!in_array($r->id,$deleted)){
             ?>
@@ -159,7 +160,7 @@ if(isset($this->pagination)) {
     echo $this->pagination->create_links();
 }
 ?>
-</div>
+</div></div>
 
 <div id="confirm-delete-popup" class="popup" style="display: none;">
         <legend>Confirm Delete</legend>

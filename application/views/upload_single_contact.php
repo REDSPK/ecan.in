@@ -77,7 +77,9 @@ if($success) {
        });
     });
 </script>
-    <form method="POST" action="<?= base_url()?>csv/do_enter_contact" enctype='multipart/form-data'>
+    <div class="row"> 
+      <h4><img src="../../assets/img/i-admin.png" width="35" height="35" alt="Contacts" />Add contact </h4>
+      <form method="POST" action="<?= base_url()?>csv/do_enter_contact" enctype='multipart/form-data'>
         <fieldset>
         <select name="companies" id='companies'>
             <? 
@@ -149,6 +151,8 @@ if($success) {
         <input type="text" name="job_title" placeholder="Job Title" /> <br/>
         <input type="text" name="email" placeholder="Email" /> <br/>
         
-        <input type="submit" class="btn btn-inverse" style ='margin-left:150px;'>
+        <input type="submit" class="btnGreen" style ='margin-left:150px;'>
         </fieldset>
 </form>
+
+</div>

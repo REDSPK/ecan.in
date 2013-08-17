@@ -23,17 +23,18 @@
 <body>
     
 <div id="container">
-	<h1>Welcome to Mortgage Calculator</h1>
+	<div class="row"><h4>Welcome to Mortgage Calculator</h4>
         
 	<div id="body">
-            <form method="POST" action="index.php/loan/calculateMonthlyPayment" class=".form-horizontal">
+          <form method="POST" action="index.php/loan/calculateMonthlyPayment" class=".form-horizontal">
                 Amount : <input name="loan-amount" type="text" /><br/>
                 Duration : <input name="loan-duration" type="text" /> (years)<br/>
                 Interest Rate : <input name="interest-rate" type="text" /><br/>
                 HOA/Assessment : <input name="assesment" type="text" /><br/>
                 Property Taxes : <input name="property-tax" type="text" /><br/>
                 Home Insurance : <input name="home-insurance" type="text" /><br/>
-                <input type="submit" name="submit" value="calculate" />
+                <input type="submit" name="submit" 
+                class="btnGreen" value="calculate" />
             </form>
 	</div>
 </div>

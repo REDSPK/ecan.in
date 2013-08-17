@@ -1,4 +1,5 @@
-<h4>Welcome <?=$this->session->userdata('username')?></h4>
+<div class="span11">
+<h4><img src="../../assets/img/i-admin.png" width="35" height="35" alt="Home" />Welcome <?=$this->session->userdata('username')?></h4>
 <div class ='pagination pagination-centered'>
 <style>
 .popup{
@@ -131,22 +132,24 @@ function awardCredits(link,numCredits,comments){
         <option value="<?=SEARCH_BY_EMAIL?>">By Email</option>
     </select>
     <input type="text" placeholder="Email or Username" name="phrase" />
-    <button type='submit' class="btn btn-inverse">Search</button>
+    <button type='submit' class="btnGreen">Search</button>
 </form>
 <?php
 if($record){
-    echo "<div id='table-container'>";
-    echo "<table class='table table-striped'>";
-    echo "<th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Credits</th>
-          <th>Consumed</th>
-          <th>User History</th>
-          <th>Type</th>
-          <th>Joined</th>
-          <th>Admin</th>";
+?>
+<div id='table-container'>
+    <table class='table table-striped'>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Credits</th>
+        <th>Consumed</th>
+        <th>User History</th>
+        <th>Type</th>
+        <th>Joined</th>
+        <th>Admin</th>
+<?
     foreach ($record as $h):
         echo "<tr id='$h->username'>
                     <td>$h->first_name</td>
@@ -195,16 +198,20 @@ if($record){
     if(isset($this->pagination)) {
         echo $this->pagination->create_links();
     }
-    echo "</div>";
 }
 else
 {
 	echo "No user to show";
 }
 ?>
+    </table>
+</div>
 </div>
 
-    <div id="confirm-delete-popup" class="popup" style="display: none;">
+    
+</div>
+
+<div id="confirm-delete-popup" class="popup" style="display: none;">
         <legend>Confirm Delete</legend>
         <div id="delete-topic-title"></div>
         <button class="btn btn-danger" id="btn-confirm-delete">Confirm</button>
@@ -244,7 +251,4 @@ else
         </form>
         <button class="btn btn-primary" id="btn-award-credits"> Add Credits </button>
         <button class="btn cancel"> Cancel </button>
-        
-    </div>
-
-                
+    </div>       

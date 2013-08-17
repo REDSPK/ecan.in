@@ -31,7 +31,7 @@ class Template_model extends CI_Model{
         $additionalComments = $this->input->post('comment');
         $senderName = $username;
         
-        $template1 = "<strong>$firstname ,</strong><br/>
+        $template1 = "$firstname ,<br/>
                       {We apologize to be reaching out to you like this|We are sorry to get you involved|We hope that this is something you can help us with} {at the very last minute|though there is little time for your review|at the 11th hour} {but we really had no other place to turn to|but we had few other options}. {In the past you had been a great help so|Since you had been able to be assist in the past|Previously your input ended up being invaluable and} {we didn't know if|it would be greatly appreciated if} {there was anything that could still be done|there are any options still on the table|there were still options to find a resolution to benefit all the parties involved}. We needed to bring this account to {your|someone's} attention. {We are concerned|The borrower is very worried|We have lost faith} {with how this file is being processed|with the responses we are getting|with the lack of clear communcation} and {the road that it has taken|where the file is at after the time invested|the lack of interest shown by the negotiator}.";
         
         //if lack of contact
@@ -64,14 +64,15 @@ class Template_model extends CI_Model{
         //template Footer
         $template1 .= " {Thank you for your time, we greatly appreciate your efforts|As we know how busy you are, we greatly appreciate any efforts you can put into this|Your time is extremely valuable to us so we greatly appreciate anything you can do|We understand the volume of work you have so anything that you could do would be great and if there is anyone that can be spoken with we would be more than glad to further explain the details}. <br/><br/>
                         {Regards|Best Regards|Best Wishes|Sincerely},<br/>
-                      <strong>$senderName
-                      </strong><br/>
+                      $senderName
+                      <br/>
                       $signature
         ";
         return $this->process($template1);
     }
     
-    function get_contacts_new($limit) {
+    function get_contacts_new($limit)
+    {
         $companies =$this->input->post('companies');
         $condition = array();
         if($companies == 1)
@@ -100,7 +101,7 @@ class Template_model extends CI_Model{
         $contacts = array();
         foreach ($q as $contact) {
             $contacts[] = array(
-                            'name'=> $contact->first_name." ".$contact->suffix." ".$contact->last_name,
+                            'name'=> $contact->first_name,
                             'email'=> $contact->email,
                             'id' => $contact->id, 
                             'escalation-id' => $contact->escalation_level_id,
@@ -109,7 +110,7 @@ class Template_model extends CI_Model{
         }
         foreach ($q2 as $contact) {
             $contacts[] = array(
-                'name'=> $contact->first_name." ".$contact->suffix." ".$contact->last_name,
+                'name'=> $contact->first_name,
                 'email'=> $contact->email,
                 'id' => $contact->id, 
                 'escalation-id' => $contact->escalation_level_id,
@@ -131,7 +132,8 @@ class Template_model extends CI_Model{
         return $this->db->insert('history',$element);
     } 
     
-    function getNumberOfCredits($escalationLevelID) {
+    function getNumberOfCredits($escalationLevelID)
+    {
         $result = $this->db->select('num_of_credits')
                   ->from('credits_per_escalation')
                   ->where('escalation_level_id',$escalationLevelID)

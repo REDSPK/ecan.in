@@ -1,7 +1,7 @@
 <?php
 
 ?>
-<style>
+<div class="row"><style>
 .popup{
 	padding: 3px 40px 17px 19px;
 	background-color: #FAFAFA;
@@ -22,6 +22,10 @@
 }
 #delete-topic-title {
 	margin-bottom: 19px;
+}
+.table.table-striped tr th {
+	background-color: #849BA6;
+	color: #FFF;
 }
 </style>
 <script>
@@ -51,7 +55,9 @@ $(function(){
     });
 });
 </script>
-<legend>Manage Companies</legend>
+<h4>
+  <legend><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Manage Companies" />Manage Companies</legend>
+</h4>
 <table class="table table-striped">
     <th>Id</th>
     <th>Company Name</th>
@@ -80,4 +86,4 @@ $(function(){
     <div id="delete-topic-title"></div>
     <button class="btn btn-danger" id="btn-confirm-delete">Confirm</button>
     <button class="btn cancel" >Cancel</button>
-</div>
+</div></div>

@@ -1,8 +1,9 @@
-<?php 
+ <div class="span11" style="margin-top:20px"><h4>
+  <legend> <img src="../../assets/img/i-history.png" width="35" height="35" alt="Home" />  History    </legend></h4><?php 
 $attributes = array(
   'id' => 'search_form',
     'name'=> 'search_form',
-   'class'=>'form-inline');
+   'class'=>'span6');
 echo form_open('site/admin_search',$attributes);
 $loan_no = array(
     'name' => 'loan_no',
@@ -73,7 +74,7 @@ $(function(){
         $('.popup').trigger('close'); 
     });
 });
-</script>
+</script>  
 <div class ='pagination pagination-centered'>
 <?php
 if(!$history)
@@ -121,4 +122,4 @@ else{
     <legend id="subject-text"></legend>
     <div id="historyDetail" style="margin-bottom: 20px;"></div>
     <a href="#" class="btn btn-primary cancel"/>Close</a>
-</div>
+</div></div>

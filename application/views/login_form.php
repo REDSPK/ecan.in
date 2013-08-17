@@ -1,4 +1,4 @@
-<center><img src="<?php echo base_url().'../assets/img/ecanlogo600200.png'?>"></img></center>
+<?php /*?><center><img src="<?php echo base_url().'../assets/img/ecanlogo600200.png'?>"></img></center><?php */?>
 <div id='login_form'>
 	<?php 
 	$attributes = array('class' => 'well span4', 'id' => 'login_form');
@@ -22,7 +22,7 @@
 	echo form_password($password);
         echo "</div>";
 	$btn = array(
-                    'class' => 'btn btn-primary',
+                    'class' => 'btnGreen',
                     'id' => 'submit',
                     'name'=>'submit',
                     'value'=>'Login'

@@ -23,6 +23,10 @@
 #delete-topic-title {
 	margin-bottom: 19px;
 }
+.table.table-striped tr th {
+	color: #FFF;
+	background-color: #849BA6;
+}
 </style>
 <script>
 $(function(){
@@ -51,8 +55,10 @@ $(function(){
     });
 });
 </script>
-<legend>Manage Escalation Levels</legend>
-
+<div class="row"><h4>
+  <legend><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Contacts" />Manage Escalation Levels</legend>
+  
+</h4>
 <table class="table table-striped">
     <th>Name</th>
     <th>Company</th>
@@ -81,4 +87,4 @@ $(function(){
     <div id="delete-topic-title"></div>
     <button class="btn btn-danger" id="btn-confirm-delete">Confirm</button>
     <button class="btn cancel" >Cancel</button>
-</div>
+</div></div>

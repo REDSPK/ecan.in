@@ -26,9 +26,9 @@
     });
 </script>
 <div class="row">
-    <h4>Add New Department</h4>
-<form action='<?=base_url()?>csv/do_add_department' method="POST">
-    <select name="company_type">
+    <h4><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Contacts" />Add New Department</h4>
+<div class="span11"><fieldset><form action='<?=base_url()?>csv/do_add_department' method="POST">
+  <select name="company_type">
         <?
             foreach($companies as $key=>$value){
                 echo "<option value='$value'>$key</option>";
@@ -37,7 +37,7 @@
     </select>
     <br/>
     <input type="text" name="department_name" placeholder="Enter Department Name Here"/> <br/>
-    <input type="submit" value="Enter" class="btn btn-primary">
-</form>
+    <input type="submit" value="Enter" class="btnGreen">
+</form></fieldset>
 
-</div>
+</div></div>

@@ -1,4 +1,5 @@
-<?php 
+ <div class="span11" style="margin-top:20px"><div class="row"><h4>
+  <legend> <img src="../../assets/img/i-history.png" width="35" height="35" alt="Home" />  History    </legend></h4><?php 
 $attributes = array(
   'id' => 'search_form',
     'name'=> 'search_form',
@@ -32,7 +33,7 @@ $(function(){
        }
    });
 });
-</script>
+</script> 
 <div class ='pagination pagination-centered'>
 <?php
 if(!$history)
@@ -69,4 +70,4 @@ else{
         echo $this->pagination->create_links();
 }
 ?>
-</div>
+</div></div>

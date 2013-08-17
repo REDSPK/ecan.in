@@ -357,7 +357,8 @@ class CSV extends CI_Controller
         
     }
     
-    function edit_contact($id,$success = null){
+    function edit_contact($success = null){
+        $id = $this->input->get('id');
         $this->load->model('contacts_model');
         if($success) {
            $data['success'] = 1;
@@ -385,8 +386,9 @@ class CSV extends CI_Controller
         $data = array();
         $companyID = $this->input->post('companies');
         $data['first_name'] = $this->input->post('first_name');
-        $data['suffix'] = $this->input->post('middle_name');
+        $data['middle_name'] = $this->input->post('middle_name');
         $data['last_name'] = $this->input->post('last_name');
+        $data['suffix'] = $this->input->post('suffix');
         $data['job_title'] = $this->input->post('job_title');
         $data['email'] = $this->input->post('email');
         $data['escalation_level_id'] = $this->input->post('escalation_level');
@@ -399,17 +401,19 @@ class CSV extends CI_Controller
             echo 1;
         }
         else {
-            echo "error Adding the contact";
+            echo "error editing the contact";
         }
     }
     
-    private function editContact($contactID,$data){
+    private function editContact($contactID,$data)
+    {
         $this->db->where(array('id'=>$contactID));
         $this->db->update('contact_new',$data);
         return true;
     }
     
-    function search_contact(){
+    function search_contact()
+    {
         $phrase = $this->input->post('phrase');
         $criteria = $this->input->post('search_criteria');
         $this->load->model('contacts_model');
@@ -651,6 +655,29 @@ class CSV extends CI_Controller
         $data['main_content'] = 'edit_company';
         $this->load->view('includes/template',$data);
     }
+    function view_company_type(){
+        $this->load->model('contacts_model');
+        $data['company_type'] = $this->contacts_model->getAllCompanyTypes();
+        $data['main_content'] = 'view_company_type';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function edit_company_type(){
+        $this->load->model('contacts_model');
+        $id = $this->input->get('company_type_id');
+        $data['company_type'] = $this->contacts_model->CompanyTypeInfo($id);
+        $data['main_content'] = 'edit_company_type';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function do_edit_company_type(){
+        $this->load->model('contacts_model');
+        $id = $this->input->get('id');
+        $status = $this->input->post('is_activated');
+        $name = $this->input->post('company_type_name');
+        $this->contacts_model->updateCompanyType($id,$name,$status);
+        redirect('csv/view_company_type');
+    }
     
     function delete_company(){
         $id = $this->input->get('id');
@@ -666,5 +693,6 @@ class CSV extends CI_Controller
         $this->contacts_model->updateCompany($id,$name,$type);
         redirect('csv/manage_companies');
     }
+   
 }
 ?>

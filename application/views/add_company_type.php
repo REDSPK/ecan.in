@@ -28,11 +28,11 @@
     });
 </script>
 <div class="row">
-    <h4>Add new Company Type</h4>
-<form action='<?=base_url()?>csv/do_add_company_type' method="POST">
+    <h4><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Contacts" />Add new Company Type</h4>
+<div class="span11"><fieldset><form action='<?=base_url()?>csv/do_add_company_type' method="POST">
     
     <input type="text" name="company_type" placeholder="Enter Company Type Here"/> <br/>
-    <input type="submit" value="Enter" class="btn btn-primary">
+    <input type="submit" value="Enter" class="btnGreen">
 </form>
-
-</div>
+</fieldset>
+</div></div>

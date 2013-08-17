@@ -1,4 +1,5 @@
-<?php 
+  <div class="span11" style="margin-top:20px"><h4>
+  <legend> <img src="../../assets/img/i-history.png" width="35" height="35" alt="Home" />  History    </legend></h4><?php 
 $attributes = array(
     'id' => 'search_form',
     'name'=> 'search_form',
@@ -27,7 +28,7 @@ $username = array(
     );
 echo form_label('username: ');
 echo form_input($username);
-echo form_submit(array('name'=>'search','class'=>'btn btn-primary','value'=>'Search','style'=>'margin-left:9px;'));
+echo form_submit(array('name'=>'search','class'=>'btnGreen','value'=>'Search','style'=>'margin-left:9px;'));
 echo validation_errors('<p class="error">','</p>');
 echo form_close();
 ?>
@@ -83,7 +84,7 @@ $(function(){
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
         width:600px;
     }
-</style>
+</style>  
 <div class ='pagination pagination-centered'>
 <?php
 if(!$history)
@@ -134,5 +135,5 @@ else{
 <div id="blast-success-popup" class="popup" style="display: none;">
     <legend id="subject-text"></legend>
     <div id="historyDetail" style="margin-bottom: 20px;"></div>
-    <a href="#" class="btn btn-primary cancel"/>Close</a>
+    <a href="#" class="btn btn-primary cancel"/>Close</a></div>
 </div>

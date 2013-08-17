@@ -368,7 +368,11 @@ class paypal extends CI_Controller {
     }
     
     public function buy_credits() {
+        $this->load->model('member_model');
+        $username = $this->session->userdata('username');
+        $member = $this->member_model->get_member($username);
         $data['main_content'] = 'buy_credits';
+        $data['member'] = $member;
         $this->load->view('includes/template',$data);
     }
 }

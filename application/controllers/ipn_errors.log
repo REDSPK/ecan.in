@@ -1,0 +1,17 @@
+[15-Jun-2013 15:28:12 UTC] PHP Parse error:  syntax error, unexpected ';' in E:\server\ecan.in\application\views\buy_credits.php on line 30
+[15-Jun-2013 15:28:12 UTC] PHP Stack trace:
+[15-Jun-2013 15:28:12 UTC] PHP   1. {main}() E:\server\ecan.in\index.php:0
+[15-Jun-2013 15:28:12 UTC] PHP   2. require_once() E:\server\ecan.in\index.php:202
+[15-Jun-2013 15:28:12 UTC] PHP   3. call_user_func_array() E:\server\ecan.in\system\core\CodeIgniter.php:359
+[15-Jun-2013 15:28:12 UTC] PHP   4. paypal->buy_credits() E:\server\ecan.in\system\core\CodeIgniter.php:359
+[15-Jun-2013 15:28:12 UTC] PHP   5. CI_Loader->view() E:\server\ecan.in\application\controllers\paypal.php:372
+[15-Jun-2013 15:28:12 UTC] PHP   6. CI_Loader->_ci_load() E:\server\ecan.in\system\core\Loader.php:419
+[15-Jun-2013 15:28:12 UTC] PHP   7. include() E:\server\ecan.in\system\core\Loader.php:833
+[15-Jun-2013 15:28:12 UTC] PHP   8. CI_Loader->view() E:\server\ecan.in\application\views\includes\template.php:2
+[15-Jun-2013 15:28:12 UTC] PHP   9. CI_Loader->_ci_load() E:\server\ecan.in\system\core\Loader.php:419
+[15-Jun-2013 18:02:20 UTC] PHP Fatal error:  Call to a member function get_member() on a non-object in E:\server\ecan.in\application\controllers\paypal.php on line 372
+[15-Jun-2013 18:02:20 UTC] PHP Stack trace:
+[15-Jun-2013 18:02:20 UTC] PHP   1. {main}() E:\server\ecan.in\index.php:0
+[15-Jun-2013 18:02:20 UTC] PHP   2. require_once() E:\server\ecan.in\index.php:202
+[15-Jun-2013 18:02:20 UTC] PHP   3. call_user_func_array() E:\server\ecan.in\system\core\CodeIgniter.php:359
+[15-Jun-2013 18:02:20 UTC] PHP   4. paypal->buy_credits() E:\server\ecan.in\system\core\CodeIgniter.php:359

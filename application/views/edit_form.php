@@ -1,7 +1,7 @@
-<div class="row-fluid">
+<div class="row">
 <?php
 $form_attributes = array('class' => 'form-horizontal', 'id'=>'edit_form');
-echo form_open('edit_profile/save_profile',$form_attributes);
+echo form_open('user/save_profile',$form_attributes);
 $fname = array(
 		'name' => 'first_name',
 		'id'=> 'first_name',
@@ -102,11 +102,11 @@ $cweb = array(
 		'required'=>'required'
 		);
 
-?>
-<div class="span9 b-right">
-	<h4>My Personal Information</h4>
-      <a href="#">
-          <img src="http://placehold.it/150x150" /><br><br>
+?><h4><img src="../../assets/img/i-edit-o.png" width="35" height="35" alt="Buy Credits" />My Personal Information</h4>
+<div class="span6">
+	
+      <a href="#" style="float:left">
+        <img src="http://placehold.it/150x150" /><br><br>
         </a>
 
 <div class="control-group">
@@ -198,7 +198,7 @@ $cweb = array(
 
 <?php
 $btn = array(
-        'class' => 'btn btn-inverse',
+        'class' => 'btnGreen',
                     'id' => 'save_account',
                     'name'=>'save_account',
                     'value'=>'Save Account',
@@ -207,24 +207,36 @@ $btn = array(
 echo form_submit($btn);
 echo form_close();
 ?>
-<?php echo validation_errors('<p class="error">','</p>'); ?>
+<?php echo validation_errors('<p class="error">','</p>'); ?><br /><br />
 
 </div><!-- 2nd span4 close here-->
 
-<div class="span3">
-    <div>
-        <span class="heading">Your Credits :</span>
-        <span class="credits my-credits"><?=$member['credits'];?> </span>
-        <br/>
-        <hr style="margin-bottom: 10px;" >
-        <a href="<?=base_url().'paypal/buy_credits'?>" style="font-size: 1em;text-decoration: underline;"/>Get More Credits</a>
+<div class="span6" style="text-align:right">
+    <div style="border-left-width: 3px;	border-left-style: solid;	border-left-color: #00AE08; width:90%">
+      <br />
+      
     </div>
-    <div>
-        <h4>Actions</h4>
-        <hr style="margin-bottom: 10px;" >
-        <?php echo anchor('edit_profile/change_password','Change Password'); ?><br>
-    </div>
-</div><!-- 3rd span4 close here-->
+  </div>
+<div class="span6" style="text-align:right; ">
+  <div style="border-left-width: 3px;	border-left-style: solid;	border-left-color: #849BA6; width:90%">
+    <table width="100%" border="0" cellpadding="5" cellspacing="0" style="background-color:#ECF0F2">
+      <tr>
+        <td width="39%" align="left"><h3>Your Credits:</h3></td>
+        <td width="61%" align="left"><span class="credits my-credits"><?=$member['credits'];?> </span></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="left" bgcolor="#FFFFFF"><a href="<?=base_url().'paypal/buy_credits'?>" class="btnGreen"/>Get More Credits</a><br />
+  <br />
+  <?php echo anchor('user/change_password','Change Password'); ?><br></td>
+        </tr>
+    </table>
+  </div>
+</div>
+<div class="span6" style="text-align:right">
+  <div style="border-left-width: 3px;	border-left-style: solid;	border-left-color: #00AE08; width:90%; height: 650px"> <br />
+  </div>
+</div>
+<!-- 3rd span4 close here-->
 </div>
 
 <script type="text/javascript">

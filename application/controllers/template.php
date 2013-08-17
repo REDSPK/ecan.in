@@ -20,7 +20,8 @@ class Template extends CI_Controller {
         }
     }
     
-    public function post_email(){
+    public function post_email()
+    {
         $this->load->model('template_model');
         $this->load->model('member_model');
         $loan_no = $this->input->post('loan_number');
@@ -73,7 +74,8 @@ class Template extends CI_Controller {
         }
     }
     
-    function have_required_credits($num_of_credits,$limit){
+    function have_required_credits($num_of_credits,$limit)
+    {
         $this->load->model('template_model');
         $this->load->model('member_model');
         $username = $this->session->userdata('username');
@@ -88,7 +90,8 @@ class Template extends CI_Controller {
         }
     }
     
-    function getCredits($escalationLevel,$limit) {
+    function getCredits($escalationLevel,$limit) 
+    {
         $this->load->model('template_model');
         $this->load->model('member_model');
         $username = $this->session->userdata('username');
@@ -102,6 +105,37 @@ class Template extends CI_Controller {
         else {
             $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits)));
         }
+    }
+    
+    function check_partial_credits()
+    {
+        $this->load->model('template_model');
+        $this->load->model('member_model');
+        $username = $this->session->userdata('username');
+        $escalationLevel = $this->input->get('escalation');
+        $limit = $this->input->get('limit');
+        $escalationCredits = $this->template_model->getNumberOfCredits($escalationLevel);
+        $requiredCredits = $escalationCredits*$limit;
+        $userCredits = $this->member_model->getUserCredits($username);
+        if($limit > 1) {
+            while($escalationCredits*$limit > $userCredits)
+            {    
+                $limit = $limit - 1;
+            }
+            if($limit > 1){
+                $requiredCredits = $escalationCredits * $limit;
+                $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits,'limit' => $limit,'code'=>2)));
+            }
+            else
+            {
+                $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits,'code'=>1)));
+            }
+        }
+        else 
+        {
+            $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode(array('required'=>$requiredCredits,'have'=>$userCredits,'code'=>1)));
+        }
+        
     }
     
 }

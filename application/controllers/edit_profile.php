@@ -30,7 +30,9 @@ class Edit_profile extends CI_Controller
                 $this->load->view('includes/template',$data);
             }
 	}
-	function save_profile(){
+        
+	function save_profile()
+        {
             $this->form_validation->set_rules('first_name','First Name','trim|required');
             $this->form_validation->set_rules('last_name','Last Name','trim|required');
             /*Company validation*/

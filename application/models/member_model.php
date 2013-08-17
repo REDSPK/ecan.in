@@ -1,54 +1,63 @@
 <?php
 class Member_model extends CI_Model
 {
-	
-	function validate()
-	{
-            $this->db->where('username',$this->input->post('username'));
-            $this->db->where('password',md5($this->input->post('password')));
-            $result = $this->db->get('member')->result();
+    function validate()
+    {
+        $this->db->where('username',$this->input->post('username'));
+        $this->db->where('password',md5($this->input->post('password')));
+        $result = $this->db->get('member')->result();
 
-            if(count($result) >= 1)
-            {                        
-                $result = $result[0];
-                if($result->activated == NOT_ACTIVATED){
-                    return ACCOUNT_NOT_ACTIVATED;
-                }
-                else if ($result->admin == 1) {
-                    return ADMIN_USER_LOGGED_IN;
-                }
-                else if ($result->user_type == EMPLOYEE_TYPE){
-                    return EMPLOYEE_LOGGED_IN;
-                }
-                else {
-                    return END_USER_LOGGED_IN;
-                }
+        if(count($result) >= 1)
+        {                        
+            $result = $result[0];
+            if($result->activated == NOT_ACTIVATED)
+            {
+                return ACCOUNT_NOT_ACTIVATED;
             }
-            else {
-                return INVALID_USERNAME_PASSWORD;
+            else if ($result->admin == 1) 
+            {
+                return ADMIN_USER_LOGGED_IN;
             }
-	}
-	function create_member(){
-            $new_member = array(
-                'first_name' => $this->input->post('first_name'),
-                'last_name' => $this->input->post('last_name'),
-                'email_address' => $this->input->post('email_address'),
-                'company_telephone' => $this->input->post('company_telephone'),
-                'direct_telephone' => $this->input->post('direct_telephone'),
-                'company_fax' => $this->input->post('company_fax'),
-                'company_name' => $this->input->post('company_name'),
-                'company_street_address' => $this->input->post('company_street_address'),
-                'company_address_line2' => $this->input->post('company_address_line2'),
-                'company_city' => $this->input->post('company_city'),
-                'company_state' => $this->input->post('company_state'),
-                'company_zip_code' => $this->input->post('company_zip_code'),
-                'company_website' => $this->input->post('company_website'),
-                'username' => $this->input->post('username'),
-                'password' => md5($this->input->post('password'))
-             );
-            $this->db->insert('member',$new_member);
-            return mysql_insert_id();
-	}
+            else if ($result->user_type == EMPLOYEE_TYPE)
+            {
+                return EMPLOYEE_LOGGED_IN;
+            }
+            else if($result->user_type == END_USER_TYPE)
+            {
+                return END_USER_LOGGED_IN;
+            }
+            else if($result->user_type == AFFILIATE_TYPE)
+            {
+                return AFFILIATE_LOGGED_IN;
+            }
+        }
+        else {
+            return INVALID_USERNAME_PASSWORD;
+        }
+    }
+    
+    function create_member(){
+        $new_member = array(
+            'first_name' => $this->input->post('first_name'),
+            'last_name' => $this->input->post('last_name'),
+            'email_address' => $this->input->post('email_address'),
+            'company_telephone' => $this->input->post('company_telephone'),
+            'direct_telephone' => $this->input->post('direct_telephone'),
+            'company_fax' => $this->input->post('company_fax'),
+            'company_name' => $this->input->post('company_name'),
+            'company_street_address' => $this->input->post('company_street_address'),
+            'company_address_line2' => $this->input->post('company_address_line2'),
+            'company_city' => $this->input->post('company_city'),
+            'company_state' => $this->input->post('company_state'),
+            'company_zip_code' => $this->input->post('company_zip_code'),
+            'company_website' => $this->input->post('company_website'),
+            'username' => $this->input->post('username'),
+            'affiliate_code' => $this->input->post('affiliate_code'),
+            'password' => md5($this->input->post('password'))
+         );
+        $this->db->insert('member',$new_member);
+        return mysql_insert_id();
+    }
 
     function confirm_registration ($register_code)    {
         $this->db->where('activationcode',$register_code);
@@ -147,33 +156,36 @@ class Member_model extends CI_Model
 		$query =$this->db->get('member')->result();
 		
 		$member=array(
-		'first_name' => $query[0]->first_name,
-		'last_name' => $query[0]->last_name,
-		'username' => $query[0]->username,
-		'company_telephone' => $query[0]->company_telephone,
-		'direct_telephone' => $query[0]->direct_telephone,
-		'company_fax'=> $query[0]->company_fax,
-		'company_name'=> $query[0]->company_name,
-		'company_street_address'=> $query[0]->company_street_address,
-		'company_address_line2'	=> $query[0]->company_address_line2,
-		'company_city'=> $query[0]->company_city,
-		'company_state'=> $query[0]->company_state,
-		'company_zip_code'=> $query[0]->company_zip_code,
-		'company_website'=> $query[0]->company_website,
-		'email_address'	=> $query[0]->email_address,
-                'credits' => $query[0]->credits
+                    'id' => $query[0]->id,
+                    'first_name' => $query[0]->first_name,
+                    'last_name' => $query[0]->last_name,
+                    'username' => $query[0]->username,
+                    'company_telephone' => $query[0]->company_telephone,
+                    'direct_telephone' => $query[0]->direct_telephone,
+                    'company_fax'=> $query[0]->company_fax,
+                    'company_name'=> $query[0]->company_name,
+                    'company_street_address'=> $query[0]->company_street_address,
+                    'company_address_line2'	=> $query[0]->company_address_line2,
+                    'company_city'=> $query[0]->company_city,
+                    'company_state'=> $query[0]->company_state,
+                    'company_zip_code'=> $query[0]->company_zip_code,
+                    'company_website'=> $query[0]->company_website,
+                    'email_address'	=> $query[0]->email_address,
+                    'credits' => $query[0]->credits,
+                    'affiliate_code' => $query[0]->affiliate_code_id
 		);
 		return $member;
     }
     
-    function get_member_name($username){
+    function get_member_name($username)
+    {
     	$this->db->where('username',$username);
-		$query =$this->db->get('member')->result();
-		
-		return $query[0]->first_name.' '.$query[0]->last_name;
+        $query = $this->db->get('member')->result();
+        return $query[0]->first_name.' '.$query[0]->last_name;
     }
     
-    function updateUserCredits($userID,$numCredits) {
+    function updateUserCredits($userID,$numCredits) 
+    {
         if($this->db->query('UPDATE member SET credits = credits + '.$numCredits.' WHERE username = '."'$userID'")){
             return true;
         }
@@ -182,7 +194,8 @@ class Member_model extends CI_Model
         }
     }
     
-    function deductUserCredits($userID,$numCredits) {
+    function deductUserCredits($userID,$numCredits) 
+    {
         if($this->db->query('UPDATE member SET credits = credits - '.$numCredits.' WHERE username = '."'$userID'")){
             return true;
         }
@@ -191,12 +204,14 @@ class Member_model extends CI_Model
         }
     }
     
-    function getUserCredits($username) {
+    function getUserCredits($username) 
+    {
         $result = $this->db->select('credits')->from('member')->where('username',$username)->get()->result();
         return $result[0]->credits;
     }
     
-    function save_profile_data($username){
+    function save_profile_data($username)
+    {
     	$update_member = array(
 			'first_name' => $this->input->post('first_name'),
 			'last_name' => $this->input->post('last_name'),
@@ -215,7 +230,8 @@ class Member_model extends CI_Model
 		return $this->db->update('member', $update_member);
     }
     
-    function get_signature($username){
+    function get_signature($username)
+    {
         $value=$this->db->select('email_address, first_name,last_name,company_telephone,company_street_address,company_name ,company_city')
         ->from('member')
         ->where('username',$username)->get()->result();
@@ -223,7 +239,8 @@ class Member_model extends CI_Model
        return $signature='<strong>Phone:</strong> '.$value[0]->company_telephone."<br>".'<strong>Company:</strong> '.$value[0]->company_name." ".$value[0]->company_street_address." ".$value[0]->company_city."<br>".'<strong>Email:</strong> '.$value[0]->email_address;
     }
     
-    function searchUser(){
+    function searchUser()
+    {
         $criteria = $this->input->post('search_criteria');
         $phrase = $this->input->post('phrase');
         if($criteria == SEARCH_BY_EMAIL) {
@@ -240,7 +257,8 @@ class Member_model extends CI_Model
         }
     }
     
-    function get_delete_requests($all = false){
+    function get_delete_requests($all = false)
+    {
         $query = $this->db->select('*')->from(EMPLOYEE_DELETE_TABLE)->get()->result_array();
         $inArr = $query;//This is the 2D array
         if($all){
@@ -255,20 +273,22 @@ class Member_model extends CI_Model
         }  
     }
     
-    function add_credits_consumed($numCredits){
+    function add_credits_consumed($numCredits)
+    {
         $user = $this->session->userdata(USERNAME);
         $this->db->query('UPDATE member SET credits_consumed = credits_consumed + '.$numCredits.' WHERE username = '."'$user'");
         return;
     }
     
-    function sendCreditsAwardedEmail($toUser,$productId){
+    function sendCreditsAwardedEmail($toUser,$productId)
+    {
         $this->load->model('transaction');
         $num_credits = $this->transaction->getNumberOfCredits($productId);
         $member = $this->get_member($toUser);
         $subject = "NOTICE: Your Ecan.in account has been awarded $num_credits Credits!";
         $firstname = $member['first_name'];
         $contents = "Dear $firstname,
-                    
+        
         Thank you for being a valued customer. We have awarded you $num_credits Credits.
 
         As we appreciate your continued support we ask that you please give us any feedback that you can in order to continue to improve your user experience.
@@ -284,6 +304,40 @@ class Member_model extends CI_Model
         'Reply-To: info@ecan.in' . "\r\n" .
         'X-Mailer: PHP/' . phpversion();
         $sent = mail($to, $subject, $message, $headers);
+    }
+    
+    function getAffiliatesUser($id)
+    {
+        $affilifateUsers = $this->db->query("select * from member join affiliate_codes on member.affiliate_code_id = affiliate_codes.id where affiliate_code_id IN (select id from affiliate_codes where created_by_user_id = $id)")->result();
+        return $affilifateUsers;
+    }
+    
+    function getMyReferalCodes($id)
+    {
+        $referalCodes = $this->db->select('*')->from(AFFILIATE_CODES_TABLE)->where('created_by_user_id',$id)->get()->result();
+        return $referalCodes;
+    }
+    
+    function getCodeStatus($code)
+    {
+        $referalCodes = $this->db->select('*')->from(AFFILIATE_CODES_TABLE)->where('referal_code',$code)->get()->result();
+        if(count($referalCodes) > 0)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    function generateCode($code,$credits,$userID)
+    {
+        $affiliateCode =  array();
+        $affiliateCode['referal_code'] = $code;
+        $affiliateCode['num_of_credits'] = $credits;
+        $affiliateCode['created_by_user_id'] = $userID;
+        $this->db->insert(AFFILIATE_CODES_TABLE,$affiliateCode);
     }
 }
 ?>

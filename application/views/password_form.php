@@ -1,7 +1,8 @@
-<div class="row-fluid">
-<?php
+<div class="row">
+<h4>Change Password</h4>
+  <?php
 $form_attributes = array('class' => 'form-horizontal', 'id'=>'password_form');
-echo form_open('edit_profile/save_password',$form_attributes);
+echo form_open('user/save_password',$form_attributes);
 $old_password = array(
 		'name' => 'old_password',
 		'id'=> 'old_password',
@@ -22,8 +23,9 @@ $new_password_confirm = array(
 		'required'=>'required'
 		);
 ?>
+
 <div class="control-group">
-	<label class="control-label" for="old_password">Old Password: </label>
+<label class="control-label" for="old_password">Old Password: </label>
 		<div class="controls"><?php echo form_password($old_password); ?>
 		</div>
 </div>
@@ -38,7 +40,7 @@ $new_password_confirm = array(
 	</div>
 </div><br>
 <?php $btn = array(
-        'class' => 'btn-inverse',
+        'class' => 'btnGreen',
                     'id' => 'change',
                     'name'=>'change',
                     'value'=>'Change',

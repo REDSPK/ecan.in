@@ -1,7 +1,7 @@
 @import url('bootstrap.min.css');
 @import url('bootstrap-responsive.min.css');
-.header{margin-top: 50px;}
-.header li{border-bottom: 2px solid #364B41;margin-left: 4px;text-align: right;}
+
+.header li{border-bottom: 2px solid #364B41;margin-left: 2px;text-align: right;}
 .hup{margin-bottom: 1px;border-bottom-color: #EEE;}
 .hdown{margin-top: 2px; border-top-color: #EEE;}
 .b-right {border-right: 2px solid #EEE;padding-right: 20px;}
@@ -12,7 +12,16 @@
 #signup_form, fieldset{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none;}
 .signup_form input[type=submit]{background: #348075;-moz-border-radius:4px;-webkit-border-radius:4px;}
 
-#login_form,#contact_form{width: 300px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
+#login_form,#contact_form{
+	width: 300px;
+	margin-bottom: 2em;
+	display: block;
+	border:none;
+	overflow: hidden;
+	margin-top: 20px;
+	margin-right: auto;
+	margin-left: auto;
+}
 #myform{width: 400px;margin: auto;margin-bottom: 2em;display: block; border:none; overflow: hidden;}
 
 #login_form #signup_anchor{margin-left:9px;}
@@ -44,7 +53,9 @@ label.valid {
     font-size: 24px;
 }
 .credits{
-    font-weight: bold;
-    font-size: 24px;
+      font-size: 18px;
     color:green;
+}
+#a {
+	color: #F00;
 }

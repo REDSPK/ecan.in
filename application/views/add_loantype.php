@@ -27,11 +27,12 @@
     });
 </script>
 <div class="row">
-    <h4>Add new loan Type</h4>
-<form action='<?=base_url()?>csv/do_add_loantype' method="POST">
+    <h4><img src="../../assets/img/i-contacts-o.png" width="35" height="35" alt="Contacts" />Add new loan Type</h4>
+ <div class="span11"><fieldset><form action='<?=base_url()?>csv/do_add_loantype' method="POST">
     
     <input type="text" name="loan_type" placeholder="Enter Loantype Here"/> <br/>
-    <input type="submit" value="Enter" class="btn btn-primary">
+    <input type="submit" value="Enter" class="btnGreen">
 </form>
+</fieldset>
 
-</div>
+</div></div>
