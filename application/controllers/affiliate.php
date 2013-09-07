@@ -64,6 +64,62 @@ class affiliate extends CI_Controller {
         $data['main_content'] = 'affilifate_referal_codes';
         $this->load->view('includes/template',$data);
     }
+    
+    function enable_disable_code()
+    {
+        $id = $_GET['id'];
+        $status = $_GET['status'];
+        $status =  $this->member_model->ChangeCodeStatus($id,$status);
+    }
+    
+    function transactions()
+    {
+        $data = array();
+        $user = $this->session->userdata('user');
+        $this->load->model('affiliate_model');
+        $data['current_balance'] = $this->affiliate_model->getAffiliatePendingPayments($user['id']);
+        $data['transaction_history'] = $this->affiliate_model->getTransactionHistory($user['id']);
+        $data['main_content'] = 'affiliate_financials';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function codes_financials()
+    {
+        $this->load->model('affiliate_model');
+        $user = $this->session->userdata('user');
+        $codes = $this->affiliate_model->getMyReferalCodesTransactions($user['id']);
+        foreach($codes as $code)
+        {
+            $code->pending_transactions = $this->affiliate_model->getReferalCodesSum($code->id,0);
+            $code->paid_transactions = $this->affiliate_model->getReferalCodesSum($code->id,1)?$this->affiliate_model->getReferalCodesSum($code->id,1):0;
+        }
+        $data['userTotalBalance'] = $this->affiliate_model->getTotalPendingEarnings($user['id'],0);
+        $data['codes'] = $codes;
+        $data['checkoutRequested'] = $this->affiliate_model->haveCheckoutRequest($user['id']);
+        $data['main_content'] = 'affiliate_codes_financials';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function affiliate_code_financials()
+    {
+        $user = $this->session->userdata('user');
+        $this->load->model('affiliate_model');
+        $codeId = $this->input->get('code_id');
+        $data['transactions'] = $this->affiliate_model->getTransactionHistory($user['id'],$codeId);
+        $data['main_content'] = 'affiliate_code_transactions';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function add_checkout_request()
+    {
+        $user = $this->session->userdata('user');
+        $this->load->model('affiliate_model');
+        $this->affiliate_model->addCheckoutRequest($user['id']);
+    }
+    
+    
+    
+    
 }
 
 ?>

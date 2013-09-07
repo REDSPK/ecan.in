@@ -37,7 +37,25 @@ class Member_model extends CI_Model
     }
     
     function create_member(){
-        $new_member = array(
+        $affiliateCode = $this->input->post('affiliate_code');
+        $credits = 0;
+        if($affiliateCode)
+        {
+            $affiliateCode = $this->getAffiliateCodeInfo($affiliateCode);
+            if($affiliateCode == -1)
+            {
+                return -1;
+            }
+            else
+            {
+                $credits = $affiliateCode->num_of_credits;
+            }
+        }
+        else 
+        {
+            $affiliateCode = 0;
+        }
+        $new_member = array (
             'first_name' => $this->input->post('first_name'),
             'last_name' => $this->input->post('last_name'),
             'email_address' => $this->input->post('email_address'),
@@ -52,7 +70,9 @@ class Member_model extends CI_Model
             'company_zip_code' => $this->input->post('company_zip_code'),
             'company_website' => $this->input->post('company_website'),
             'username' => $this->input->post('username'),
-            'affiliate_code' => $this->input->post('affiliate_code'),
+            'affiliate_code_id' => $affiliateCode->id,
+            'credits' => $credits,
+            'user_type' => $this->input->post('user_type'),
             'password' => md5($this->input->post('password'))
          );
         $this->db->insert('member',$new_member);
@@ -104,35 +124,35 @@ class Member_model extends CI_Model
 
         return $ret;
     }
-	function change_password($username){
-            $password=$this->input->post('new_password');
-            $old_password=$this->input->post('old_password');
+    function change_password($username){
+        $password=$this->input->post('new_password');
+        $old_password=$this->input->post('old_password');
 
-            $this->db->where('password',md5($old_password));
+        $this->db->where('password',md5($old_password));
+        $query =$this->db->get('member');
+        if($query->num_rows==1)
+        {
+
+                $data = array(
+               'password' => md5($password)
+            );
+                $this->db->where('username', $username);
+                return $this->db->update('member', $data);
+        }
+        return false;
+    }
+
+    function check_username_data(){
+            $this->db->where('username',$this->input->post('username'));
             $query =$this->db->get('member');
-            if($query->num_rows==1)
-            {
-
-                    $data = array(
-                   'password' => md5($password)
-                );
-                    $this->db->where('username', $username);
-                    return $this->db->update('member', $data);
-            }
-            return false;
-	}
-
-	function check_username_data(){
-		$this->db->where('username',$this->input->post('username'));
-		$query =$this->db->get('member');
-			return $query->num_rows;
-	}
-	function check_email_data(){
-		$this->db->where('email_address',$this->input->post('email'));
-		$query =$this->db->get('member');
-			return $query->num_rows;
-	}
-	function get_random_password($chars_min=6, $chars_max=8, $use_upper_case=false, $include_numbers=false, $include_special_chars=false)
+                    return $query->num_rows;
+    }
+    function check_email_data(){
+            $this->db->where('email_address',$this->input->post('email'));
+            $query =$this->db->get('member');
+                    return $query->num_rows;
+    }
+    function get_random_password($chars_min=6, $chars_max=8, $use_upper_case=false, $include_numbers=false, $include_special_chars=false)
     {
         $length = rand($chars_min, $chars_max);
         $selection = 'aeuoyibcdfghjklmnpqrstvwxz';
@@ -142,39 +162,38 @@ class Member_model extends CI_Model
         if($include_special_chars) {
             $selection .= "!@04f7c318ad0360bd7b04c980f950833f11c0b1d1quot;#$%&[]{}?|";
         }
-                                
         $password = "";
         for($i=0; $i<$length; $i++) {
             $current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];            
             $password .=  $current_letter;
         }                
-        
         return $password;
     }
+    
     function get_member($username){
     	$this->db->where('username',$username);
-		$query =$this->db->get('member')->result();
+        $query =$this->db->get('member')->result();
 		
-		$member=array(
-                    'id' => $query[0]->id,
-                    'first_name' => $query[0]->first_name,
-                    'last_name' => $query[0]->last_name,
-                    'username' => $query[0]->username,
-                    'company_telephone' => $query[0]->company_telephone,
-                    'direct_telephone' => $query[0]->direct_telephone,
-                    'company_fax'=> $query[0]->company_fax,
-                    'company_name'=> $query[0]->company_name,
-                    'company_street_address'=> $query[0]->company_street_address,
-                    'company_address_line2'	=> $query[0]->company_address_line2,
-                    'company_city'=> $query[0]->company_city,
-                    'company_state'=> $query[0]->company_state,
-                    'company_zip_code'=> $query[0]->company_zip_code,
-                    'company_website'=> $query[0]->company_website,
-                    'email_address'	=> $query[0]->email_address,
-                    'credits' => $query[0]->credits,
-                    'affiliate_code' => $query[0]->affiliate_code_id
-		);
-		return $member;
+        $member=array(
+            'id' => $query[0]->id,
+            'first_name' => $query[0]->first_name,
+            'last_name' => $query[0]->last_name,
+            'username' => $query[0]->username,
+            'company_telephone' => $query[0]->company_telephone,
+            'direct_telephone' => $query[0]->direct_telephone,
+            'company_fax'=> $query[0]->company_fax,
+            'company_name'=> $query[0]->company_name,
+            'company_street_address'=> $query[0]->company_street_address,
+            'company_address_line2'	=> $query[0]->company_address_line2,
+            'company_city'=> $query[0]->company_city,
+            'company_state'=> $query[0]->company_state,
+            'company_zip_code'=> $query[0]->company_zip_code,
+            'company_website'=> $query[0]->company_website,
+            'email_address'	=> $query[0]->email_address,
+            'credits' => $query[0]->credits,
+            'affiliate_code' => $query[0]->affiliate_code_id
+        );
+        return $member;
     }
     
     function get_member_name($username)
@@ -338,6 +357,40 @@ class Member_model extends CI_Model
         $affiliateCode['num_of_credits'] = $credits;
         $affiliateCode['created_by_user_id'] = $userID;
         $this->db->insert(AFFILIATE_CODES_TABLE,$affiliateCode);
+    }
+    
+    function ChangeCodeStatus($id,$status)
+    {
+        $data = array('status' => $status);
+        $this->db->where('id',$id);
+        $this->db->update(AFFILIATE_CODES_TABLE, $data);
+    }
+    
+    function getAffiliateCodeInfo($code)
+    {
+        $referalCodes = $this->db->select('*')->from(AFFILIATE_CODES_TABLE)->where('referal_code',$code)->get()->result();
+        if(count($referalCodes) > 0)
+        {
+            return $referalCodes[0];
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    
+    function exportUserTable()
+    {
+        $users = $this->db->query('SELECT first_name,last_name,member.email_address,company_telephone,direct_telephone,company_fax,company_name,company_street_address,company_address_line2,member.company_city,
+                                    member.company_state,member.company_zip_code,member.company_website,member.credits,member.credits_consumed from member')->result_array();
+        
+        $keys = array_keys($users[0]);
+        echo implode(",", $keys);
+        echo "\n";
+        foreach($users as $user) {
+            echo implode(",", $user);
+            echo "\n";
+        }
     }
 }
 ?>

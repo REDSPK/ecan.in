@@ -69,9 +69,7 @@
         </tr>
         <tr>
           <td width="7%" bgcolor="#ECF0F2">&nbsp;</td>
-          <td width="50%" align="left" bgcolor="#ECF0F2">500 credits for <span style="color:#00AE08">$
-            <?=rtrim(ECAN500_PRICE,"0");?>
-            .00</span></td>
+          <td width="50%" align="left" bgcolor="#ECF0F2">500 credits for <span style="color:#00AE08">$<?=rtrim(ECAN500_PRICE,"0");?>.00</span></td>
           <td width="43%" align="left" bgcolor="#ECF0F2"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="<?=ECAN500_BUTTON_ID;?>" />
@@ -86,8 +84,7 @@
         </tr>
         <tr>
           <td bgcolor="#F7F7F7">&nbsp;</td>
-          <td align="left" bgcolor="#F7F7F7">1500 credits for <span style="color: #00AE08">$
-            <?=ECAN1500_PRICE;?>
+          <td align="left" bgcolor="#F7F7F7">1500 credits for <span style="color: #00AE08">$<?=ECAN1500_PRICE;?>
           </span></td>
           <td align="left" bgcolor="#F7F7F7"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd2" value="_s-xclick" />
@@ -103,9 +100,7 @@
         </tr>
         <tr>
           <td bgcolor="#ECF0F2">&nbsp;</td>
-          <td bgcolor="#ECF0F2">2500 credits for <span style="color:#00AE08">$
-            <?=ECAN2500_PRICE;?>
-            0</span></td>
+          <td bgcolor="#ECF0F2">2500 credits for <span style="color:#00AE08">$<?=ECAN2500_PRICE;?>0</span></td>
           <td align="left" bgcolor="#ECF0F2"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd2" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="<?=ECAN2500_BUTTON_ID;?>" />
@@ -120,9 +115,7 @@
         </tr>
         <tr>
           <td bgcolor="#F7F7F7">&nbsp;</td>
-          <td bgcolor="#F7F7F7">5000 credits for <span style="color:#00AE08">$
-            <?=ECAN5000_PRICE;?>
-            0</span></td>
+          <td bgcolor="#F7F7F7">5000 credits for <span style="color:#00AE08">$<?=ECAN5000_PRICE;?>0</span></td>
           <td align="left" bgcolor="#F7F7F7"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd2" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="<?=ECAN5000_BUTTON_ID;?>" />
@@ -137,9 +130,7 @@
         </tr>
         <tr>
           <td bgcolor="#ECF0F2">&nbsp;</td>
-          <td bgcolor="#ECF0F2">10000 credits for <span style="color:#00AE08">$
-            <?=ECAN10000_PRICE;?>
-            0</span></td>
+          <td bgcolor="#ECF0F2">10000 credits for <span style="color:#00AE08">$<?=ECAN10000_PRICE;?>0</span></td>
           <td align="left" bgcolor="#ECF0F2"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd2" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="<?=ECAN10000_BUTTON_ID;?>" />
@@ -154,9 +145,7 @@
         </tr>
         <tr>
           <td bgcolor="#F7F7F7">&nbsp;</td>
-          <td bgcolor="#F7F7F7">25000 credits for <span style="color:#00AE08">$
-            <?=ECAN25000_PRICE;?>
-            0</span></td>
+          <td bgcolor="#F7F7F7">25000 credits for <span style="color:#00AE08">$<?=ECAN25000_PRICE;?>0</span></td>
           <td align="left" bgcolor="#F7F7F7"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd2" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="<?=ECAN25000_BUTTON_ID;?>" />
@@ -171,9 +160,7 @@
         </tr>
         <tr>
           <td bgcolor="#ECF0F2">&nbsp;</td>
-          <td align="left" bgcolor="#ECF0F2">50000 credits for <span style="color:#00AE08">$
-            <?=ECAN50000_PRICE;?>
-            .00</span></td>
+          <td align="left" bgcolor="#ECF0F2">50000 credits for <span style="color:#00AE08">$<?=ECAN50000_PRICE;?>.00</span></td>
           <td align="left" bgcolor="#ECF0F2"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd2" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="<?=ECAN50000_BUTTON_ID;?>" />
@@ -188,9 +175,7 @@
         </tr>
         <tr>
           <td bgcolor="#F7F7F7">&nbsp;</td>
-          <td bgcolor="#F7F7F7">100000 credits for <span style="color:#00AE08">$
-            <?=ECAN100000_PRICE;?>
-            .00</span></td>
+          <td bgcolor="#F7F7F7">100000 credits for <span style="color:#00AE08">$<?=ECAN100000_PRICE;?>.00</span></td>
           <td align="left" bgcolor="#F7F7F7"><form action="<?=PAYPAL_URL?>" method="post">
             <input type="hidden" name="cmd2" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="<?=ECAN100000_BUTTON_ID;?>" />

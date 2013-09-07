@@ -149,6 +149,21 @@ echo form_input($cweb);
     echo form_input($afiliateCode);
 ?>
 </fieldset>
+
+<fieldset>
+    <legend>User Type</legend>
+<?
+    $options = array(
+        END_USER_TYPE    => 'End User',
+        AFFILIATE_TYPE  => 'Affiliate',
+        HOME_OWNER   => 'Home Owner',
+        AGENT => 'Agent',
+    );
+    
+    
+    echo form_dropdown('user_type',$options);
+?>
+</fieldset>
 <fieldset>
 <legend>Login Information</legend>
 <div id="feedback"></div>

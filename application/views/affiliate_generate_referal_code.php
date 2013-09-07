@@ -30,7 +30,12 @@
                     $('h4').after('<div class="alert alert-error">'+'Credits must be integer'+'</div>');
                     flag = false;
                }
+               if($('#credits').val() > 275){
+                   $('h4').after('<div class="alert alert-error">'+'Credits must be less than 276'+'</div>');
+                    flag = false;
+               }
            }
+           
            if(flag)
            {
                link = $(this).attr('action');
@@ -45,7 +50,6 @@
                         $('form').each (function(){
                             this.reset();
                         });
-
                     }
                     else {
                         $('h4').after('<div class="alert alert-error">'+data.message+'</div>');

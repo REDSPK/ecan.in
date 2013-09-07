@@ -26,7 +26,8 @@
 
 #login_form #signup_anchor{margin-left:9px;}
 #login_form #pass_recover_anchor{margin: 5px;}
-.error{background: #eee;margin: 5px;font-style: italic;font-weight: bold; width:300px;color: red; display: inline; -moz-border-radius:4px;-webkit-border-radius:4px;}
+.error{margin: 5px;font-style: italic;font-weight: bold; width:300px;color: red; display: inline; -moz-border-radius:4px;-webkit-border-radius:4px;}
+.success-message{margin: 5px;font-style: italic;font-weight: bold; width:300px;color: green; display: inline; -moz-border-radius:4px;-webkit-border-radius:4px;}
 #errorstring{margin-left: 400px; text-align: center;}
 #left_part{float: left;margin-right: 100px;overflow: hidden;}
 #right_part{margin-left: 100px; }
@@ -53,9 +54,9 @@ label.valid {
     font-size: 24px;
 }
 .credits{
-      font-size: 18px;
+    font-size: 18px;
     color:green;
 }
 #a {
-	color: #F00;
+    color: #F00;
 }

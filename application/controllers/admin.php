@@ -180,6 +180,7 @@ class Admin extends CI_Controller
         $data['main_content']='admin_delete_requests';
         $this->load->view('includes/template',$data);
     }
+    
     function delete_action(){
         $username = $this->input->get('user');
         $confirmDelete = $this->input->get('delete');
@@ -190,4 +191,29 @@ class Admin extends CI_Controller
         echo "here";
     }
     
+    function export_user_table()
+    {
+        header("Content-type: application/csv");
+        header("Content-Disposition: attachment; filename=file.csv");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $this->load->model('member_model');
+        $this->member_model->exportUserTable();
+    }
+    
+    function get_checkout_requests()
+    {
+        $this->load->model('affiliate_model');
+        $data['requests'] = $this->affiliate_model->getCheckoutRequest();
+        $data['main_content']='admin_checkout_requests';
+        $this->load->view('includes/template',$data);
+    }
+    
+    function mark_transaction_paid()
+    {
+        $this->load->model('affiliate_model');
+        $transactionId = $this->input->get('id');
+        $this->affiliate_model->markTransactionPaid($transactionId);
+        
+    }
 }

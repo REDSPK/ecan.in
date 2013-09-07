@@ -67,6 +67,7 @@ define('SECTIONS_TABLE','sections');
 define('ASSISTANCE_TYPE_TABLE','type_of_assistance');
 define('LIEN_POSITION_TABLE','lien_positions');
 define('AFFILIATE_CODES_TABLE','affiliate_codes');
+define('TBL_AFFILIATE_TRANSACTIONS','affiliate_transactions');
 /**
  * Error Codes
  */
@@ -89,6 +90,8 @@ define('NOT_ACTIVATED',0);
 define('EMPLOYEE_TYPE',1);
 define('END_USER_TYPE',0);
 define('AFFILIATE_TYPE',2);
+define('HOME_OWNER',3);
+define('AGENT',4);
 define('CODE','code');
 define('MSG','message');
 define('DATA','data');
@@ -121,7 +124,7 @@ define('ECAN100000_BUTTON_ID',156.00);
  * ECAN item names
  */
 
-
+define('ECAN275_PRODUCT_NAME','ECAN275');
 define('ECAN500_PRODUCT_NAME','ECAN500');
 define('ECAN1500_PRODUCT_NAME','ECAN1500');
 define('ECAN2500_PRODUCT_NAME','ECAN2500');
@@ -153,4 +156,5 @@ define('CONTACT_US_EMAIL','info@ecan.in');
 /* Location: ./application/config/constants.php */
 
 
+define('AFFILIATE_PERCENTAGE',20);
 define('MIN_CREDITS_THRESHOLD',500);

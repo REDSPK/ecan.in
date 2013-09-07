@@ -88,7 +88,8 @@ class Login extends CI_Controller {
         $this->load->view('includes/template',$data);
     }
 
-    function create_member(){
+    function create_member()
+    {
         $this->load->helper('security');
         $this->form_validation->set_rules('first_name','First Name','trim|required|man_length[25]|xss_clean');
         $this->form_validation->set_rules('last_name','Last Name','trim|required|man_length[25]|xss_clean');
@@ -114,7 +115,15 @@ class Login extends CI_Controller {
         else
         {
             $this->load->model('member_model');
-            if($id=$this->member_model->create_member())
+            $id = $this->member_model->create_member();
+            
+            if($id == -1)
+            {
+                $data['message'] = "The code has expired or does not exist";
+                $data['main_content']='mail_error';
+                $this->load->view('includes/template',$data);
+            }
+            else
             {
                 $activation_code=$this->member_model->generate_activation($id);
                 $subject='Ecan.in account activation link';
@@ -122,10 +131,6 @@ class Login extends CI_Controller {
                 $message='Click the link below to activate your account' . anchor('http://ecan.in/login/account_activation/' . $activation_code,'Confirmation Register');
                 $email=$this->input->post('email_address');
                 $this->sendemail($subject,$message,$success_message,$email);
-            }
-            else
-            {
-                $this->load->view('signup_form');
             }
         }
     }

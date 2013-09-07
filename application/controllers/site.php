@@ -10,11 +10,19 @@ class Site extends CI_Controller
         parent::__construct();
         $this->is_logeed_in();
     }
+    
     function member_area()
     {
         $member = new CSV();
         $member->new_members_page();
     }
+    
+    function test()
+    {
+        $this->load->model('transaction');
+        $this->transaction->addAffiliateTransaction(36,ECAN10000_PRODUCT_NAME);
+    }
+    
     function is_logeed_in(){
         $is_logged_in=$this->session->userdata('is_logged_in');
         if(!isset($is_logged_in) || $is_logged_in!=true){

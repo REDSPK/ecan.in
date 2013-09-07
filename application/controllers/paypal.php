@@ -118,7 +118,7 @@ class paypal extends CI_Controller {
             } else {
                 $this->load->model('member_model');
                 $transactionData = array();
-                $userID = $_POST['custom'];
+                $userID = $_POST['custom']; 
                 $transactionData['user_id'] = $userID;
                 $transactionData['item_id'] = $_POST['item_number'];
                 $transactionData['user_email'] = $_POST['payer_email'];
@@ -126,6 +126,8 @@ class paypal extends CI_Controller {
                 $this->transaction->addTransaction($transactionData);
                 $numCredits = $this->transaction->getNumberOfCredits($_POST['item_number']);
                 $updateQuery = $this->member_model->updateUserCredits($userID,$numCredits);
+                
+                $this->transaction->addAffiliateTransaction($userID,$transactionData['item_id']);
                 error_log($updateQuery);
             }
 } else {

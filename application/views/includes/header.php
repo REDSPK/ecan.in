@@ -62,17 +62,17 @@
                 if ($this->session->userdata('is_logged_in'))
                 {
             ?>
-                  <li><a href="<?php echo base_url('site/member_area'); ?>"><img src="../../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
-                  <li><a href="<?php echo base_url('user/edit_profile'); ?>"><img src="../../assets/img/i-edit.png" width="80" height="35" alt="Edit Profile" />Edit Profile</a></li>
-                  <li><a href="<?php echo base_url('site/history_detail'); ?>"><img src="../../assets/img/i-history.png" width="35" height="35" alt="History" />History</a></li>
-                  <li><a href="<?php echo base_url('paypal/buy_credits'); ?>"><img src="../../assets/img/i-buy.png" width="75" height="35" alt="Buy Credits" />Buy Credits</a></li>
+              <li><a href="<?php echo base_url('site/member_area'); ?>"><img src="<? echo site_url();?>../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
+                  <li><a href="<?php echo base_url('user/edit_profile'); ?>"><img src="<? echo site_url();?>../assets/img/i-edit.png" width="80" height="35" alt="Edit Profile" />Edit Profile</a></li>
+                  <li><a href="<?php echo base_url('site/history_detail'); ?>"><img src="<? echo site_url();?>../assets/img/i-history.png" width="35" height="35" alt="History" />History</a></li>
+                  <li><a href="<?php echo base_url('paypal/buy_credits'); ?>"><img src="<? echo site_url();?>../assets/img/i-buy.png" width="75" height="35" alt="Buy Credits" />Buy Credits</a></li>
                   
           <?php
                 }
           else
           {
           ?>
-                  <li><a href="<?php echo base_url('login'); ?>"><img src="../../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
+                  <li><a href="<?php echo base_url('login'); ?>"><img src="<? echo site_url();?>../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
           <?php
           }
           ?>
@@ -81,7 +81,7 @@
           {
           ?>
               <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../assets/img/i-admin.png" width="35" height="35" alt="Admin" />Admin<b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<? echo site_url();?>../assets/img/i-admin.png" width="35" height="35" alt="Admin" />Admin<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><?php echo anchor('admin/admin_area','Users Table'); ?></li>
                 <li><?php echo anchor('admin/review_delete_requests','Member Delete Requests'); ?></li>
@@ -90,11 +90,13 @@
                 <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
                 <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
                 <li><?php echo anchor('csv/export_contacts','Export Contacts'); ?></li>
+                <li><?php echo anchor('admin/export_user_table','Export Users'); ?></li>
+                <li><?php echo anchor('admin/get_checkout_requests','Affiliate Checkouts'); ?></li>
                       
               </ul>
                     </li>
                     <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../assets/img/i-contacts.png" width="75" height="35" alt="Contacts" />Contacts <br>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<? echo site_url();?>../assets/img/i-contacts.png" width="75" height="35" alt="Contacts" />Contacts <br>
                     Management<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <li><?php echo anchor('csv/add_escalation_level','Add Escalation Level'); ?></li>
@@ -114,7 +116,7 @@
             {
             ?>
                 <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><img src="../../assets/img/i-about.png" width="35" height="35" alt="Home" />Employee <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><img src="<? echo site_url();?>../assets/img/i-about.png" width="35" height="35" alt="Home" />Employee <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><?php echo anchor('admin/admin_area','Users Table'); ?></li>
                   <li><?php echo anchor('csv/all_contacts','Contacts'); ?></li>
@@ -126,24 +128,25 @@
             {    
             ?>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><img src="../../assets/img/i-about.png" width="35" height="35" alt="Home" />Affiliate <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><img src="<? echo site_url();?>../assets/img/i-about.png" width="35" height="35" alt="Home" />Affiliate <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <li><?php echo anchor('affiliate/home','Home'); ?></li>
                       <li><?php echo anchor('affiliate/generate_referal_code','Generate Referal Code'); ?></li>
                       <li><?php echo anchor('affiliate/my_referal_codes','My Referal Code'); ?></li>
+                      <li><?php echo anchor('affiliate/codes_financials','Financials'); ?></li>
                     </ul>
                 </li>
             <?
             }
             ?>
-            <li><a href="#"><img src="../../assets/img/i-about.png" width="35" height="35" alt="Home" />About</a></li>
-            <li><a href="<?php echo base_url('static_pages/disclaimer');?>"><img src="../../assets/img/i-disclamer.png" width="65" height="35" alt="Home" />Disclaimer</a></li>
-            <li><a href="<?php echo base_url('static_pages/contact_us');?>"><img src="../../assets/img/i-contactUs.png" width="70" height="35" alt="Home" />Contact Us</a></li>
+            <li><a href="#"><img src="<? echo site_url();?>../assets/img/i-about.png" width="35" height="35" alt="Home" />About</a></li>
+            <li><a href="<?php echo base_url('static_pages/disclaimer');?>"><img src="<? echo site_url();?>../assets/img/i-disclamer.png" width="65" height="35" alt="Home" />Disclaimer</a></li>
+            <li><a href="<?php echo base_url('static_pages/contact_us');?>"><img src="<? echo site_url();?>../assets/img/i-contactUs.png" width="70" height="35" alt="Home" />Contact Us</a></li>
             <?php
                 if ($this->session->userdata('is_logged_in'))
                 {
                   $username=$this->session->userdata('username'); ?>
-                  <li><a style="white-space: normal;" href="<?php echo base_url('signout') ?>"><img src="../../assets/img/i-logout.png" width="50" height="35" alt="Home" /><? echo "signout ($username)"?></a></li>
+                  <li><a style="white-space: normal;" href="<?php echo base_url('signout') ?>"><img src="<? echo site_url();?>../assets/img/i-logout.png" width="50" height="35" alt="Home" /><? echo "signout ($username)"?></a></li>
             <?php
                }
            ?>
