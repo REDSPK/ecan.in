@@ -114,10 +114,76 @@ class affiliate extends CI_Controller {
     {
         $user = $this->session->userdata('user');
         $this->load->model('affiliate_model');
-        $this->affiliate_model->addCheckoutRequest($user['id']);
+        $amount = $this->input->get('amount');
+        $this->affiliate_model->addCheckoutRequest($user,$amount);
     }
     
+    function export_users_csv()
+    {
+        $this->load->model('affiliate_model');
+        $user = $this->session->userdata('user');
+        $affiliate_members = $this->member_model->getAffiliatesUser($user['id']);
+        $this->affiliate_model->export_users_csv($affiliate_members);   
+    }
     
+    function get_specific_code_graph()
+    {
+        $this->load->model('affiliate_model');
+        $user = $this->session->userdata('user');
+        $codeId = $this->input->get('code_id');
+        $transactions = $this->affiliate_model->getTransactionHistory($user['id'],$codeId);
+        $finalArray = array();
+        foreach($transactions as $transaction)
+        {
+            $tempArray = array();
+            $date = new DateTime($transaction->datetime);
+            $tempArray[0] = $date->format('Y-m-d g:iA'); 
+            $tempArray[1] = floatval($transaction->affiliate_percentage_from_transaction);
+            $finalArray[] = $tempArray;
+        }
+        $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($finalArray));
+    }
+    
+    function get_all_code_graph()
+    {
+        $this->load->model('affiliate_model');
+        $user = $this->session->userdata('user');
+        $allTransactions = $this->affiliate_model->getTransactionHistory($user['id']);
+        $allCodes = $this->affiliate_model->getAllReferalCodes($user['id']);
+        $BigArray = array();
+        $count = 0;
+        foreach($allCodes as $code)
+        {
+            $transactions = $this->affiliate_model->getTransactionHistory($user['id'],$code->id);
+            $finalArray = array();
+            foreach($transactions as $transaction)
+            {
+                $tempArray = array();
+                $date = new DateTime($transaction->datetime);
+                $tempArray[0] = $date->format('Y-m-d g:iA'); 
+                $tempArray[1] = floatval($transaction->affiliate_percentage_from_transaction);
+                $finalArray[] = $tempArray;
+            }
+            
+            $BigArray[$count]['code'] = $code->referal_code;
+            $BigArray[$count]['points'] = $finalArray;
+            $count++;
+        }
+        
+        $finalArray = array();
+        foreach($allTransactions as $transaction)
+        {
+            $tempArray = array();
+            $date = new DateTime($transaction->datetime);
+            $tempArray[0] = $date->format('Y-m-d g:iA'); 
+            $tempArray[1] = floatval($transaction->affiliate_percentage_from_transaction);
+            $finalArray[] = $tempArray;
+        }
+//        $BigArray[$count]['code'] = '__aggregate';
+//        $BigArray[$count]['points'] = $finalArray;
+        $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($BigArray));
+    }
+   
     
     
 }

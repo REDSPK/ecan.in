@@ -115,6 +115,7 @@ class Login extends CI_Controller {
         else
         {
             $this->load->model('member_model');
+            
             $id = $this->member_model->create_member();
             
             if($id == -1)
@@ -125,7 +126,7 @@ class Login extends CI_Controller {
             }
             else
             {
-                $activation_code=$this->member_model->generate_activation($id);
+                $activation_code = $this->member_model->generate_activation($id);
                 $subject='Ecan.in account activation link';
                 $success_message="check your inbox for activate your account";
                 $message='Click the link below to activate your account' . anchor('http://ecan.in/login/account_activation/' . $activation_code,'Confirmation Register');
@@ -187,13 +188,13 @@ class Login extends CI_Controller {
         {
             $this->load->model('member_model');
             $num=$this->member_model->check_email_data();
-            if($num==0)
+            if($num == 0)
             {
                 $data['message'] = "your email is not in our Database";
                 $data['main_content']='signup_unsuccessful';
                 $this->load->view('includes/template',$data);
             }
-            else if($num==1)
+            else if($num == 1)
             {
                 $result= $this->member_model->recover_email_password();
                 $username=$result['username'];
@@ -208,25 +209,10 @@ class Login extends CI_Controller {
     }
     function sendemail($subject,$message,$success_message,$email)
     {
-    	//print_r($subject."MS: ".$message."SMS ".$success_message);
-            $config = array(
-                'protocol' => 'mail',
-                //'protocol' => 'smtp',
-                //'smtp_host' => 'localhost',
-                //'smtp_port' => '465',
-                //'smtp_host' => 'ssl://smtp.googlemail.com',
-                //'smtp_user' => '',/*place sender Email here*/
-                //'smtp_pass' => '',/*place sender Email password here*/
-                'charset' => 'iso-8859-1',
-                'wordwrap' => TRUE,
-                'mailtype' => 'html');
 
             $this->load->library('email');
-            $this->email->initialize($config);
-            $this->email->set_newline("\r\n"); //set the new line rule 
             $this->email->from('info@Ecan.in', 'Ecan.in'); /*place sender Email here*/
             $this->email->to($email);
-
             $this->email->subject($subject);
             $this->email->message($message);
 

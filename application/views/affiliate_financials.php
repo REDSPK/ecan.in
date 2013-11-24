@@ -1,7 +1,3 @@
-<?php
-
-
-?>
 <h4>Transactions by your affiliates</h4>
 
 <div class="moneyDiv" style="font-size: 35px;padding-top: 20px;">

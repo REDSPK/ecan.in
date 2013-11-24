@@ -159,17 +159,37 @@ class Admin extends CI_Controller
             $this->load->view('includes/template',$data);
     }
     
-    function delete_user(){
+    function delete_user()
+    {
+        $this->load->model('member_model');
         $username = $this->input->get('id');
-        if($this->session->userdata(ADMIN)) {
-            $this->db->delete(MEMBER_TABLE, array(USERNAME => $username));
+        $notes = "";
+        $user = $this->member_model->getMemberByUsername($username);
+        if(isset($_GET['notes']))
+        {
+            $notes = $this->input->get('notes'); 
         }
-        else if ($this->session->userdata(EMPLOYEE)){
+        if($this->session->userdata(ADMIN)) 
+        {
+            $this->db->where('username',$username);
+            $this->db->delete(MEMBER_TABLE);
+            $insertData = array();
+            $insertData['username'] = $username;
+            $insertData['reason'] = $notes;
+            $insertData['user_id'] = $user->id;
+            $insertData['user_email'] = $user->email_address;
+            $this->db->insert(TBL_USER_DELETE_NOTES,$insertData);
+        }
+        else if ($this->session->userdata(EMPLOYEE))
+        {
             $data = new stdClass();
             $data->user_requested = $username;
             $data->requested_by = $this->session->userdata(USERNAME);
+            $data->reason = $notes;
             $this->db->insert(EMPLOYEE_DELETE_TABLE, $data); 
-        }else {
+        }
+        else 
+        {
             return;
         }
     }
@@ -182,23 +202,36 @@ class Admin extends CI_Controller
     }
     
     function delete_action(){
-        $username = $this->input->get('user');
+        $username = $this->input->get('id');
         $confirmDelete = $this->input->get('delete');
-        if($confirmDelete){
+        $notes = $this->input->get('notes');
+        if($confirmDelete)
+        {
+            $this->load->model('member_model');
+            $user = $this->member_model->getMemberByUsername($username);
             $this->db->delete(MEMBER_TABLE,array('username'=>$username));
+            $insertData = array();
+            $insertData['username'] = $username;
+            $insertData['reason'] = $notes;
+            $insertData['user_id'] = $user->id;
+            $insertData['user_email'] = $user->email_address;        
+            $this->db->insert(TBL_USER_DELETE_NOTES,$insertData);
         }
-        $this->db->delete(EMPLOYEE_DELETE_TABLE,array('user_requested'=>$username));
-        echo "here";
+        $this->db->delete(EMPLOYEE_DELETE_TABLE,array('user_requested'=>$username));                
     }
+    
+    
     
     function export_user_table()
     {
-        header("Content-type: application/csv");
-        header("Content-Disposition: attachment; filename=file.csv");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        $this->load->model('member_model');
-        $this->member_model->exportUserTable();
+        $this->load->model('admin_model');
+        $this->admin_model->exportUsers(END_USER_TYPE);
+    }
+    
+    function export_affiliates()
+    {
+        $this->load->model('admin_model');
+        $this->admin_model->exportUsers(AFFILIATE_TYPE);
     }
     
     function get_checkout_requests()

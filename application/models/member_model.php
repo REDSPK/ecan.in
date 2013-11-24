@@ -1,6 +1,16 @@
 <?php
 class Member_model extends CI_Model
 {
+    public function __construct() {
+        parent::__construct();
+    }
+    
+    function getMemberByUsername($username)
+    {
+        $user = $this->db->where('username',$username)->get(MEMBER_TABLE)->result();
+        return $user[0];
+    }
+    
     function validate()
     {
         $this->db->where('username',$this->input->post('username'));
@@ -93,13 +103,14 @@ class Member_model extends CI_Model
             return FALSE;
         }
     } 
-    function generate_activation($id){
-        $password=$this->get_random_password(10,12, true,true,false);
+    function generate_activation($id)
+    {
+        $password = $this->get_random_password(10,12, true,true,false);
         $data = array(
            'activationcode' => $password
         );
         $this->db->where('id', $id);
-        $this->db->update('member', $data);
+        $this->db->update(MEMBER_TABLE, $data);
         return $password;
     }
     function get_activation_code($username){
@@ -327,7 +338,12 @@ class Member_model extends CI_Model
     
     function getAffiliatesUser($id)
     {
-        $affilifateUsers = $this->db->query("select * from member join affiliate_codes on member.affiliate_code_id = affiliate_codes.id where affiliate_code_id IN (select id from affiliate_codes where created_by_user_id = $id)")->result();
+        $affilifateUsers = $this->db->query("SELECT m.first_name,m.last_name,m.username,m.company_telephone,m.direct_telephone,m.company_fax,m.company_name,m.company_street_address,
+                                                    m.company_address_line2,m.company_city,m.company_state,m.company_zip_code,m.company_website,m.email_address,m.date_joined,
+                                                    m.credits_consumed,c.referal_code,m.credits,c.created_at
+                                                    FROM member m JOIN affiliate_codes c ON m.affiliate_code_id = c.id 
+                                                    WHERE affiliate_code_id IN 
+                                                    (SELECT id FROM affiliate_codes WHERE created_by_user_id = $id);")->result();
         return $affilifateUsers;
     }
     
@@ -376,20 +392,6 @@ class Member_model extends CI_Model
         else
         {
             return -1;
-        }
-    }
-    
-    function exportUserTable()
-    {
-        $users = $this->db->query('SELECT first_name,last_name,member.email_address,company_telephone,direct_telephone,company_fax,company_name,company_street_address,company_address_line2,member.company_city,
-                                    member.company_state,member.company_zip_code,member.company_website,member.credits,member.credits_consumed from member')->result_array();
-        
-        $keys = array_keys($users[0]);
-        echo implode(",", $keys);
-        echo "\n";
-        foreach($users as $user) {
-            echo implode(",", $user);
-            echo "\n";
         }
     }
 }

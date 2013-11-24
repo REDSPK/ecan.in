@@ -16,7 +16,7 @@ class affiliate_model extends CI_Model
         }
         else 
         {
-            return -1;
+            return null;
         }
     }
     
@@ -27,9 +27,23 @@ class affiliate_model extends CI_Model
         return $result[0]->total;
     }
     
-    function getTransactionHistory($userID,$codeId)
+    function getAllReferalCodes($userId)
     {
-        $query = "select * from affiliate_transactions where affiliate_transactions.affiliate_id = $userID and affiliate_code_id = $codeId";
+        $query = "Select * from affiliate_codes where created_by_user_id = $userId";
+        $result = $this->db->query($query)->result();
+        return $result;
+    }
+    
+    function getTransactionHistory($userID,$codeId = -1)
+    {
+        if($codeId != -1)
+        {
+            $query = "select * from affiliate_transactions where affiliate_transactions.affiliate_id = $userID AND affiliate_code_id = $codeId";
+        }
+        else
+        {
+            $query = "select * from affiliate_transactions where affiliate_transactions.affiliate_id = $userID";
+        }
         $result = $this->db->query($query)->result();
         return $result;
     }
@@ -55,11 +69,12 @@ class affiliate_model extends CI_Model
         return $result[0]->total_transaction;
     }
     
-    function addCheckoutRequest($userId)
+    function addCheckoutRequest($user,$amount)
     {
         $data = array();
-        $data['affiliate_id'] = $userId;
+        $data['affiliate_id'] = $user['id'];
         $this->db->insert('affiliate_checkout_requests',$data);
+        $this->sendCheckoutEmail($user,$amount);
     }
     
     function haveCheckoutRequest($userId)
@@ -91,6 +106,52 @@ class affiliate_model extends CI_Model
         $this->db->where('id',$id);
         $data = array('is_paid'=>1);
         $this->db->update('affiliate_checkout_requests',$data);
+    }
+    
+    function sendCheckoutEmail($user,$amount)
+    {
+        $this->load->library('email');
+        //email to user
+        $username = $user['first_name'];
+        $userEmail = $user['email_address'];
+        $to = $userEmail;
+        $subject = SUBJECT_CHECKOUTMAIL;
+        $message = "Dear $username, 
+                        We have received your checkout request for $$amount, We will get back to you shortly"; 
+        
+        $this->email->from('info@ecan.in','Ecan.in');
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);	
+        $this->email->send();
+        
+        //email to admin
+        $username = $user['username'];
+        $userId = $user['id'];
+        $message = "Affiliate with username $username and ID $userId has requested for checkout of amount $amount";
+        $this->email->from('info@ecan.in','Ecan.in');
+        $this->email->to(EMAIL_ADMIN);
+        $this->email->subject($subject);
+        
+        $this->email->message($message);	
+        $this->email->send();
+    }
+    
+    function export_users_csv($affiliate_members)
+    {
+        header("Content-type: application/csv");
+        header("Content-Disposition: attachment; filename=file.csv");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $x = get_object_vars($affiliate_members[0]);
+        $keys = array_keys($x);
+        echo implode(",", $keys);
+        echo "\n";
+        foreach($affiliate_members as $contact) {
+            $x = get_object_vars($contact);
+            echo implode(",", $x);
+            echo "\n";
+        }
     }
 }
 ?>

@@ -29,13 +29,21 @@
     $(function(){
         $('#approve-user-delete').live('click',function(e){
             e.preventDefault();
-            $('#approve-delete-popup').lightbox_me({
+            $('#confirm-delete-popup').lightbox_me({
                 centered: true 
             });
             link =  $(this).attr('href');
-            $('#btn-approve-delete').on('click',function(e){
-                approve_deny_user(link); 
-                $('.popup').trigger('close');
+            $('#btn-confirm-delete').on('click',function(e){
+                var notes = $('#notes').val();
+                if(notes == "")
+                { 
+                    alert("Please Enter some delete notes");
+                }
+                else
+                {
+                    approve_deny_user(link,notes); 
+                    $('.popup').trigger('close');
+                }
             });
         });
         
@@ -56,17 +64,18 @@
         });
     });
     
-    function approve_deny_user(link) {
+    function approve_deny_user(link,notes) {
         $.ajax({
             url: link,
             type: 'GET',
+            data: 'notes='+notes,
             success:function(data){
                 location.reload();
             }
         });
     }
 </script>
-<div class="row"><h4><a href="../../../as"><img src="../../../assets/img/i-admin.png" width="35" height="35" alt="Home" /></a>Review Delete Requests</h4>
+<div class="row"><h4></a>Review Delete Requests</h4>
 <? 
 if(count($requests) > 0){
 ?>
@@ -83,8 +92,8 @@ if(count($requests) > 0){
         <td><?=$req['requested_by']?></td>
         <td><?=$req['date']?></td>
         <td>
-            <a href="delete_action?user=<?=$req['user_requested']?>&delete=1" id="approve-user-delete" ><i class="icon-ok" ></i>Approve</a>
-            <a href="delete_action?user=<?=$req['user_requested']?>&delete=0" id="deny-user-delete" ><i class="icon-remove"></i>Deny</a>
+            <a href="delete_action?id=<?=$req['user_requested']?>&delete=1" id="approve-user-delete" ><i class="icon-ok" ></i>Approve</a>
+            <a href="delete_action?id=<?=$req['user_requested']?>&delete=0" id="deny-user-delete" ><i class="icon-remove"></i>Deny</a>
         </td>
     </tr>
     <?
@@ -95,9 +104,12 @@ if(count($requests) > 0){
 <?
 }
 ?>
-<div id="approve-delete-popup" class="popup" style="display: none;">
-    <legend>Approve Delete</legend>
-    <button class="btn btn-danger" id="btn-approve-delete">Confirm</button>
+<div id="confirm-delete-popup" class="popup" style="display: none;">
+    <legend>Confirm Delete</legend>
+    <div id="delete-topic-title"></div>
+    <textarea id="notes" placeholder="Enter Delete Notes Here"></textarea>
+    <br/>
+    <button class="btn btn-danger" id="btn-confirm-delete">Confirm</button>
     <button class="btn cancel" >Cancel</button>
 </div>
 

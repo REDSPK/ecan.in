@@ -20,7 +20,7 @@ class Site extends CI_Controller
     function test()
     {
         $this->load->model('transaction');
-        $this->transaction->addAffiliateTransaction(36,ECAN10000_PRODUCT_NAME);
+        $this->transaction->addAffiliateTransaction(38,ECAN10000_PRODUCT_NAME);
     }
     
     function is_logeed_in(){

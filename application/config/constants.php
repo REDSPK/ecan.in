@@ -42,6 +42,16 @@ define('FOPEN_READ_WRITE_CREATE_STRICT','x+b');
 |--------------------------------------------------------------------------
  */
 
+
+
+/**
+ * Email addresses  and Subjects
+ */
+    
+define("EMAIL_ADMIN","admin@ecan.in");
+define("SUBJECT_CHECKOUTMAIL","ECAN.IN - Checkout Request Received");
+
+
 /**
  * Session Variable Names
  */
@@ -56,6 +66,7 @@ define('ADMIN','admin');
 define('CONTACTS_TABLE','contact_new');
 define('COMPANIES_TABLE','companies');
 define('EMPLOYEE_DELETE_TABLE','employee_delete_requests');
+define('TBL_USER_DELETE_NOTES','user_delete_notes');
 define('MEMBER_TABLE','member');
 define('CONTACTS_DELETE_TABLE','contact_delete_requests');
 define('CREDITS_PER_ESCALATION_TABLE','credits_per_escalation');
@@ -140,11 +151,11 @@ define('ECAN100000_PRODUCT_NAME','ECAN100000');
 //define('PAYPAL_URL','https://www.paypal.com/cgi-bin/webscr');
 define('PAYPAL_URL','https://www.sandbox.paypal.com/cgi-bin/webscr');
 
-define('PAYPAL_RETURN_URL', "http://ecan.in/index.php"."/paypal/thankyou");
-define('PAYPAL_CALLBACK_URL',"http://ecan.in/index.php"."/paypal/notify_paypal");
+//define('PAYPAL_RETURN_URL', "http://ecan.in/index.php"."/paypal/thankyou");
+//define('PAYPAL_CALLBACK_URL',"http://ecan.in/index.php"."/paypal/notify_paypal");
 
-//define('PAYPAL_RETURN_URL', "http://localhost/ecan.in/index.php"."/paypal/thankyou");
-//define('PAYPAL_CALLBACK_URL',"http://localhost/ecan.in/index.php"."/paypal/notify_paypal");
+define('PAYPAL_RETURN_URL', "http://localhost:82/ecan.in2/index.php"."/paypal/thankyou");
+define('PAYPAL_CALLBACK_URL',"http://localhost:82/ecan.in2/index.php"."/paypal/notify_paypal");
 
 
 define('SEARCH_BY_USERNAME',1);

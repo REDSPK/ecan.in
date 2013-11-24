@@ -50,8 +50,9 @@ function awardCredits(link,numCredits,comments){
 }
 </script>
 <h4> You have <strong><?=count($record)?></strong> Member(s) </h4> 
+<a href="export_users_csv" class="btn btnGreen" style="float:right;margin-bottom: 1%;">download csv</a>
 <div id="table-container">
-<table width="100%" border="0" cellpadding="5" cellspacing="5" class='table table-striped'>
+<table width="100%" border="0" cellpadding="5" cellspacing="5" class='table table-striped' style="margin-top: 1%;">
     <th width="7%" align="center" bgcolor="#39396C"><p>First</p></th>
     <th width="7%" align="center" bgcolor="#39396C"><p>Last</p></th>
     <th width="9%" align="center" bgcolor="#39396C"><p>Email</p></th>
@@ -59,7 +60,6 @@ function awardCredits(link,numCredits,comments){
     <th width="11%" align="center" bgcolor="#39396C"><p>Credits</p></th>
     <th width="11%" align="center" bgcolor="#39396C"><p>Code</p></th>
     <th width="11%" align="center" bgcolor="#39396C"><p>Joined</p></th>
-    <th width="11%" align="center" bgcolor="#39396C"><p>Actions</p></th>
 <?
 foreach($record as $row)
 {
@@ -72,26 +72,10 @@ foreach($record as $row)
         <td><?=$row->credits?></td>
         <td><?=$row->referal_code?></td>
         <td><?=$row->created_at?></td>
-        <td>
-            <a href="../admin/add_credits/<?=$row->username?>" class="award-credits">Award Credits</a>
-        </td>
+        
     </tr>
 <?
 }
 ?>
 </table>
 </div>
-<div id="add-credits-popup" class="popup" style="display: none;width: 27%;">
-    <legend>Add Credits</legend>
-    <div id="add-credits-title"></div>
-    <form class="form-inline">
-        <select name="item_type" class="item_type">
-            <option value="<?=ECAN275_PRODUCT_NAME?>"><?=ECAN275_PRODUCT_NAME?></option>
-            
-        </select>
-        <br/>
-        <textarea name="credits_comments" id="credits_comments" placeholder="Enter any additional comments here......" style="resize:none;width: 100%;"></textarea> <br/>
-    </form>
-    <button class="btn btn-primary" id="btn-award-credits"> Add Credits </button>
-    <button class="btn cancel"> Cancel </button>
-</div>    

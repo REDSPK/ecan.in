@@ -1,29 +1,51 @@
+<link href="<?php echo base_url().'../assets/css/jquery.jqplot.min.css' ?>" rel="stylesheet">
+<script src="<?php echo base_url().'../assets/js/jquery.jqplot.js' ?>"></script>
+<script src="<?php echo base_url().'../assets/js/jqplot.dateAxisRenderer.min.js' ?>"></script>
 <script>
     $(function(){
-       $('.action').on('click',function(e){
-          e.preventDefault();
-          link = $(this).attr('href');
-          $.ajax({
-             url : link,
-             type:'GET',
-             success:function()
-             {
-                 location.reload();
-             }
-          });
-       });
+        
+       $.ajax({
+         url : 'get_all_code_graph',
+         type:'GET',
+         success:function(data)
+         {
+             bigArray = new Array()
+             var count = 0;
+             data.forEach(function(object){
+                 bigArray[count] = object.points;
+                 count++;
+             });
+             var plot2 = $.jqplot('chartdiv', bigArray, {
+                axes:{
+                    xaxis:{renderer:$.jqplot.DateAxisRenderer},
+                    yaxis: {tickOptions:{prefix: '$'}}
+                },
+                series:[{lineWidth:3, markerOptions:{style:'circle'}}] 
+             });
+         }
+      });
        
        $('.checkout').on('click',function(e){
+          $('.alert').remove();
           e.preventDefault();
           link = $(this).attr('href');
-          $.ajax({
-             url : link,
-             type:'GET',
-             success:function()
-             {
-                 location.reload();
-             }
-          });
+          var amount = $.trim($('.dollarAmount').html());
+          amount = amount.substring(1,amount.length);
+          amount = parseFloat(amount);
+          if(amount < 20)
+          {
+              $('h4').after('<div class="alert alert-error">'+' <strong>$20</strong> minimum required for checkout requests'+'</div>');
+          }
+          else{
+              $.ajax({
+                 url : link+"?amount="+amount,
+                 type:'GET',
+                 success:function()
+                 {
+                     location.reload();
+                 }
+              });
+          }
        });
        
     });
@@ -56,6 +78,7 @@ else
 ?>
 
 <br/><br/>
+<div id="chartdiv" style="height:250px;width:100%; "> </div>
 <div id="table-container">
     <table width="100%" border="0" cellpadding="5" cellspacing="5" class='table table-striped'>
         <th width="7%" align="center" bgcolor="#39396C"><p>Code</p></th>

@@ -1,10 +1,4 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of paypal
  *
@@ -86,36 +80,40 @@ class paypal extends CI_Controller {
             exit(0);
         }
         
-        if ($verified) {
-//            $transaction = new Transaction();
+        if ($verified) 
+        {
             $errmsg = '';
-            if ($_POST['payment_status'] != 'Completed') { 
+            if ($_POST['payment_status'] != 'Completed') 
+            { 
                 // simply ignore any IPN that is not completed
                 error_log("payment status not completed ".$_POST['payment_status']);
                 exit(0); 
             }
-            if ($_POST['receiver_email'] != PAYPAL_PAYMENT_EMAIL) {
+            if ($_POST['receiver_email'] != PAYPAL_PAYMENT_EMAIL) 
+            {
                 $errmsg .= "'receiver_email' does not match: ";
                 $errmsg .= $_POST['receiver_email']."\n";
             }
-            if ($_POST['mc_currency'] != 'USD') {
+            if ($_POST['mc_currency'] != 'USD') 
+            {
                 $errmsg .= "'mc_currency' does not match: ";
                 $errmsg .= $_POST['mc_currency']."\n";
             }
             $this->load->model('transaction');
             $exists = $this->transaction->checkDuplicateTransaction($_POST['txn_id']);
-            if (!$exists) {
+            if (!$exists)
+            {
                 $errmsg .= "'txn_id' has already been processed: ".$_POST['txn_id']."\n";
                 error_log(var_dump($errmsg));
             }
-            if (!empty($errmsg)) {
-                // manually investigate errors from the fraud checking
+            if (!empty($errmsg)) 
+            {
                 $body = "IPN failed fraud checks: \n$errmsg\n\n";
                 $body .= $this->getTextReport();
                 error_log($body);
-//                mail(PAYPAL_TRANSACTION_EMAIL, 'IPN Fraud Warning', $body,$headers);
-
-            } else {
+            }
+            else
+            {
                 $this->load->model('member_model');
                 $transactionData = array();
                 $userID = $_POST['custom']; 
@@ -128,13 +126,15 @@ class paypal extends CI_Controller {
                 $updateQuery = $this->member_model->updateUserCredits($userID,$numCredits);
                 
                 $this->transaction->addAffiliateTransaction($userID,$transactionData['item_id']);
-                error_log($updateQuery);
+                error_log("added affiliate transaction");
             }
-} else {
-    error_log("Invalid IPN".$verified);
-    error_log(var_dump($_POST));
-//    mail(PAYPAL_TRANSACTION_EMAIL, 'Invalid IPN', $this->getTextReport(),$headers);
-}
+        } 
+        else
+        {
+            error_log("Invalid IPN".$verified);
+            error_log(var_dump($_POST));
+        //    mail(PAYPAL_TRANSACTION_EMAIL, 'Invalid IPN', $this->getTextReport(),$headers);
+        }
         
     }
     protected function curlPost($encoded_data) {

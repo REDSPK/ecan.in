@@ -34,8 +34,17 @@ $(function(){
         $('#delete-topic-title').html('<strong> Delete '+$(this).attr('id')+' ?? </strong>');
         link = $(this).attr('href');
         $('#btn-confirm-delete').on('click',function(e){
-            deleteUser(link);
-            $('.popup').trigger('close');
+            var notes = $('#notes').val();
+            
+            if(notes == "")
+            { 
+                alert("Please Enter some delete notes");
+            }
+            else
+            {
+                deleteUser(link,notes);
+                $('.popup').trigger('close');
+            }
         });
     });
     
@@ -96,10 +105,11 @@ $(function(){
     });
 });
 
-function deleteUser(link){
+function deleteUser(link,notes){
     $.ajax({
         url: link,
         type: 'GET',
+        data: 'notes='+notes,
         success:function(data){
             location.reload();
         }
@@ -212,11 +222,13 @@ else
 </div>
 
 <div id="confirm-delete-popup" class="popup" style="display: none;">
-        <legend>Confirm Delete</legend>
-        <div id="delete-topic-title"></div>
-        <button class="btn btn-danger" id="btn-confirm-delete">Confirm</button>
-        <button class="btn cancel" >Cancel</button>
-    </div>
+    <legend>Confirm Delete</legend>
+    <div id="delete-topic-title"></div>
+    <textarea id="notes" placeholder="Enter Delete Notes Here"></textarea>
+    <br/>
+    <button class="btn btn-danger" id="btn-confirm-delete">Confirm</button>
+    <button class="btn cancel" >Cancel</button>
+</div>
 
     <div id="confirm-employee-popup" class="popup" style="display: none;">
         <legend>Confirm Employee??</legend>

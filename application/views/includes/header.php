@@ -62,7 +62,7 @@
                 if ($this->session->userdata('is_logged_in'))
                 {
             ?>
-              <li><a href="<?php echo base_url('site/member_area'); ?>"><img src="<? echo site_url();?>../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
+                  <li><a href="<?php echo base_url('site/member_area'); ?>"><img src="<? echo site_url();?>../assets/img/i-home.png" width="35" height="35" alt="Home" />Home</a></li>
                   <li><a href="<?php echo base_url('user/edit_profile'); ?>"><img src="<? echo site_url();?>../assets/img/i-edit.png" width="80" height="35" alt="Edit Profile" />Edit Profile</a></li>
                   <li><a href="<?php echo base_url('site/history_detail'); ?>"><img src="<? echo site_url();?>../assets/img/i-history.png" width="35" height="35" alt="History" />History</a></li>
                   <li><a href="<?php echo base_url('paypal/buy_credits'); ?>"><img src="<? echo site_url();?>../assets/img/i-buy.png" width="75" height="35" alt="Buy Credits" />Buy Credits</a></li>
@@ -90,7 +90,8 @@
                 <li><?php echo anchor('csv/upload_csv','Upload CSV'); ?></li>
                 <li><?php echo anchor('csv/enter_contact','Add Contact'); ?></li>
                 <li><?php echo anchor('csv/export_contacts','Export Contacts'); ?></li>
-                <li><?php echo anchor('admin/export_user_table','Export Users'); ?></li>
+                <li><?php echo anchor('admin/export_user_table','Export End Users'); ?></li>
+                <li><?php echo anchor('admin/export_affiliates','Export Affiliates'); ?></li>
                 <li><?php echo anchor('admin/get_checkout_requests','Affiliate Checkouts'); ?></li>
                       
               </ul>
@@ -132,7 +133,6 @@
                     <ul class="dropdown-menu">
                       <li><?php echo anchor('affiliate/home','Home'); ?></li>
                       <li><?php echo anchor('affiliate/generate_referal_code','Generate Referal Code'); ?></li>
-                      <li><?php echo anchor('affiliate/my_referal_codes','My Referal Code'); ?></li>
                       <li><?php echo anchor('affiliate/codes_financials','Financials'); ?></li>
                     </ul>
                 </li>

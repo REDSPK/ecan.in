@@ -103,7 +103,7 @@ class Transaction extends CI_Model {
     {
         $this->load->model('affiliate_model');
         $affiliateUser = $this->affiliate_model->getParentAffiliate($userID);
-        if($affiliateUser != -1)
+        if($affiliateUser != null)
         {
             $productPrice = $this->getPriceForItem($itemID);
             $affiliateCut = $productPrice/AFFILIATE_PERCENTAGE;

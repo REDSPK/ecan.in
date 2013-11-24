@@ -76,7 +76,7 @@ class User extends CI_Controller{
             }
             else
             {
-                $data['message']= 'your section not exist.please login again';
+                $data['message']= 'your session not exist.please login again';
                 $data['main_content']='message_page';
                 $this->load->view('includes/template',$data);
             }	
