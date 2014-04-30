@@ -11,8 +11,16 @@
          {
              bigArray = new Array()
              var count = 0;
-             data.forEach(function(object){
-                 bigArray[count] = object.points;
+             data.forEach(function(object)
+             {
+                 if(object.points.length > 0)
+                 {
+                    bigArray[count] = object.points;
+                 }
+                 else
+                 {
+                     bigArray[count] = [0,0];
+                 }
                  count++;
              });
              var plot2 = $.jqplot('chartdiv', bigArray, {
@@ -48,7 +56,23 @@
           }
        });
        
+       $('.action').on('click',enableDisableCode);
+       
     });
+    
+    function enableDisableCode(event)
+    {
+        event.preventDefault();
+        var link = $(this).attr('href');
+        $.ajax({
+            url : link,
+            type:'GET',
+            success:function()
+            {
+                location.reload();
+            }
+        });
+    }
 </script>
 <style>
     .dollarAmountInTable

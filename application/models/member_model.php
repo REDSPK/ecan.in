@@ -48,7 +48,7 @@ class Member_model extends CI_Model
     
     function create_member(){
         $affiliateCode = $this->input->post('affiliate_code');
-        $credits = 0;
+        $credits = 500;
         if($affiliateCode)
         {
             $affiliateCode = $this->getAffiliateCodeInfo($affiliateCode);
@@ -63,7 +63,8 @@ class Member_model extends CI_Model
         }
         else 
         {
-            $affiliateCode = 0;
+            $affiliateCode = new stdClass();
+            $affiliateCode->id = 0;
         }
         $new_member = array (
             'first_name' => $this->input->post('first_name'),

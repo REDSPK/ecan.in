@@ -15,8 +15,8 @@
 |
 */
 //$config['base_url']	= 'http://localhost/ecan.in/index.php';
-//$config['base_url']	= 'http://localhost:82/ecan.in2/index.php';
-$config['base_url']	= 'http://whereischristopherdorner.com/index.php';
+$config['base_url']	= 'http://localhost:82/ecan.in2/index.php';
+//$config['base_url']	= 'http://whereischristopherdorner.com/index.php';
 
 /*
 |--------------------------------------------------------------------------

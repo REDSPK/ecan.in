@@ -56,14 +56,14 @@ class affiliate extends CI_Controller {
         }
     }
     
-    function my_referal_codes()
-    {
-        $user = $this->session->userdata('user');
-        $codes = $this->member_model->getMyReferalCodes($user['id']);
-        $data['codes'] = $codes;
-        $data['main_content'] = 'affilifate_referal_codes';
-        $this->load->view('includes/template',$data);
-    }
+//    function my_referal_codes()
+//    {
+//        $user = $this->session->userdata('user');
+//        $codes = $this->member_model->getMyReferalCodes($user['id']);
+//        $data['codes'] = $codes;
+//        $data['main_content'] = 'affiliate_financials';
+//        $this->load->view('includes/template',$data);
+//    }
     
     function enable_disable_code()
     {
@@ -88,12 +88,29 @@ class affiliate extends CI_Controller {
         $this->load->model('affiliate_model');
         $user = $this->session->userdata('user');
         $codes = $this->affiliate_model->getMyReferalCodesTransactions($user['id']);
-        foreach($codes as $code)
+        if(!empty($codes))
         {
-            $code->pending_transactions = $this->affiliate_model->getReferalCodesSum($code->id,0);
-            $code->paid_transactions = $this->affiliate_model->getReferalCodesSum($code->id,1)?$this->affiliate_model->getReferalCodesSum($code->id,1):0;
+            foreach($codes as $code)
+            {
+                $code->pending_transactions = $this->affiliate_model->getReferalCodesSum($code->id,0);
+                $code->paid_transactions = $this->affiliate_model->getReferalCodesSum($code->id,1)?$this->affiliate_model->getReferalCodesSum($code->id,1):0;
+            }
         }
-        $data['userTotalBalance'] = $this->affiliate_model->getTotalPendingEarnings($user['id'],0);
+        else
+        {
+            $codes = $this->affiliate_model->getAllReferalCodes($user['id']);
+            foreach($codes as $code)
+            {
+                $code->pending_transactions = 0;
+                $code->paid_transactions = 0;
+            }
+        }
+        $totalBalance = $this->affiliate_model->getTotalPendingEarnings($user['id'],0);
+        if(!$totalBalance)
+        {
+            $totalBalance = 0;
+        }
+        $data['userTotalBalance'] = $totalBalance;
         $data['codes'] = $codes;
         $data['checkoutRequested'] = $this->affiliate_model->haveCheckoutRequest($user['id']);
         $data['main_content'] = 'affiliate_codes_financials';
@@ -133,13 +150,16 @@ class affiliate extends CI_Controller {
         $codeId = $this->input->get('code_id');
         $transactions = $this->affiliate_model->getTransactionHistory($user['id'],$codeId);
         $finalArray = array();
-        foreach($transactions as $transaction)
+        if(!empty($transactions))
         {
-            $tempArray = array();
-            $date = new DateTime($transaction->datetime);
-            $tempArray[0] = $date->format('Y-m-d g:iA'); 
-            $tempArray[1] = floatval($transaction->affiliate_percentage_from_transaction);
-            $finalArray[] = $tempArray;
+            foreach($transactions as $transaction)
+            {
+                $tempArray = array();
+                $date = new DateTime($transaction->datetime);
+                $tempArray[0] = $date->format('Y-m-d g:iA'); 
+                $tempArray[1] = floatval($transaction->affiliate_percentage_from_transaction);
+                $finalArray[] = $tempArray;
+            }
         }
         $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($finalArray));
     }
@@ -156,12 +176,24 @@ class affiliate extends CI_Controller {
         {
             $transactions = $this->affiliate_model->getTransactionHistory($user['id'],$code->id);
             $finalArray = array();
-            foreach($transactions as $transaction)
+            if(!empty ($transactions))
+            {
+                foreach($transactions as $transaction)
+                {
+                    $tempArray = array();
+                    $date = new DateTime($transaction->datetime);
+                    $tempArray[0] = $date->format('Y-m-d g:iA'); 
+                    $point = floatval($transaction->affiliate_percentage_from_transaction);
+                    $tempArray[1] = $point;
+                    $finalArray[] = $tempArray;
+                }
+            }
+            else
             {
                 $tempArray = array();
-                $date = new DateTime($transaction->datetime);
-                $tempArray[0] = $date->format('Y-m-d g:iA'); 
-                $tempArray[1] = floatval($transaction->affiliate_percentage_from_transaction);
+                $date = new DateTime($code->created_at);
+                $tempArray[0] = $date->format('Y-m-d');
+                $tempArray[1] = 0.0;
                 $finalArray[] = $tempArray;
             }
             
@@ -171,16 +203,18 @@ class affiliate extends CI_Controller {
         }
         
         $finalArray = array();
-        foreach($allTransactions as $transaction)
+        if(!empty($allTransactions))
         {
-            $tempArray = array();
-            $date = new DateTime($transaction->datetime);
-            $tempArray[0] = $date->format('Y-m-d g:iA'); 
-            $tempArray[1] = floatval($transaction->affiliate_percentage_from_transaction);
-            $finalArray[] = $tempArray;
+            foreach($allTransactions as $transaction)
+            {
+                $tempArray = array();
+                $date = new DateTime($transaction->datetime);
+                $tempArray[0] = $date->format('Y-m-d g:iA'); 
+                $point = floatval($transaction->affiliate_percentage_from_transaction);
+                $tempArray[1] = $point?$point:0;
+                $finalArray[] = $tempArray;
+            }
         }
-//        $BigArray[$count]['code'] = '__aggregate';
-//        $BigArray[$count]['points'] = $finalArray;
         $this->output->set_content_type(JSON_CONTENT_TYPE)->set_output(json_encode($BigArray));
     }
    

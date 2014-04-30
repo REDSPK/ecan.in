@@ -129,7 +129,7 @@ class Login extends CI_Controller {
                 $activation_code = $this->member_model->generate_activation($id);
                 $subject='Ecan.in account activation link';
                 $success_message="check your inbox for activate your account";
-                $message='Click the link below to activate your account' . anchor('http://ecan.in/login/account_activation/' . $activation_code,'Confirmation Register');
+                $message='Click the link below to activate your account' . anchor(base_url().'login/account_activation/' . $activation_code,'Confirmation Register');
                 $email=$this->input->post('email_address');
                 $this->sendemail($subject,$message,$success_message,$email);
             }
@@ -142,7 +142,7 @@ class Login extends CI_Controller {
         $credentials= $this->member_model->get_activation_code($this->uri->segment(3));
         $subject='Ecan.in account activation link';
         $success_message="check your inbox for activate your account";
-        $message='Click the link below to activate your account' . anchor('http://ecan.in/login/account_activation/' . $credentials['activationcode'],'Confirmation Register');
+        $message='Click the link below to activate your account' . anchor(base_url().'/login/account_activation/' . $credentials['activationcode'],'Confirmation Register');
         $email=$credentials['email'];
         $this->sendemail($subject,$message,$success_message,$email);
     }

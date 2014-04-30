@@ -45,7 +45,7 @@
                   type:'POST',
                   success:function(data){
                     if(data.code == <?=SUCCESS_CODE?>){
-                        window.location.href = '<?php echo base_url('affiliate/my_referal_codes');?>';
+                        window.location.href = '<?php echo base_url('affiliate/codes_financials');?>';
                         $('h4').after('<div class="alert alert-success">'+data.message+'</div>');
                         $('form').each (function(){
                             this.reset();

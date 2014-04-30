@@ -365,8 +365,10 @@ class paypal extends CI_Controller {
         }
     }
     
-    public function thankyou(){
-        echo "Thanks for buying credits";
+    public function thankyou()
+    {
+        $data['main_content'] = 'thankyou';
+        $this->load->view('includes/template',$data);
     }
     
     public function buy_credits() {

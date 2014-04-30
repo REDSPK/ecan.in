@@ -151,11 +151,17 @@ define('ECAN100000_PRODUCT_NAME','ECAN100000');
 //define('PAYPAL_URL','https://www.paypal.com/cgi-bin/webscr');
 define('PAYPAL_URL','https://www.sandbox.paypal.com/cgi-bin/webscr');
 
+//Ecan.in
 //define('PAYPAL_RETURN_URL', "http://ecan.in/index.php"."/paypal/thankyou");
 //define('PAYPAL_CALLBACK_URL',"http://ecan.in/index.php"."/paypal/notify_paypal");
 
-define('PAYPAL_RETURN_URL', "http://localhost:82/ecan.in2/index.php"."/paypal/thankyou");
-define('PAYPAL_CALLBACK_URL',"http://localhost:82/ecan.in2/index.php"."/paypal/notify_paypal");
+//Local host
+//define('PAYPAL_RETURN_URL', "http://localhost:82/ecan.in2/index.php"."/paypal/thankyou");
+//define('PAYPAL_CALLBACK_URL',"http://localhost:82/ecan.in2/index.php"."/paypal/notify_paypal");
+
+//whereischristopherdorner
+define('PAYPAL_RETURN_URL', "http://whereischristopherdorner.com/index.php"."/paypal/thankyou");
+define('PAYPAL_CALLBACK_URL',"http://whereischristopherdorner.com/index.php"."/paypal/notify_paypal");
 
 
 define('SEARCH_BY_USERNAME',1);
